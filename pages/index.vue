@@ -76,7 +76,7 @@ const handleNext = () => {
   if (currentIndex.value < components.length - 1) {
     currentIndex.value++;
   } else {
-    navigateTo("/auth/login");
+    navigateTo("/auth/sign-up");
   }
 };
 const handlePrevious = () => {
@@ -85,37 +85,3 @@ const handlePrevious = () => {
   }
 };
 </script>
-
-<style scoped>
-.landing-image-container {
-  position: relative;
-}
-
-.landing-image {
-  transition: top 0.3s ease, border-radius 0.3s ease;
-}
-
-@media screen and (max-width: 468px) {
-  .landing-image {
-    border-radius: 0 0 10% 50%;
-    top: -100px;
-    position: absolute;
-  }
-}
-
-@media screen and (max-width: 968px) {
-  .landing-image {
-    border-radius: 0 0 50% 50%;
-    top: -50px;
-    position: absolute;
-  }
-}
-
-@media screen and (min-width: 969px) {
-  .landing-image {
-    border-radius: 0 0 50% 50%;
-    top: -30px;
-    position: absolute;
-  }
-}
-</style>

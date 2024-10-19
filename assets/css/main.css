@@ -6,3 +6,35 @@
 body {
     font-family: 'Montserrat', sans-serif;
 }
+
+.landing-image-container, .auth-image-container {
+    position: relative;
+  }
+  
+  .landing-image, .auth-image {
+    transition: top 0.3s ease, border-radius 0.3s ease;
+  }
+  
+  @media screen and (max-width: 468px) {
+    .landing-image, .auth-image {
+      border-radius: 0 0 10% 50%;
+      top: -100px;
+      position: absolute;
+    }
+  }
+  
+  @media screen and (max-width: 968px) {
+    .landing-image, .auth-image {
+      border-radius: 0 0 50% 50%;
+      top: -50px;
+      position: absolute;
+    }
+  }
+  
+  @media screen and (min-width: 969px) {
+    .landing-image, .auth-image {
+      border-radius: 0 0 50% 50%;
+      top: -30px;
+      position: absolute;
+    }
+  }
