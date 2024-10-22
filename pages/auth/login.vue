@@ -34,7 +34,4 @@ definePageMeta({
 </script>
 
 <style scoped>
-label {
-  font-weight: 600;
-}
 </style>

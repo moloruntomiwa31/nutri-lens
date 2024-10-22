@@ -1,7 +1,7 @@
 <template>
   <button
     :disabled="loading || disabled"
-    class="focus:outline-none disabled:opacity-100 flex gap-2 items-center justify-center whitespace-nowrap duration-100"
+    class="focus:outline-none disabled:opacity-100 flex gap-2 items-center justify-center whitespace-nowrap duration-100 font-bold"
     :type="type"
     :class="[
       shadow ? 'shadow-md' : '',
