@@ -4,7 +4,10 @@
       class="flex flex-col gap-4 min-h-full w-full justify-center items-center"
     >
       <h1 class="text-2xl font-bold">Customize your plan</h1>
-      <form class="w-4/5 grid gap-6">
+      <form
+        class="w-4/5 grid gap-6"
+        @submit.prevent="router.push('/dashboard/')"
+      >
         <div>
           <label for="weight">Weight</label>
           <div class="flex items-center">
@@ -72,6 +75,10 @@
     </div>
   </div>
 </template>
+
+<script setup>
+const router = useRouter();
+</script>
 
 <style scoped>
 @media screen and (min-width: 1024px) {
