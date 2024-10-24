@@ -12,14 +12,14 @@
           <label for="weight">Weight</label>
           <div class="flex items-center">
             <BaseInput type="number" placeholder="60" />
-            <BaseSelect :options="['kg', 'g']" />
+            <BaseSelect :options="['kg', 'g']" placeholder="kg" />
           </div>
         </div>
         <div>
           <label for="height">Height</label>
           <div class="flex items-center">
             <BaseInput type="number" placeholder="170" />
-            <BaseSelect :options="['cm', 'm']" />
+            <BaseSelect :options="['cm', 'm']" placeholder="cm" />
           </div>
         </div>
         <div>

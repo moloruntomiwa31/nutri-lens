@@ -1,5 +1,7 @@
 <template>
-  <nav class="flex lg:hidden items-end w-full fixed bottom-0 bg-white border-8 border-grayColor rounded-tl-2xl rounded-tr-2xl shadow">
+  <nav
+    class="flex z-50 lg:hidden items-end w-full fixed bottom-0 bg-white border-8 border-grayColor rounded-tl-2xl rounded-tr-2xl shadow"
+  >
     <div class="relative w-full">
       <div
         class="absolute -top-6 w-16 h-16 bg-secondaryGreen rounded-3xl transition-all duration-300 ease-in-out"
@@ -50,32 +52,18 @@ const tabs = [
   { name: "Profile", icon: "iconoir:profile-circle", to: "/profile" },
 ];
 const activeTab = ref(0);
-const isMediumScreen = ref(false);
-
+const { isTabletScreen } = useScreenObserver();
 
 const setActiveTab = (index: number) => {
   activeTab.value = index;
 };
 
-const checkScreenSize = () => {
-  isMediumScreen.value = window.innerWidth >= 768 && window.innerWidth < 1024;
-};
-
-onMounted(() => {
-  checkScreenSize();
-  window.addEventListener('resize', checkScreenSize);
-});
-
-onUnmounted(() => {
-  window.removeEventListener('resize', checkScreenSize);
-});
-
 const activeTabPosition = computed(() => {
   const basePosition = activeTab.value * 25;
   const smallScreenAdjustment = 4;
   const mediumScreenAdjustment = 8;
-  
-  if (isMediumScreen.value) {
+
+  if (isTabletScreen.value) {
     return `calc(${basePosition}% + ${mediumScreenAdjustment}%)`;
   } else {
     return `calc(${basePosition}% + ${smallScreenAdjustment}%)`;

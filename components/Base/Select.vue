@@ -4,7 +4,7 @@
       @click="open = !open"
       class="cursor-pointer bg-lightGray w-fit p-2 rounded-lg flex items-center border border-primaryGreen group-focus-within:border-primaryGreen"
     >
-      <span class="font-bold">{{ selectedOption }}</span>
+      <span class="font-bold">{{ selectedOption || placeholder }}</span>
       <Icon
         name="stash:arrow-up-duotone"
         class="duration-100 transition font-bold"
@@ -12,9 +12,13 @@
         size="20"
       />
       <Transition name="dropdown">
-        <div v-show="open" class="absolute z-10 top-10 bg-white w-[100px] rounded-lg">
+        <div
+          v-show="open"
+          class="absolute z-10 top-10 bg-white w-[100px] rounded-lg"
+        >
           <div
             v-for="option in options"
+            :key="option"
             @click.stop="selectOption(option)"
             class="hover:cursor-pointer hover:bg-lightGray p-2 rounded-lg"
           >
@@ -26,23 +30,17 @@
   </div>
 </template>
 
-<script setup>
-const props = defineProps({
-  modelValue: String,
-  options: Array,
-});
+<script setup lang="ts">
+const { options = [], placeholder = "" } = defineProps<{
+  options: string[];
+  placeholder: string;
+}>();
 
-const emit = defineEmits(["update:modelValue"]);
-
+const selectedOption = defineModel<string>("modelValue");
 const open = ref(false);
-const selectedOption = ref(
-  props.options.find((o) => o.value === props.modelValue)
-);
-
-const selectOption = (option) => {
+const selectOption = (option: string) => {
   selectedOption.value = option;
   open.value = false;
-  emit("update:modelValue", option);
 };
 </script>
 

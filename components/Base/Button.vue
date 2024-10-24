@@ -5,15 +5,17 @@
     :type="type"
     :class="[
       shadow ? 'shadow-md' : '',
-      padding, customClass,
-  {
-    'bg-primaryRed text-white': color === 'red',
-      'bg-primaryGreen text-white': color === 'green',
-      'bg-[#FBFBFB] text-black': color === 'white',
-      'bg-grayColor text-white': color === 'gray',
-      'bg-transparent': color === 'transparent',
-  }
-]"
+      padding,
+      customClass,
+      {
+        'bg-primaryRed text-white': color === 'red',
+        'bg-secondaryGreen text-white': color === 'green',
+        'bg-[#FBFBFB] text-black': color === 'white',
+        'bg-grayColor text-white': color === 'gray',
+        'bg-transparent': color === 'transparent',
+        'bg-primaryBlue text-white': color === 'blue',
+      },
+    ]"
   >
     <slot />
   </button>
@@ -22,7 +24,7 @@
 <script lang="ts" setup>
 withDefaults(
   defineProps<{
-    color?: "red" | "green" | "white" | "gray" | "transparent";
+    color?: "red" | "green" | "white" | "gray" | "transparent" | "blue";
     padding?: string;
     loading?: boolean;
     shadow?: boolean;

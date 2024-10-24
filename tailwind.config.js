@@ -18,7 +18,9 @@ export default {
         lightGray: "#EDE8DC",
         grayColor: "#ECDFCC",
         primaryRed: "#FF0000",
-      }
+        primaryPurple: "#3B1E54",
+        primaryBlue: "#091057",
+      },
     },
   },
   plugins: [],
