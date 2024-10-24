@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
     const imageBytes = await (imageFile as File).arrayBuffer();
 
     // Initialize Gemini AI
-    const genAI = new GoogleGenerativeAI(runtimeConfig.GEMINI_API_KEY);
+    const genAI = new GoogleGenerativeAI(runtimeConfig.apiSecret);
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     // Prepare the image data
