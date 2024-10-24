@@ -10,4 +10,7 @@ export default defineNuxtConfig({
     },
   },
   modules: ["@nuxt/icon"],
+  runtimeConfig: {
+    GEMINI_API_KEY: "AIzaSyAJF9VqassGKH_LLYgzCwV9K9Y3lQ-9ko0",
+  },
 });
