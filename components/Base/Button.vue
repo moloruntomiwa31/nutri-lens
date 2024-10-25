@@ -4,16 +4,16 @@
     class="focus:outline-none disabled:opacity-100 flex gap-2 items-center justify-center whitespace-nowrap duration-100 font-bold"
     :type="type"
     :class="[
-      shadow ? 'shadow-md' : '',
+      shadow ? 'shadow-lg' : '',
       padding,
       customClass,
       {
         'bg-primaryRed text-white': color === 'red',
-        'bg-secondaryGreen text-white': color === 'green',
+        'bg-primaryGreen text-white': color === 'green',
         'bg-[#FBFBFB] text-black': color === 'white',
         'bg-grayColor text-white': color === 'gray',
         'bg-transparent': color === 'transparent',
-        'bg-primaryBlue text-white': color === 'blue',
+        'bg-primaryBlue text-black': color === 'blue',
       },
     ]"
   >

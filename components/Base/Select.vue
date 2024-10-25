@@ -2,7 +2,7 @@
   <div class="relative m-2">
     <div
       @click="open = !open"
-      class="cursor-pointer bg-lightGray w-fit p-2 rounded-lg flex items-center border border-primaryGreen group-focus-within:border-primaryGreen"
+      class="cursor-pointer bg-lightGray w-fit p-2 rounded-lg flex items-center border border-primaryGreen shadow shadow-primaryGreen group-focus-within:border-primaryGreen"
     >
       <span class="font-bold">{{ selectedOption || placeholder }}</span>
       <Icon

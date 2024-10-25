@@ -56,7 +56,7 @@
               @click="fileInput?.click()"
             >
               <span class="text-black mt-2 text-center"
-                >Click to upload image</span
+                >Click to upload image of meal</span
               >
             </div>
           </div>

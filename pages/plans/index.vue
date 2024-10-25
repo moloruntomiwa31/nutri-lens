@@ -35,7 +35,7 @@
             id=""
             rows="5"
             cols="10"
-            class="w-full outline-none gap-2 p-2 rounded-lg bg-lightGray flex items-center border border-primaryGreen group-focus-within:border-primaryGreen"
+            class="w-full outline-none gap-2 p-2 rounded-lg bg-lightGray flex items-center border border-primaryGreen shadow shadow-primaryGreen group-focus-within:border-primaryGreen"
             placeholder="Mention all chronic diseases and foods you are allergic to"
           ></textarea>
         </div>

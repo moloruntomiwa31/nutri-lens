@@ -1,14 +1,24 @@
 <template>
   <div class="flex flex-col h-full w-full justify-center items-center">
     <h1 class="text-2xl font-bold">Log In</h1>
-    <form class="w-4/5 grid gap-6">
+    <form class="w-4/5 grid gap-6" @submit.prevent="handleSubmit">
       <div>
         <label for="email">Email</label>
-        <BaseInput type="email" placeholder="james_hall@gmail.com" />
+        <BaseInput
+          type="email"
+          placeholder="james_hall@gmail.com"
+          v-model="factory.email"
+          :error="errors.email"
+        />
       </div>
       <div>
         <label for="email">Password</label>
-        <BaseInput type="password" placeholder="****************" />
+        <BaseInput
+          type="password"
+          placeholder="****************"
+          v-model="factory.password"
+          :error="errors.password"
+        />
       </div>
       <div class="w-full">
         <BaseButton
@@ -31,6 +41,27 @@
 definePageMeta({
   layout: "auth",
 });
+const factory = ref({
+  email: "",
+  password: "",
+});
+const { isValidEmail, isValidPassword } = useValidators();
+const errors = computed(() => ({
+  email: isValidEmail(factory.value.email),
+  password: isValidPassword(factory.value.password),
+}));
+const isFormValid = computed(() => {
+  return factory.value.email && factory.value.password;
+});
+const handleSubmit = async () => {
+  if (!isFormValid.value) return;
+
+  try {
+    console.log("Form submitted:", factory.value);
+  } catch (error) {
+    console.error("Signup error:", error);
+  }
+};
 </script>
 
 <style scoped>
