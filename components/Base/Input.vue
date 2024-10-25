@@ -1,6 +1,11 @@
+<!-- BaseInput.vue -->
 <template>
   <div
-    class="w-full gap-2 p-2 rounded-lg bg-lightGray flex items-center border border-primaryGreen group-focus-within:border-primaryGreen"
+    class="relative w-full gap-2 p-2 rounded-lg bg-lightGray flex items-center border"
+    :class="{
+      'border-primaryRed shadow-primaryRed shadow': error && touched,
+      'border-primaryGreen shadow-primaryGreen shadow': !error || !touched,
+    }"
   >
     <slot name="pre" />
     <input
@@ -10,16 +15,28 @@
       :max="max"
       :type="showPassword ? 'text' : type"
       class="grow bg-inherit placeholder:text-slate-400 placeholder:text-sm w-full focus:outline-none"
+      @blur="touched = true"
     />
     <slot name="after" />
     <Icon
       v-if="type === 'password'"
       :name="showPassword ? 'pepicons-pop:eye-off' : 'pepicons-pop:eye'"
-      style="color: black; cursor: pointer;"
+      style="color: black; cursor: pointer"
       size="24"
       @click.stop="showPassword = !showPassword"
     />
-    <Icon v-if="error" name="ic:round-error" style="color: red" />
+    <Icon
+      v-if="error && touched"
+      name="ic:round-error"
+      style="color: red"
+      :class="type === 'password' ? 'absolute right-8' : ''"
+    />
+    <span
+      v-if="error && touched"
+      class="text-primaryRed text-sm absolute -bottom-5"
+    >
+      {{ error }}
+    </span>
   </div>
 </template>
 
@@ -43,6 +60,7 @@ withDefaults(
 
 const content = defineModel<T>();
 const showPassword = ref(false);
+const touched = ref(false);
 </script>
 
 <style scoped>

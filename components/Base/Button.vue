@@ -4,7 +4,7 @@
     class="focus:outline-none disabled:opacity-100 flex gap-2 items-center justify-center whitespace-nowrap duration-100"
     :type="type"
     :class="[
-      shadow ? 'shadow-md' : '',
+      shadow ? 'shadow-lg' : '',
       padding, customClass,
   {
     'bg-primaryRed text-white': color === 'red',
