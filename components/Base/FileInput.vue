@@ -16,7 +16,9 @@ defineProps<{
   accept: string;
 }>();
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits<{
+  (e: "update:modelValue", file: File): File;
+}>();
 
 const inputFile = ref<HTMLInputElement | null>(null);
 

@@ -11,6 +11,6 @@ export default defineNuxtConfig({
   },
   modules: ["@nuxt/icon"],
   runtimeConfig: {
-    apiSecret: ''
+    apiSecret: process.env.NUXT_API_SECRET
   },
 });

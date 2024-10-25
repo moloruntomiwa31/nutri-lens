@@ -1,39 +1,37 @@
 <template>
-  <div class="px-4 space-y-8">
-    <div class="py-5 lg:py-0">
-      <h2 class="font-bold text-3xl mb-4">Healthy Recipes😋</h2>
+  <div class="container mx-auto px-4 space-y-8 py-6">
+    <section aria-labelledby="recipe-section-title" class="py-5 lg:py-0">
+      <h2 id="recipe-section-title" class="font-bold text-3xl mb-6">
+        Healthy Recipes
+        <span role="img" aria-label="delicious food emoji">😋</span>
+      </h2>
+
       <div
-        class="flex items-center gap-4 overflow-x-auto min-w-full scrollbar-hide"
+        class="flex items-center gap-4 overflow-x-auto pb-4 snap-x snap-mandatory"
+        role="region"
+        aria-label="Recipe cards carousel"
       >
-        <div class="relative" v-for="i in 8" :key="i">
-          <div
-            class="bg-cover bg-center w-[270px] h-[400px] rounded-lg"
-            :style="{ backgroundImage: `url('/images/landing/landing.jpg')` }"
-          >
-            <div
-              class="absolute bottom-4 left-4 flex items-center bg-white bg-opacity-80 rounded-full px-4 py-2"
-            >
-              <span class="w-12 h-3 bg-secondaryGreen rounded-full mr-2"></span>
-              <span class="text-sm font-medium">See full recipe</span>
-            </div>
-          </div>
-        </div>
+        <RecipeCard v-for="i in 8" :key="i" class="snap-center" />
       </div>
-    </div>
-    <div class="relative">
+    </section>
+
+    <section aria-labelledby="recipe-of-day-title" class="relative">
       <img
         src="/public/images/mom-eating.jpg"
-        alt="Recipe of the Day"
-        class="w-full h-auto rounded-lg shadow-lg"
+        alt="Mother enjoying a healthy meal"
+        class="w-full h-[400px] object-cover rounded-lg shadow-lg"
       />
       <div
         class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent rounded-lg"
+        aria-hidden="true"
       ></div>
       <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
-        <h3 class="text-3xl font-bold mb-2 text-shadow">Recipe of the Day</h3>
-        <p class="text-lg shadow">Discover today's culinary delight</p>
+        <h3 id="recipe-of-day-title" class="text-3xl font-bold mb-2">
+          Recipe of the Day
+        </h3>
+        <p class="text-lg">Discover today's culinary delight</p>
       </div>
-    </div>
+    </section>
   </div>
 </template>
 
@@ -43,4 +41,23 @@ definePageMeta({
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.overflow-x-auto {
+  scrollbar-width: thin;
+  scrollbar-color: theme("colors.gray.300") theme("colors.gray.100");
+}
+
+::-webkit-scrollbar {
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: theme("colors.gray.100");
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: theme("colors.gray.300");
+  border-radius: 3px;
+}
+</style>

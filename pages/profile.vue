@@ -11,7 +11,7 @@
           class="flex items-center justify-center w-[250px] h-[250px] bg-lightGray shadow rounded-full relative text-secondaryGreen"
         >
           <Icon name="gg:profile" size="120" />
-          <BaseFileInput accept=".jpg, .png">
+          <BaseFileInput accept="image/">
             <Icon
               name="flowbite:upload-outline"
               size="30"

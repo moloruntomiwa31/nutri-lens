@@ -1,36 +1,35 @@
 <template>
   <div class="flex items-center justify-center h-full mt-4">
     <div
-      class="bg-grayColor rounded-lg w-4/5 md:w-[600px] lg:w-[700px] xl:w-[800px] h-[500px] p-6"
+      class="bg-lightGray rounded-lg w-4/5 md:w-[600px] lg:w-[700px] xl:w-[800px] h-[500px] p-6"
     >
+      <!-- Progress Steps -->
       <div class="flex items-center justify-center">
-        <template v-for="(option, index) in steps" :key="option.id">
+        <template v-for="(step, index) in steps" :key="step.id">
           <div class="flex items-center">
             <a
               :class="[
-                'flex items-center gap-2 cursor-pointer',
+                'flex items-center gap-2',
                 {
-                  'text-secondaryGreen': option.done,
-                  'text-primaryPurple':
-                    currentTab.id === option.id && !option.done,
-                  'text-black': !option.done && currentTab.id !== option.id,
+                  'cursor-pointer': step.detail === 'upload' || steps[0].done,
+                  'cursor-not-allowed':
+                    step.detail === 'result' && !steps[0].done,
+                  'text-secondaryGreen font-bold': step.done,
+                  'text-primaryPurple font-bold':
+                    currentStep.id === step.id && !step.done,
+                  'text-black font-medium':
+                    !step.done && currentStep.id !== step.id,
                 },
               ]"
-              @click="currentTab = option"
+              @click="setCurrentStep(step)"
             >
               <span
                 class="w-8 h-8 rounded-full flex items-center justify-center bg-white shadow"
               >
-                <Icon
-                  size="24"
-                  name="lets-icons:check-fill"
-                  v-if="option.done"
-                />
+                <Icon size="24" name="lets-icons:check-fill" v-if="step.done" />
                 <span v-else class="font-bold">{{ index + 1 }}</span>
               </span>
-              <span class="text-sm font-medium hidden md:block">{{
-                option.name
-              }}</span>
+              <span class="text-sm hidden md:block">{{ step.name }}</span>
             </a>
           </div>
           <span
@@ -40,75 +39,105 @@
         </template>
       </div>
 
-      <template v-if="currentTab.detail === 'upload'">
+      <!-- Upload Section -->
+      <template v-if="currentStep.detail === 'upload'">
         <div class="flex flex-col items-center justify-center gap-4 py-2 h-4/5">
           <div
-            class="flex items-center justify-center w-11/12 h-[300px] bg-lightGray rounded-xl"
+            class="flex flex-col items-center justify-center w-11/12 h-[300px] bg-white rounded-xl relative"
           >
-            <BaseFileInput accept=".jpg, .png" v-model="image">
-              <Icon
-                name="flowbite:upload-solid"
-                :size="imageUrl ? 50 : 100"
-              />
+            <BaseFileInput
+              accept="image/"
+              @update:modelValue="handleImageSelection"
+            >
+              <Icon name="heroicons:arrow-up-tray" :size="imageUrl ? 40 : 80" />
             </BaseFileInput>
+            <div
+              class="flex flex-col items-center justify-center cursor-pointer"
+              @click="fileInput?.click()"
+            >
+              <span class="text-black mt-2 text-center"
+                >Click to upload image</span
+              >
+            </div>
           </div>
-          <span class="text-base text-center"
-            >Upload a picture of a meal you'll like to analyze.</span
-          >
-          <div v-if="imageUrl" class="mt-4">
+
+          <div v-if="imageUrl" class="flex justify-center w-full">
             <img
               :src="imageUrl"
               alt="Image Preview"
-              class="rounded-lg h-48 w-full object-cover"
+              class="rounded-lg h-auto w-64 object-cover"
             />
           </div>
-        </div>
-      </template>
-      <template v-if="currentTab.detail === 'result'">
-        <div class="h-4/5">
-          <h2 class="text-xl font-bold">Result</h2>
-          <div>
-            <div class="flex items-center justify-between">
-              <span class="text-lg font-medium">Calories</span>
-              <span class="font-medium">200</span>
-            </div>
-            <div class="flex items-center justify-between">
-              <span class="text-lg font-medium">Protein</span>
-              <span class="font-medium">20g</span>
-            </div>
-            <div class="flex items-center justify-between">
-              <span class="text-lg font-medium">Carbs</span>
-              <span class="font-medium">30g</span>
-            </div>
-            <div class="flex items-center justify-between">
-              <span class="text-lg font-medium">Fat</span>
-              <span class="font-medium">10g</span>
-            </div>
-          </div>
-          <div>
-            <h3 class="text-lg font-bold mt-4">Recommendation</h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat
-              ducimus deserunt quidem. Porro accusamus fugit temporibus ea
-              atque, quos maxime!
-            </p>
+
+          <div v-if="error" class="text-primaryRed text-sm text-center">
+            {{ error }}
           </div>
         </div>
       </template>
-      <template
-        v-if="currentTab.detail === 'result' || currentTab.detail === 'upload'"
-      >
-        <div class="flex justify-end w-full">
-          <BaseButton
-            :shadow="true"
-            :color="currentTab.detail === 'result' ? 'green' : 'blue'"
-            customClass="rounded-lg"
-            >{{
-              currentTab.detail === "result" ? "Done" : "Continue"
-            }}</BaseButton
+
+      <!-- Results Section -->
+      <template v-if="currentStep.detail === 'result' && result">
+        <div class="h-4/5 overflow-y-auto">
+          <h2 class="text-xl font-bold mb-4">Analysis Results</h2>
+
+          <div
+            class="grid w-full grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 mb-6"
           >
+            <div
+              v-for="(value, key) in nutritionData"
+              :key="key"
+              class="bg-white p-4 rounded-lg shadow w-38 h-32 md:h-28 md:w-40"
+            >
+              <span class="text-lg font-medium capitalize">{{ key }}</span>
+              <span class="block font-medium text-xl">{{ value }}</span>
+            </div>
+          </div>
+
+          <div v-if="result.ingredients" class="mb-6">
+            <h3 class="text-lg font-bold mb-2">Ingredients</h3>
+            <ul class="list-disc pl-5">
+              <li
+                v-for="ingredient in result.ingredients"
+                :key="ingredient"
+                class="mb-1"
+              >
+                {{ ingredient }}
+              </li>
+            </ul>
+          </div>
+
+          <div v-if="result.healthBenefits" class="mb-6">
+            <h3 class="text-lg font-bold mb-2">Health Benefits</h3>
+            <p class="text-gray-700">{{ result.healthBenefits }}</p>
+          </div>
+
+          <div v-if="result.recommendation" class="mb-6">
+            <h3 class="text-lg font-bold mb-2">Recommendation</h3>
+            <p class="text-gray-700">{{ result.recommendation }}</p>
+          </div>
         </div>
       </template>
+
+      <!-- Action Buttons -->
+      <div class="flex justify-end w-full mt-4">
+        <BaseButton
+          v-if="currentStep.detail === 'upload' && imageUrl"
+          class="px-6 py-2 text-white rounded-lg shadow hover:bg-primaryGreen disabled:opacity-50"
+          :disabled="!canProceedToNext || isLoading"
+          @click="() => image && analyzeMeal(image)"
+        >
+          {{ isLoading ? "Analyzing..." : "Analyze" }}
+        </BaseButton>
+
+        <BaseButton
+          v-if="currentStep.detail === 'result'"
+          class="px-6 py-2 text-white rounded-lg shadow hover:bg-blue-900"
+          color="blue"
+          @click="resetAnalyzer"
+        >
+          Analyze Another Meal
+        </BaseButton>
+      </div>
     </div>
   </div>
 </template>
@@ -118,34 +147,29 @@ definePageMeta({
   layout: "dashboard",
 });
 
-const steps = [
-  {
-    id: 1,
-    name: "Upload",
-    detail: "upload",
-    done: false,
-  },
-  {
-    id: 2,
-    name: "Result",
-    detail: "result",
-    done: false,
-  },
-];
+const {
+  fileInput,
+  image,
+  imageUrl,
+  isLoading,
+  error,
+  result,
+  steps,
+  currentStep,
+  handleImageSelection,
+  analyzeMeal,
+  resetAnalyzer,
+  setCurrentStep,
+  canProceedToNext,
+} = useMealAnalyzer();
 
-const image = ref<File | null>(null);
-const imageUrl = ref<string | null>(null);
-const currentTab = ref(steps[0]);
-
-watch(image, (newImage) => {
-  if (newImage) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      imageUrl.value = e.target?.result as string;
-    };
-    reader.readAsDataURL(newImage);
-  } else {
-    imageUrl.value = null;
-  }
+const nutritionData = computed(() => {
+  if (!result.value) return {};
+  return {
+    calories: `${result.value.calories}kcals`,
+    protein: `${result.value.protein}g`,
+    carbs: `${result.value.carbs}g`,
+    fat: `${result.value.fat}g`,
+  };
 });
 </script>
