@@ -53,7 +53,7 @@ export default function useMealAnalyzer() {
       return;
     }
 
-    // Check file size (10MB limit)
+    // Check file size (5MB limit)
     const MAX_FILE_SIZE = 5 * 1024 * 1024;
     if (file.size > MAX_FILE_SIZE) {
       error.value = "Image file is too large. Maximum size is   5MB.";

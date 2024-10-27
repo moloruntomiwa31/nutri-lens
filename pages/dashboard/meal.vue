@@ -122,8 +122,9 @@
       <div class="flex justify-end w-full mt-4">
         <BaseButton
           v-if="currentStep.detail === 'upload' && imageUrl"
-          class="px-6 py-2 text-white rounded-lg shadow hover:bg-primaryGreen disabled:opacity-50"
+          class="px-6 py-2 text-white rounded-lg shadow"
           :disabled="!canProceedToNext || isLoading"
+          :loading="isLoading"
           @click="() => image && analyzeMeal(image)"
         >
           {{ isLoading ? "Analyzing..." : "Analyze" }}
@@ -131,7 +132,7 @@
 
         <BaseButton
           v-if="currentStep.detail === 'result'"
-          class="px-6 py-2 text-white rounded-lg shadow hover:bg-blue-900"
+          class="px-6 py-2 text-white rounded-lg shadow"
           color="blue"
           @click="resetAnalyzer"
         >

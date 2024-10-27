@@ -10,4 +10,8 @@ export default interface RecipeResponse {
   healthBenefits: string;
   concerns: string;
   recommendation: string;
+  preparationTime?: string;
+  instructions?: string[];
+  rating?: string;
+  difficulty?: string;
 }

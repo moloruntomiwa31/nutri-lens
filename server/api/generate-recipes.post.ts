@@ -29,7 +29,11 @@ export default defineEventHandler(async (event) => {
       "carbs": "carbohydrates in grams",
       "fats": "fats in grams",
       "healthBenefits": "quick health benefits summary",
-      "image": "image link of the recipe that can be displayed on the website without any additional processing"
+      "image": "image link of the recipe that can be displayed on the website without any additional processing",
+      "preparationTime": "preparation time in minutes",
+      "instructions": ["step 1", "step 2"] array of strings with preparation instructions,
+      "rating": "rating out of 5",
+      "difficulty": "easy/medium/hard",
     }`;
 
     const result = await model.generateContent(prompt);

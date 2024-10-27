@@ -11,8 +11,8 @@
         role="region"
         aria-label="Recipe cards carousel"
       >
-      <DashboardRecipeCard
-          v-if="recipes"
+        <DashboardRecipeCard
+          v-if="recipes.length > 0"
           class="snap-center"
           v-for="recipe in recipes"
           :key="recipe.id"

@@ -20,10 +20,12 @@
           </BaseFileInput>
         </div>
         <div class="grow space-y-8">
-          <BaseInput placeholder="Hello" />
-          <BaseInput />
-          <BaseInput />
-          <BaseInput />
+          <BaseInput placeholder="First-Name" />
+          <BaseInput placeholder="Last-name" />
+          <BaseInput type="email" placeholder="Email Address" />
+          <div class="flex justify-end">
+            <BaseButton color="blue" customClass="rounded-lg">Save</BaseButton>
+          </div>
         </div>
         <!-- <div class="mt-4">
             <img

@@ -18,15 +18,25 @@ export default function useGenerateRecipes() {
 
   const { isMinimumLength } = useValidators();
 
-  const errors = computed(() => ({
-    weight: isMinimumLength(factory.value.weight),
-    height: isMinimumLength(factory.value.height),
-    age: isMinimumLength(factory.value.age),
-    disease: isMinimumLength(factory.value.disease as string, 6),
-  }));
+  const errors = computed(() => {
+    const weightError = isMinimumLength(factory.value.weight);
+    const heightError = isMinimumLength(factory.value.height);
+    const ageError = isMinimumLength(factory.value.age);
+    const diseaseError = isMinimumLength(factory.value.disease as string, 6);
+
+    return {
+      weight: weightError,
+      height: heightError,
+      age: ageError,
+      disease: diseaseError,
+    };
+  });
+
+  const hasErrors = computed(() =>
+    Object.values(errors.value).some((error) => error !== "")
+  );
 
   const loading = ref(false);
-  const recipe = ref<RecipeResponse | null>(null);
   const error = ref<string | null>(null);
 
   watch(
@@ -66,10 +76,9 @@ export default function useGenerateRecipes() {
     error.value = null;
 
     try {
-      //   const hasErrors = Object.values(errors.value).some((error) => error);
-      //   if (hasErrors) {
-      //     throw new Error("Please fix all validation errors before submitting");
-      //   }
+      if (hasErrors.value) {
+        throw new Error("Please fix all validation errors before submitting");
+      }
 
       const res = await $fetch<RecipeResponse>("/api/generate-recipes", {
         method: "POST",

@@ -3,8 +3,8 @@
   <div
     class="relative w-full gap-2 p-2 rounded-lg bg-lightGray flex items-center border duration-300 transition"
     :class="{
-      'border-primaryRed shadow-primaryRed shadow': error && touched,
-      'border-primaryGreen shadow-primaryGreen shadow': !error || !touched,
+      'border-primaryRed shadow-primaryRed shadow': shouldShowError,
+      'border-primaryGreen shadow-primaryGreen shadow': !shouldShowError,
     }"
   >
     <slot name="pre" />
@@ -15,6 +15,7 @@
       :max="max"
       :type="showPassword ? 'text' : type"
       class="grow bg-inherit placeholder:text-slate-400 placeholder:text-sm w-full focus:outline-none"
+      @input="handleInput"
       @blur="touched = true"
     />
     <slot name="after" />
@@ -26,14 +27,14 @@
       @click.stop="showPassword = !showPassword"
     />
     <Icon
-      v-if="error && touched"
+      v-if="shouldShowError"
       name="ic:round-error"
       style="color: red"
       :class="type === 'password' ? 'absolute right-8' : ''"
     />
     <span
-      v-if="error && touched"
-      class="text-primaryRed text-sm absolute -bottom-5"
+      v-if="shouldShowError"
+      class="text-primaryRed text-sm absolute -bottom-6"
     >
       {{ error }}
     </span>
@@ -41,13 +42,14 @@
 </template>
 
 <script lang="ts" setup generic="T">
-withDefaults(
+const props = withDefaults(
   defineProps<{
     placeholder?: string;
     type?: string;
     min?: string | number;
     max?: string | number;
     error?: string;
+    validateOnChange?: boolean;
   }>(),
   {
     placeholder: undefined,
@@ -55,12 +57,34 @@ withDefaults(
     min: undefined,
     max: undefined,
     error: undefined,
+    validateOnChange: false,
   }
 );
 
 const content = defineModel<T>();
 const showPassword = ref(false);
 const touched = ref(false);
+const isDirty = ref(false);
+
+const shouldShowError = computed(() => {
+  if (!props.error) return false;
+  if (props.validateOnChange && isDirty.value) return true;
+  return touched.value;
+});
+
+watch(content, (newVal) => {
+  if (!newVal && typeof newVal !== 'number') {
+    isDirty.value = false;
+    touched.value = false;
+  }
+});
+
+const handleInput = (event: Event) => {
+  isDirty.value = true;
+  if (props.validateOnChange) {
+    touched.value = true;
+  }
+};
 </script>
 
 <style scoped>

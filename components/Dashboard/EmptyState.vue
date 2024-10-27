@@ -13,7 +13,7 @@
           class="w-12 h-3 bg-primaryGreen rounded-full mr-2"
           aria-hidden="true"
         ></span>
-        <span class="text-sm font-medium">No recipes</span>
+        <span class="text-sm font-medium">No recipe</span>
       </div>
     </div>
   </div>
