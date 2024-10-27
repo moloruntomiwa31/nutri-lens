@@ -1,7 +1,7 @@
 <!-- BaseInput.vue -->
 <template>
   <div
-    class="relative w-full gap-2 p-2 rounded-lg bg-lightGray flex items-center border"
+    class="relative w-full gap-2 p-2 rounded-lg bg-lightGray flex items-center border duration-300 transition"
     :class="{
       'border-primaryRed shadow-primaryRed shadow': error && touched,
       'border-primaryGreen shadow-primaryGreen shadow': !error || !touched,

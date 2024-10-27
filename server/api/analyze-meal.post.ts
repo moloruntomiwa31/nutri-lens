@@ -145,7 +145,7 @@ export default defineEventHandler(async (event) => {
     } catch (aiError: any) {
       throw createError({
         statusCode: 500,
-        message: aiError.message || "Error analyzing image with AI",
+        message: "Error analyzing image with AI",
       });
     }
   } catch (error: any) {
@@ -162,7 +162,7 @@ export default defineEventHandler(async (event) => {
 
     throw createError({
       statusCode: 500,
-      message: error.message || "Error analyzing food image",
+      message: "Error analyzing food image",
     });
   }
 });

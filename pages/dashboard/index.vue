@@ -11,7 +11,19 @@
         role="region"
         aria-label="Recipe cards carousel"
       >
-        <RecipeCard v-for="i in 8" :key="i" class="snap-center" />
+      <DashboardRecipeCard
+          v-if="recipes"
+          class="snap-center"
+          v-for="recipe in recipes"
+          :key="recipe.id"
+          :recipe
+        />
+        <DashboardEmptyState
+          v-else
+          v-for="i in 5"
+          :key="i"
+          class="snap-center"
+        />
       </div>
     </section>
 
@@ -39,6 +51,7 @@
 definePageMeta({
   layout: "dashboard",
 });
+const { recipes } = useGenerateRecipes();
 </script>
 
 <style scoped>

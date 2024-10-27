@@ -12,6 +12,7 @@
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
     "@nuxt/icon": "^1.5.6",
+    "@nuxt/image": "^1.8.1",
     "nuxt": "^3.13.0",
     "vue": "latest",
     "vue-router": "latest"

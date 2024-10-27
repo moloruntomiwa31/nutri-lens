@@ -9,7 +9,7 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  modules: ["@nuxt/icon"],
+  modules: ["@nuxt/icon", "@nuxt/image"],
   runtimeConfig: {
     apiSecret: process.env.NUXT_API_SECRET
   },

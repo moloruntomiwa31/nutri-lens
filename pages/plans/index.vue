@@ -4,45 +4,68 @@
       class="flex flex-col gap-4 min-h-full w-full justify-center items-center"
     >
       <h1 class="text-2xl font-bold">Customize your plan</h1>
-      <form
-        class="w-4/5 grid gap-6"
-        @submit.prevent="router.push('/dashboard/')"
-      >
+      <form class="w-4/5 grid gap-6" @submit.prevent="generateRecipes">
         <div>
           <label for="weight">Weight</label>
           <div class="flex items-center">
-            <BaseInput type="number" placeholder="60" />
-            <BaseSelect :options="['kg', 'g']" placeholder="kg" />
+            <BaseInput
+              type="number"
+              placeholder="60"
+              v-model="factory.weight"
+              :error="errors.weight as string"
+            />
+            <BaseSelect
+              :options="['kg', 'g']"
+              placeholder="kg"
+              v-model="factory.weightUnit"
+            />
           </div>
         </div>
         <div>
           <label for="height">Height</label>
           <div class="flex items-center">
-            <BaseInput type="number" placeholder="170" />
-            <BaseSelect :options="['cm', 'm']" placeholder="cm" />
+            <BaseInput
+              type="number"
+              placeholder="170"
+              v-model="factory.height"
+              :error="errors.height as string"
+            />
+            <BaseSelect
+              :options="['cm', 'm']"
+              placeholder="cm"
+              v-model="factory.heightUnit"
+            />
           </div>
         </div>
         <div>
           <label for="age">Age</label>
-          <BaseInput type="number" placeholder="30" />
+          <BaseInput
+            type="number"
+            placeholder="30"
+            v-model="factory.age"
+            :error="errors.age as string"
+          />
         </div>
         <div>
           <label for="disease"
             >Do you suffer from any diseases & allergies?</label
           >
-          <textarea
-            name=""
-            id=""
-            rows="5"
-            cols="10"
-            class="w-full outline-none gap-2 p-2 rounded-lg bg-lightGray flex items-center border border-primaryGreen shadow shadow-primaryGreen group-focus-within:border-primaryGreen"
-            placeholder="Mention all chronic diseases and foods you are allergic to"
-          ></textarea>
+          <div>
+            <textarea
+              style="resize: none"
+              rows="5"
+              cols="10"
+              class="w-full outline-none gap-2 p-2 rounded-lg bg-lightGray flex items-center border border-primaryGreen shadow shadow-primaryGreen group-focus-within:border-primaryGreen"
+              placeholder="Mention all chronic diseases and foods you are allergic to"
+              v-model="factory.disease"
+            ></textarea>
+          </div>
         </div>
         <div class="w-full">
           <BaseButton
             type="submit"
             customClass="!bg-secondaryGreen w-full rounded-lg"
+            :loading
             >Let's Go</BaseButton
           >
         </div>
@@ -76,8 +99,8 @@
   </div>
 </template>
 
-<script setup>
-const router = useRouter();
+<script setup lang="ts">
+const { factory, errors, generateRecipes, loading } = useGenerateRecipes();
 </script>
 
 <style scoped>

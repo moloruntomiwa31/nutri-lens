@@ -1,11 +1,16 @@
 // useValidators.ts
 export default function useValidators() {
-  const isMinimumLength = (value: string, length: number = 1): string => {
-    return !value
-      ? ""
-      : value.length >= length
-      ? ""
-      : `min ${length} chars`;
+  const isMinimumLength = (
+    value: string | number,
+    length: number = 1
+  ): string => {
+    if (!value) {
+      return "input required";
+    }
+    if (typeof value == "string" && value.length >= length) {
+      return "";
+    }
+    return `min ${length} chars`;
   };
 
   const isValidEmail = (email: string): string => {
