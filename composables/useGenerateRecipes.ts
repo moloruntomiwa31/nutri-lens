@@ -4,25 +4,28 @@ import type RecipeResponse from "~/types/RecipeResponse";
 const store = ref({
   recipes: [] as RecipeResponse[],
   loading: false,
-});
-export default function useGenerateRecipes() {
-  const router = useRouter();
-  const factory = ref<UserHealth>({
+  factory: {
     weight: "",
     weightUnit: "kg",
     height: "",
     heightUnit: "cm",
     age: "",
     disease: "",
-  });
+  } as UserHealth,
+});
+export default function useGenerateRecipes() {
+  const router = useRouter();
 
   const { isMinimumLength } = useValidators();
 
   const errors = computed(() => {
-    const weightError = isMinimumLength(factory.value.weight);
-    const heightError = isMinimumLength(factory.value.height);
-    const ageError = isMinimumLength(factory.value.age);
-    const diseaseError = isMinimumLength(factory.value.disease as string, 6);
+    const weightError = isMinimumLength(store.value.factory.weight);
+    const heightError = isMinimumLength(store.value.factory.height);
+    const ageError = isMinimumLength(store.value.factory.age);
+    const diseaseError = isMinimumLength(
+      store.value.factory.disease as string,
+      6
+    );
 
     return {
       weight: weightError,
@@ -40,33 +43,33 @@ export default function useGenerateRecipes() {
   const error = ref<string | null>(null);
 
   watch(
-    () => factory.value.weightUnit,
+    () => store.value.factory.weightUnit,
     (newUnit, oldUnit) => {
-      if (!factory.value.weight) return;
+      if (!store.value.factory.weight) return;
 
-      const value = Number(factory.value.weight);
+      const value = Number(store.value.factory.weight);
       if (isNaN(value)) return;
 
       if (newUnit === "kg" && oldUnit === "g") {
-        factory.value.weight = (value / 1000).toString();
+        store.value.factory.weight = (value / 1000).toString();
       } else if (newUnit === "g" && oldUnit === "kg") {
-        factory.value.weight = (value * 1000).toString();
+        store.value.factory.weight = (value * 1000).toString();
       }
     }
   );
 
   watch(
-    () => factory.value.heightUnit,
+    () => store.value.factory.heightUnit,
     (newUnit, oldUnit) => {
-      if (!factory.value.height) return;
+      if (!store.value.factory.height) return;
 
-      const value = Number(factory.value.height);
+      const value = Number(store.value.factory.height);
       if (isNaN(value)) return;
 
       if (newUnit === "cm" && oldUnit === "m") {
-        factory.value.height = (value * 100).toString();
+        store.value.factory.height = (value * 100).toString();
       } else if (newUnit === "m" && oldUnit === "cm") {
-        factory.value.height = (value / 100).toString();
+        store.value.factory.height = (value / 100).toString();
       }
     }
   );
@@ -82,7 +85,7 @@ export default function useGenerateRecipes() {
 
       const res = await $fetch<RecipeResponse>("/api/generate-recipes", {
         method: "POST",
-        body: factory.value,
+        body: store.value.factory,
       });
 
       store.value.recipes.push(res);
@@ -98,7 +101,7 @@ export default function useGenerateRecipes() {
   };
 
   return {
-    factory,
+    factory: store.value.factory,
     errors,
     loading,
     error,

@@ -21,7 +21,7 @@
 
         <!-- Notification and Profile -->
         <div class="flex items-center gap-4">
-          <div class="relative">
+          <div class="relative cursor-pointer" @click="openModal">
             <Icon name="mingcute:notification-fill" size="30" class="shadow" />
             <span
               class="w-3 h-3 rounded-full bg-primaryRed absolute top-0 right-1"
@@ -37,6 +37,11 @@
         </div>
       </div>
     </div>
+
+    <!-- Notifications Modal -->
+    <BaseModal title="Notifications" @close="closeModal" v-show="modalOpen">
+      <p>There are no notifications.</p>
+    </BaseModal>
 
     <!-- Mobile Greeting -->
     <div class="sm:hidden px-4 py-2 bg-gray-50">
@@ -68,4 +73,11 @@ const timeOfDay = computed(() => {
 const userName = computed(() => {
   return "John";
 });
+const modalOpen = ref(false);
+const openModal = () => {
+  modalOpen.value = true;
+};
+const closeModal = () => {
+  modalOpen.value = false;
+};
 </script>
