@@ -24,7 +24,7 @@
           <div class="relative">
             <Icon name="mingcute:notification-fill" size="30" class="shadow" />
             <span
-              class="w-3 h-3 rounded-full bg-primaryRed absolute top-0 right-1.5"
+              class="w-3 h-3 rounded-full bg-primaryRed absolute top-0 right-1"
             ></span>
           </div>
           <div class="flex items-center p-1 w-10 h-10 rounded-full">

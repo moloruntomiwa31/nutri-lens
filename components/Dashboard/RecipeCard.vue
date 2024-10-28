@@ -33,7 +33,7 @@
       <div
         class="absolute top-4 right-4 bg-white bg-opacity-90 rounded-lg p-3 text-xs space-y-1"
       >
-        <div>{{ recipe.calories }}</div>
+        <div>Calories: {{ recipe.calories }}</div>
         <div>Protein: {{ recipe.protein }}</div>
         <div>Carbs: {{ recipe.carbs }}</div>
         <div>Fats: {{ recipe.fats }}</div>

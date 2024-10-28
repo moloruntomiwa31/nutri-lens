@@ -10,13 +10,15 @@
         <div
           class="flex items-center justify-center w-[250px] h-[250px] bg-lightGray shadow rounded-full relative text-secondaryGreen"
         >
-          <Icon name="gg:profile" :size="isDesktopScreen ? '170' : '140'" />
-          <BaseFileInput accept="image/">
-            <Icon
-              name="flowbite:upload-outline"
-              size="30"
-              class="absolute bottom-8 right-4"
-            />
+          <BaseFileInput accept="image/" @update:modelValue="">
+            <span>
+              <Icon name="gg:profile" :size="isDesktopScreen ? '170' : '140'" />
+              <Icon
+                name="flowbite:upload-outline"
+                size="30"
+                class="absolute bottom-8 right-4"
+              />
+            </span>
           </BaseFileInput>
         </div>
         <div class="grow space-y-8">
@@ -24,15 +26,9 @@
           <BaseInput placeholder="Last-name" />
           <BaseInput type="email" placeholder="Email Address" />
           <div class="flex justify-end">
-            <BaseButton color="blue" customClass="rounded-lg">Save</BaseButton>
+            <BaseButton customClass="rounded-lg">Save</BaseButton>
           </div>
         </div>
-        <!-- <div class="mt-4">
-            <img
-              alt="Image Preview"
-              class="rounded-lg h-48 w-full object-cover"
-            />
-          </div> -->
       </div>
     </div>
   </div>
