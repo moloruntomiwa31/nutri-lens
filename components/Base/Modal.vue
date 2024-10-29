@@ -3,18 +3,19 @@
     <Transition name="modal">
       <div
         class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+        v-show="modelValue"
       >
         <div
           class="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-full max-w-md"
         >
           <div class="flex justify-between items-center mb-4">
             <h3 class="text-lg font-bold">{{ title }}</h3>
-            <button
+            <Icon
+              name="gg:close-o"
+              size="30"
+              style="color: red"
               @click="closeModal"
-              class="text-gray-500 hover:text-gray-800"
-            >
-              <Icon name="gg:close-o" size="30" style="color: red" />
-            </button>
+            />
           </div>
           <slot></slot>
         </div>
@@ -26,14 +27,13 @@
 <script setup lang="ts">
 defineProps<{
   title: string;
+  modelValue: boolean;
 }>();
 const emit = defineEmits<{
-  (e: "close"): void;
+  (e: "update:modelValue", value: boolean): void;
 }>();
-const open = ref(false);
 const closeModal = () => {
-  open.value = false;
-  emit("close");
+  emit("update:modelValue", false);
 };
 </script>
 

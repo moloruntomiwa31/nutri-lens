@@ -39,7 +39,7 @@
     </div>
 
     <!-- Notifications Modal -->
-    <BaseModal title="Notifications" @close="closeModal" v-show="modalOpen">
+    <BaseModal title="Notifications" v-model="modalOpen">
       <p>There are no notifications.</p>
     </BaseModal>
 
@@ -51,7 +51,7 @@
 
     <div class="flex justify-between">
       <SideBar />
-      <div class="h-full overflow-y-auto mb-8" :style="{ width }">
+      <div class="h-full overflow-y-auto mb-8 pb-16" :style="{ width }">
         <slot />
       </div>
     </div>
