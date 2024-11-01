@@ -21,9 +21,9 @@
               to: '/dashboard/meal',
             },
             {
-              name: 'Barcode Scanner',
-              icon: 'material-symbols:barcode-reader',
-              to: '/dashboard/scan',
+              name: 'Budget Bite',
+              icon: 'fa-solid:cookie-bite',
+              to: '/dashboard/budget-bite',
             },
             {
               name: 'Profile',

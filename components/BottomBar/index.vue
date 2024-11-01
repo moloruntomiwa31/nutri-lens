@@ -45,9 +45,9 @@ const tabs = [
   { name: "Home", icon: "ic:round-home", to: "/dashboard/" },
   { name: "Meal", icon: "ic:baseline-set-meal", to: "/dashboard/meal" },
   {
-    name: "Scan",
-    icon: "material-symbols:barcode-reader",
-    to: "/dashboard/scan",
+    name: "B-Bite",
+    icon: "fa-solid:cookie-bite",
+    to: "/dashboard/budget-bite",
   },
   { name: "Profile", icon: "iconoir:profile-circle", to: "/profile" },
 ];
