@@ -14,6 +14,7 @@
               name="gg:close-o"
               size="30"
               style="color: red"
+              class="cursor-pointer"
               @click="closeModal"
             />
           </div>

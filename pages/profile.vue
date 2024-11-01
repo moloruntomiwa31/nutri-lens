@@ -11,7 +11,7 @@
           <div
             class="flex items-center justify-center w-[250px] h-[250px] bg-lightGray shadow rounded-full relative text-secondaryGreen"
           >
-            <BaseFileInput accept="image/" @update:modelValue="">
+            <BaseFileInput accept="image/" @update:modelValue="" v-if="false">
               <span>
                 <Icon
                   name="gg:profile"
@@ -24,6 +24,13 @@
                 />
               </span>
             </BaseFileInput>
+            <div class="flex items-center p-1 w-56 h-56 rounded-full">
+              <img
+                src="/public/images/auth/auth.jpg"
+                alt="User profile"
+                class="rounded-full w-full h-full object-cover"
+              />
+            </div>
           </div>
           <div class="grow space-y-8">
             <BaseInput placeholder="First-Name" />
