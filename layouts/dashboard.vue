@@ -27,13 +27,17 @@
               class="w-3 h-3 rounded-full bg-primaryRed absolute top-0 right-1"
             ></span>
           </div>
-          <div class="flex items-center p-1 w-10 h-10 rounded-full">
-            <img
-              src="/public/images/auth/auth.jpg"
-              alt="User profile"
-              class="rounded-full w-full h-full object-cover"
+          <Avatar customClass="p-1">
+            <AvatarImage
+              v-if="!avatarImageUrl"
+              customClass="rounded-full w-full h-full object-cover"
             />
-          </div>
+            <AvatarImage
+              v-else
+              :src="avatarImageUrl"
+              customClass="rounded-full w-full h-full object-cover"
+            />
+          </Avatar>
         </div>
       </div>
     </div>
@@ -61,6 +65,7 @@
 
 <script setup lang="ts">
 const { isDesktopScreen } = useScreenObserver();
+const { avatarImageUrl } = useProfile();
 const width = computed(() =>
   isDesktopScreen.value ? "calc(100% - 256px)" : "100%"
 );
@@ -76,8 +81,5 @@ const userName = computed(() => {
 const modalOpen = ref(false);
 const openModal = () => {
   modalOpen.value = true;
-};
-const closeModal = () => {
-  modalOpen.value = false;
 };
 </script>

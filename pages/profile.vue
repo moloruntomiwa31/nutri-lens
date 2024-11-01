@@ -6,31 +6,30 @@
       <div class="profile-update">
         <h2 class="text-2xl font-bold">Profile Info</h2>
         <div
-          class="flex flex-col md:flex-row items-center justify-center md:justify-between gap-4 py-2"
+          class="flex flex-col md:flex-row items-center lg:items-start justify-center md:justify-between gap-4 py-2"
         >
           <div
-            class="flex items-center justify-center w-[250px] h-[250px] bg-lightGray shadow rounded-full relative text-secondaryGreen"
+            class="flex items-center justify-center w-[200px] h-[200px] bg-lightGray shadow rounded-full relative text-secondaryGreen"
           >
-            <BaseFileInput accept="image/" @update:modelValue="" v-if="false">
-              <span>
+            <BaseFileInput accept="image/" @update:modelValue="uploadImage">
+              <span v-if="!avatarImageUrl">
                 <Icon
                   name="gg:profile"
-                  :size="isDesktopScreen ? '170' : '140'"
-                />
-                <Icon
-                  name="flowbite:upload-outline"
-                  size="30"
-                  class="absolute bottom-8 right-4"
+                  :size="isDesktopScreen ? '150' : '100'"
                 />
               </span>
-            </BaseFileInput>
-            <div class="flex items-center p-1 w-56 h-56 rounded-full">
-              <img
-                src="/public/images/auth/auth.jpg"
-                alt="User profile"
-                class="rounded-full w-full h-full object-cover"
+              <Avatar size="5xl" v-if="avatarImageUrl">
+                <AvatarImage
+                  :src="avatarImageUrl"
+                  customClass="rounded-full w-full h-full object-cover"
+                />
+              </Avatar>
+              <Icon
+                name="flowbite:upload-outline"
+                size="30"
+                class="absolute bottom-8 right-4"
               />
-            </div>
+            </BaseFileInput>
           </div>
           <div class="grow space-y-8">
             <BaseInput placeholder="First-Name" />
@@ -84,4 +83,5 @@ definePageMeta({
 });
 const { isDesktopScreen } = useScreenObserver();
 const { factory } = useGenerateRecipes();
+const { uploadImage, avatarImageUrl } = useProfile();
 </script>
