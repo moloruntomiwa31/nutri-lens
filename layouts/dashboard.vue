@@ -3,14 +3,14 @@
     <div
       class="flex items-center justify-between border-b-2 border-grayColor px-4"
     >
-      <div class="flex items-center py-4">
+      <NuxtLink to="/dashboard/" class="flex items-center py-4">
         <Icon
           name="material-symbols:nutrition-sharp"
           size="35"
           class="text-secondaryGreen shadow"
         />
         <h1 class="text-2xl font-bold text-secondaryGreen">Nutri-Lens</h1>
-      </div>
+      </NuxtLink>
 
       <div class="flex items-center gap-4">
         <!-- Desktop Gretting -->

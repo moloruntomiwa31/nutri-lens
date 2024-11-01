@@ -1,5 +1,5 @@
 <template>
-  <div class="relative m-2">
+  <div class="relative mx-2">
     <div
       @click="open = !open"
       class="cursor-pointer bg-lightGray w-fit p-2 rounded-lg flex items-center border border-primaryGreen shadow shadow-primaryGreen group-focus-within:border-primaryGreen"

@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center justify-center h-full mt-4">
     <div
-      class="bg-lightGray rounded-lg w-4/5 md:w-[600px] lg:w-[700px] xl:w-[800px] h-[500px] p-6"
+      class="bg-grayColor rounded-lg w-4/5 md:w-[600px] lg:w-[700px] xl:w-[800px] h-[500px] p-6"
     >
       <!-- Progress Steps -->
       <div class="flex items-center justify-center">
