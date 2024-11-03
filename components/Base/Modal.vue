@@ -10,13 +10,15 @@
         >
           <div class="flex justify-between items-center mb-4">
             <h3 class="text-lg font-bold">{{ title }}</h3>
-            <Icon
-              name="gg:close-o"
-              size="30"
-              style="color: red"
-              class="cursor-pointer"
-              @click="closeModal"
-            />
+            <ClientOnly>
+              <Icon
+                name="gg:close-o"
+                size="30"
+                style="color: red"
+                class="cursor-pointer"
+                @click="closeModal"
+              />    
+            </ClientOnly>
           </div>
           <slot></slot>
         </div>

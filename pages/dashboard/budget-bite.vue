@@ -10,9 +10,10 @@
           <div class="md:flex-1">
             <label> Daily Budget </label>
             <BaseInput
-              v-model="budget"
+              v-model="mealBudget.amount"
               type="number"
               placeholder="Enter amount"
+              :error="errors.amount"
             />
           </div>
           <div class="w-32">
@@ -20,7 +21,7 @@
             <BaseSelect
               class="!mx-0"
               placeholder="NGN"
-              v-model="currency"
+              v-model="mealBudget.currency"
               :options="['NGN', 'USD', 'GBP', 'EUR']"
             />
           </div>
@@ -30,7 +31,7 @@
         </BaseButton>
 
         <!-- Results -->
-        <div v-if="mealSuggestions" class="grid md:grid-cols-3 gap-4">
+        <!-- <div v-if="mealSuggestions" class="grid md:grid-cols-3 gap-4">
           <div v-for="(meals, type) in mealSuggestions" :key="type">
             <h3 class="font-medium capitalize mb-2">{{ type }}</h3>
             <ul class="list-disc list-inside space-y-1">
@@ -43,7 +44,7 @@
               </li>
             </ul>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -53,27 +54,5 @@
 definePageMeta({
   layout: "dashboard",
 });
-const budget = ref("");
-const currency = ref("USD");
-const mealSuggestions = ref(null);
-
-const mealOptions = {
-  lowBudget: {
-    breakfast: ["Oatmeal with fruit", "Toast with eggs"],
-    lunch: ["Rice and beans", "Vegetable soup"],
-    dinner: ["Pasta with tomato sauce", "Stir-fried vegetables"],
-  },
-  mediumBudget: {
-    breakfast: ["Smoothie bowl", "Avocado toast"],
-    lunch: ["Chicken salad", "Quinoa bowl"],
-    dinner: ["Grilled fish", "Lean meat with vegetables"],
-  },
-};
-
-const generateMeals = () => {
-  mealSuggestions.value =
-    parseFloat(budget.value) < 50
-      ? mealOptions.lowBudget
-      : mealOptions.mediumBudget;
-};
+const { mealBudget, errors, generateMeals } = useBudgetBite();
 </script>
