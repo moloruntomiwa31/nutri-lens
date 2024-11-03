@@ -11,7 +11,7 @@
           <div
             class="flex items-center justify-center w-[200px] h-[200px] bg-lightGray shadow rounded-full relative text-secondaryGreen"
           >
-            <BaseFileInput accept="image/" @update:modelValue="uploadImage">
+            <BaseFileInput accept=".jpg, .png" @update:modelValue="uploadImage">
               <span v-if="!avatarImageUrl">
                 <Icon
                   name="gg:profile"
