@@ -4,11 +4,12 @@
       class="flex items-center justify-between border-b-2 border-grayColor px-4"
     >
       <NuxtLink to="/dashboard/" class="flex items-center py-4">
-        <Icon
-          name="material-symbols:nutrition-sharp"
-          size="35"
-          class="text-secondaryGreen shadow"
-        />
+        <ClientOnly>
+          <Icon
+            name="ion:nutrition"
+            size="28"
+            class="text-secondaryGreen shadow"
+        /></ClientOnly>
         <h1 class="text-2xl font-bold text-secondaryGreen">Nutri-Lens</h1>
       </NuxtLink>
 

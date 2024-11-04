@@ -4,7 +4,9 @@
       class="w-[256px] z-50 bg-primaryGreen h-screen fixed top-0 left-0 hidden lg:block"
     >
       <div class="flex items-center py-4 px-2">
-        <Icon name="material-symbols:nutrition-sharp" size="35" />
+        <ClientOnly>
+          <Icon name="ion:nutrition" size="28" class="shadow-lg"
+        /></ClientOnly>
         <h1 class="text-2xl font-bold">Nutri-Lens</h1>
       </div>
       <nav class="flex flex-col justify-between gap-4 p-4">
