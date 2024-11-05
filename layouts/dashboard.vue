@@ -23,8 +23,9 @@
         <!-- Notification and Profile -->
         <div class="flex items-center gap-4">
           <div class="relative cursor-pointer" @click="openModal">
-            <Icon name="mingcute:notification-fill" size="30" class="shadow" />
+            <Icon name="iconamoon:notification-bold" size="30" class="shadow" />
             <span
+              v-if="false"
               class="w-3 h-3 rounded-full bg-primaryRed absolute top-0 right-1"
             ></span>
           </div>
