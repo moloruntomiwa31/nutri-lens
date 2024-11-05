@@ -5,14 +5,17 @@ interface Toast {
 }
 type ToastType = "success" | "error" | "info";
 
+const store = ref({
+  toasts: [] as Toast[],
+});
+
 export const useToast = () => {
-  const toasts = ref<Toast[]>([]);
   let id = 0;
 
   const removeToast = (id: number) => {
-    const index = toasts.value.findIndex((t) => t.id === id);
+    const index = store.value.toasts.findIndex((t) => t.id === id);
     if (index > -1) {
-      toasts.value.splice(index, 1);
+      store.value.toasts.splice(index, 1);
     }
   };
 
@@ -22,14 +25,14 @@ export const useToast = () => {
       message,
       type,
     };
-    toasts.value.push(toast);
+    store.value.toasts.push(toast);
     setTimeout(() => {
       removeToast(toast.id);
     }, 3000);
   };
 
   return {
-    toasts,
+    toasts: store.value.toasts,
     addToast,
     removeToast,
   };

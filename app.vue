@@ -1,7 +1,7 @@
 <template>
   <NuxtLoadingIndicator :throttle="0" :height="5" />
+  <BaseToast />
   <NuxtLayout>
-    <BaseToast />
     <NuxtPage />
   </NuxtLayout>
 </template>
