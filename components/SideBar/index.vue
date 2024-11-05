@@ -11,7 +11,7 @@
       </div>
       <nav class="flex flex-col justify-between gap-4 p-4">
         <NuxtLink
-          v-for="tab in [
+          v-for="(tab, index) in [
             {
               name: 'Home',
               icon: 'ic:round-home',
@@ -35,6 +35,7 @@
           ]"
           :key="tab.name"
           :to="tab.to"
+          @click="setActiveTab(index)"
           class="font-medium hover:bg-white hover:text-secondaryGreen duration-200 transition text-base rounded-lg py-4 px-1"
           active-class="bg-white text-secondaryGreen font-extrabold"
         >
@@ -58,6 +59,6 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
-
-<style scoped></style>
+<script setup lang="ts">
+const { setActiveTab } = useActiveTab();
+</script>

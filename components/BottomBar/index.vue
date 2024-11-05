@@ -51,12 +51,8 @@ const tabs = [
   },
   { name: "Profile", icon: "iconoir:profile-circle", to: "/profile" },
 ];
-const activeTab = ref(0);
 const { isTabletScreen } = useScreenObserver();
-
-const setActiveTab = (index: number) => {
-  activeTab.value = index;
-};
+const { activeTab, setActiveTab } = useActiveTab();
 
 const activeTabPosition = computed(() => {
   const basePosition = activeTab.value * 25;
