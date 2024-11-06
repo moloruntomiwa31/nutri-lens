@@ -1,7 +1,22 @@
 <template>
   <div class="flex flex-col h-full w-full justify-center items-center">
     <h1 class="text-2xl font-bold">Log In</h1>
-    <form class="w-4/5 grid gap-6" @submit.prevent="handleSubmit">
+    <form class="w-4/5 grid gap-6">
+      <BaseButton
+        color="transparent"
+        customClass="border-secondaryGreen border rounded-lg mt-3"
+        :shadow="true"
+        @click="signInWithGoogle"
+      >
+        <Icon name="flat-color-icons:google" />
+        <span> Login with Google </span></BaseButton
+      >
+      <div class="bg-transparent border border-lightGray w-full relative my-1">
+        <span
+          class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 bg-lightGray p-2 rounded-md text-sm"
+          >or with</span
+        >
+      </div>
       <div>
         <label for="email">Email</label>
         <BaseInput
@@ -24,6 +39,9 @@
         <BaseButton
           type="submit"
           customClass="!bg-secondaryGreen w-full rounded-lg"
+          :loading
+          :disabled="loading"
+          @click="handleSubmit"
           >Log In</BaseButton
         >
       </div>
@@ -41,11 +59,16 @@
 definePageMeta({
   layout: "auth",
 });
+
 const factory = ref({
   email: "",
   password: "",
 });
 const { isValidEmail, isValidPassword } = useValidators();
+const { logIn, signInWithGoogle } = useAuth();
+const loading = ref(false);
+const { addToast } = useToast();
+
 const errors = computed(() => ({
   email: isValidEmail(factory.value.email),
   password: isValidPassword(factory.value.password),
@@ -53,16 +76,19 @@ const errors = computed(() => ({
 const isFormValid = computed(() => {
   return factory.value.email && factory.value.password;
 });
+
 const handleSubmit = async () => {
-  if (!isFormValid.value) return;
+  loading.value = true;
+  if (!isFormValid.value) {
+    loading.value = false;
+    return addToast("Please fill all fields", "error");
+  }
 
   try {
-    console.log("Form submitted:", factory.value);
+    await logIn(factory.value);
+    loading.value = false;
   } catch (error) {
-    console.error("Signup error:", error);
+    console.error("login error:", error);
   }
 };
 </script>
-
-<style scoped>
-</style>

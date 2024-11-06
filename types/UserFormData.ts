@@ -1,4 +1,4 @@
-export default interface FormData {
+export default interface UserFormData {
     first_name: string;
     last_name: string;
     email: string;

@@ -50,9 +50,20 @@
     </BaseModal>
 
     <!-- Mobile Greeting -->
-    <div class="sm:hidden px-4 py-2 bg-gray-50">
-      <span class="text-sm text-slate-500">Good {{ timeOfDay }}, </span>
-      <span class="font-semibold">{{ userName }}</span>
+    <div
+      class="flex justify-between items-center sm:hidden px-5 py-2 bg-gray-50 !text-sm"
+    >
+      <div>
+        <span class="text-slate-500">Good {{ timeOfDay }}, </span>
+        <span class="font-semibold">{{ userName }}</span>
+      </div>
+      <BaseButton
+        color="red"
+        customClass="rounded-lg"
+        :shadow="true"
+        @click="logOut"
+        >Logout</BaseButton
+      >
     </div>
 
     <div class="flex justify-between">
@@ -68,6 +79,7 @@
 <script setup lang="ts">
 const { isDesktopScreen } = useScreenObserver();
 const { avatarImageUrl } = useProfile();
+const { logOut } = useAuth();
 const width = computed(() =>
   isDesktopScreen.value ? "calc(100% - 256px)" : "100%"
 );

@@ -1,4 +1,3 @@
-// useValidators.ts
 export default function useValidators() {
   const isMinimumLength = (
     value: string | number,
@@ -24,9 +23,10 @@ export default function useValidators() {
 
   const isValidPassword = (password: string): string => {
     if (!password) return "input required";
-    if (!isMinimumLength(password, 8)) return "min 8 chars";
+    const minLengthError = isMinimumLength(password, 8);
+    if (minLengthError) return minLengthError;
     const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&]{8,}$/;
     return passwordRegex.test(password)
       ? ""
       : "password must contain uppercase, lowercase, number and special character";

@@ -28,9 +28,9 @@
               to: '/dashboard/budget-bite',
             },
             {
-              name: 'Profile',
+              name: 'Settings',
               icon: 'iconoir:profile-circle',
-              to: '/profile',
+              to: '/settings',
             },
           ]"
           :key="tab.name"
@@ -45,13 +45,13 @@
           </div></NuxtLink
         >
         <div class="py-4 px-1">
-          <NuxtLink
-            to="/dashboard"
-            class="font-medium text-primaryRed text-base rounded-lg"
-            ><div class="flex items-center gap-1">
-              <Icon name="mingcute:power-fill" />
-              <span class="text-sm">LogOut</span>
-            </div></NuxtLink
+          <BaseButton
+            color="transparent"
+            customClass="!text-primaryRed flex items-center !gap-1"
+            padding="px-0 py-0"
+            @click="logOut"
+          >
+            <Icon name="mingcute:power-fill" /> <span>Logout</span></BaseButton
           >
         </div>
       </nav>
@@ -61,4 +61,5 @@
 
 <script setup lang="ts">
 const { setActiveTab } = useActiveTab();
+const { logOut } = useAuth();
 </script>

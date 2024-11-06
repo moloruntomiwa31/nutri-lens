@@ -49,7 +49,7 @@ const tabs = [
     icon: "fa-solid:cookie-bite",
     to: "/dashboard/budget-bite",
   },
-  { name: "Profile", icon: "iconoir:profile-circle", to: "/profile" },
+  { name: "Settings", icon: "iconoir:profile-circle", to: "/settings" },
 ];
 const { isTabletScreen } = useScreenObserver();
 const { activeTab, setActiveTab } = useActiveTab();
