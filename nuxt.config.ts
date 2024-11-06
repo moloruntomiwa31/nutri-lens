@@ -34,4 +34,19 @@ export default defineNuxtConfig({
       '/api/**': { cors: true },
     },
   },
+  app: {
+    head: {
+      title: "Nutri-Lens",
+      link: [
+        {
+          rel: "icon",
+          type: "image/svg+xml",
+          href: "/icon.svg",
+        },
+      ],
+    },
+  },
+  runtimeConfig: {
+    apiSecret: process.env.NUXT_API_SECRET,
+  },
 });

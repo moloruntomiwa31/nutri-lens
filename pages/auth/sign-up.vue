@@ -83,6 +83,21 @@
 <script setup lang="ts">
 import type UserFormData from "~/types/UserFormData";
 import type FormErrors from "@/types/FormErrors";
+useHead({
+  title: "Sign Up",
+  meta: [
+    {
+      name: "description",
+      content: "Create an account",
+    },
+  ],
+})
+useSeoMeta({
+  title: "Sign Up",
+  description: "Create an account",
+  ogDescription: "Create an account",
+  ogTitle: "Sign Up",
+})
 definePageMeta({
   layout: "auth",
 });

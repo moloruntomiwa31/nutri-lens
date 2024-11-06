@@ -56,6 +56,21 @@
 </template>
 
 <script setup lang="ts">
+useHead({
+  title: "Log In",
+  meta: [
+    {
+      name: "description",
+      content: "Log in to your account",
+    },
+  ],
+});
+useSeoMeta({
+  title: "Log In",
+  description: "Log in to your account",
+  ogDescription: "Log in to your account",
+  ogTitle: "Log In",
+})
 definePageMeta({
   layout: "auth",
 });
