@@ -42,6 +42,22 @@
 </template>
 
 <script setup lang="ts">
+useHead({
+  title: "Home",
+  meta: [
+    {
+      name: "description",
+      content: "Welcome to our meal AI analyzing platform.",
+    },
+  ],
+});
+useSeoMeta({
+  title: "Home",
+  description: "Welcome to our meal AI analyzing platform.",
+  ogDescription: "Welcome to our meal AI analyzing platform.",
+  ogTitle: "Home",
+  ogImage: "/images/nutri-lens.png",
+});
 definePageMeta({
   layout: "landing",
 });

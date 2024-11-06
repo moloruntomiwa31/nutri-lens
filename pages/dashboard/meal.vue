@@ -144,6 +144,25 @@
 </template>
 
 <script setup lang="ts">
+useHead({
+  title: "Meal Analyzer",
+  meta: [
+    {
+      name: "description",
+      content:
+        "Analyze your meal and get nutrition information using NutriLens AI.",
+    },
+  ],
+});
+useSeoMeta({
+  title: "Meal Analyzer",
+  description:
+    "Analyze your meal and get nutrition information using NutriLens AI.",
+  ogDescription:
+    "Analyze your meal and get nutrition information using NutriLens AI.",
+  ogTitle: "Meal Analyzer",
+  ogImage: "/images/nutri-lens.png",
+});
 definePageMeta({
   layout: "dashboard",
 });

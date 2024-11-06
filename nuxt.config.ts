@@ -9,8 +9,20 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+  app: {
+    head: {
+      title: "Nutri-Lens",
+      link: [
+        {
+          rel: "icon",
+          type: "image/svg+xml",
+          href: "/icon.svg",
+        },
+      ],
+    },
+  },
   modules: ["@nuxt/icon", "@nuxt/image"],
   runtimeConfig: {
-    apiSecret: process.env.NUXT_API_SECRET
+    apiSecret: process.env.NUXT_API_SECRET,
   },
 });
