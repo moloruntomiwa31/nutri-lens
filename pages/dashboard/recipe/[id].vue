@@ -109,6 +109,22 @@
 </template>
 
 <script setup lang="ts">
+useHead({
+  title: "Recipe || Tasty Fried Chicken",
+  meta: [
+    {
+      name: "description",
+      content: "Discover healthy recipes and meal plans",
+    },
+  ],
+});
+useSeoMeta({
+  title: "Recipe || Tasty Fried Chicken",
+  description: "Discover healthy recipes and meal plans",
+  ogDescription: "Discover healthy recipes and meal plans",
+  ogTitle: "Recipe || Tasty Fried Chicken",
+  ogImage: "/images/nutri-lens.png",
+})
 enum RecipeDifficulty {
   Easy = "Easy",
   Medium = "Medium",

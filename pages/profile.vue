@@ -78,6 +78,22 @@
 </template>
 
 <script setup lang="ts">
+useHead({
+  title: "Settings",
+  meta: [
+    {
+      name: "description",
+      content: "Update your profile and plans.",
+    },
+  ],
+});
+useSeoMeta({
+  title: "Settings",
+  description: "Update your profile and plans.",
+  ogDescription: "Update your profile and plans.",
+  ogTitle: "Settings",
+  ogImage: "/images/nutri-lens.png",
+});
 definePageMeta({
   layout: "dashboard",
 });

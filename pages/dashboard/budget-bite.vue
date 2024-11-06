@@ -51,6 +51,21 @@
 </template>
 
 <script setup>
+useHead({
+  title: "Budget Bite",
+  meta: [
+    {
+      name: "description",
+      content: "Generating meals with our AI based on your budget.",
+    },
+  ],
+});
+useSeoMeta({
+  title: "Budget Bite",
+  description: "Generating meals with our AI based on your budget.",
+  ogDescription: "Generating meals with our AI based on your budget.",
+  ogImage: "/images/nutri-lens.png",
+});
 definePageMeta({
   layout: "dashboard",
 });

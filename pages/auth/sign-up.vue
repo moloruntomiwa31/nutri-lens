@@ -66,6 +66,21 @@
 </template>
 
 <script setup lang="ts">
+useHead({
+  title: "Sign Up",
+  meta: [
+    {
+      name: "description",
+      content: "Create an account",
+    },
+  ],
+})
+useSeoMeta({
+  title: "Sign Up",
+  description: "Create an account",
+  ogDescription: "Create an account",
+  ogTitle: "Sign Up",
+})
 import type FormData from '@/types/FormData';
 import type FormErrors from '@/types/FormErrors';
 definePageMeta({

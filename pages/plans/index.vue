@@ -100,6 +100,22 @@
 </template>
 
 <script setup lang="ts">
+useHead({
+  title: "Plans",
+  meta: [
+    {
+      name: "description",
+      content: "Setting up your onboarding personalised plans.",
+    },
+  ],
+});
+useSeoMeta({
+  title: "Plans",
+  description: "Setting up your onboarding personalised plans.",
+  ogDescription: "Setting up your onboarding personalised plans.",
+  ogTitle: "Plans",
+  ogImage: "/images/nutri-lens.png",
+});
 const { factory, errors, generateRecipes, loading } = useGenerateRecipes();
 </script>
 
