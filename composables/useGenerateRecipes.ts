@@ -1,5 +1,6 @@
 import type UserHealth from "~/types/UserHealth";
 import type RecipeResponse from "~/types/RecipeResponse";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
 const store = ref({
   recipes: [] as RecipeResponse[],
@@ -13,25 +14,22 @@ const store = ref({
     disease: "",
   } as UserHealth,
 });
+
 export default function useGenerateRecipes() {
   const router = useRouter();
-
+  const db = useFirestore();
+  const { user, updatePlansCompletion } = useAuth();
   const { isMinimumLength } = useValidators();
 
   const errors = computed(() => {
     const weightError = isMinimumLength(store.value.factory.weight);
     const heightError = isMinimumLength(store.value.factory.height);
     const ageError = isMinimumLength(store.value.factory.age);
-    const diseaseError = isMinimumLength(
-      store.value.factory.disease as string,
-      6
-    );
 
     return {
       weight: weightError,
       height: heightError,
       age: ageError,
-      disease: diseaseError,
     };
   });
 
@@ -41,6 +39,81 @@ export default function useGenerateRecipes() {
 
   const loading = ref(false);
   const error = ref<string | null>(null);
+
+  // Save health data to Firestore
+  const saveHealthData = async (recipes: RecipeResponse[]) => {
+    if (!user?.uid) {
+      throw new Error("No authenticated user found");
+    }
+
+    try {
+      const userHealthRef = doc(db, "users", user.uid);
+
+      await setDoc(
+        userHealthRef,
+        {
+          health: {
+            ...store.value.factory,
+            updatedAt: new Date(),
+          },
+          recipes: recipes,
+          updatedAt: new Date(),
+        },
+        { merge: true }
+      );
+
+      // Update plans completion status
+      await updatePlansCompletion(true);
+    } catch (error) {
+      console.error("Error saving health data:", error);
+      throw error;
+    }
+  };
+
+  // Update the fetchHealthData function
+  const fetchHealthData = async () => {
+    if (!user?.uid) return false;
+
+    loading.value = true;
+    error.value = null;
+
+    try {
+      const userHealthRef = doc(db, "users", user.uid);
+      const userDoc = await getDoc(userHealthRef);
+
+      if (userDoc.exists() && userDoc.data().health) {
+        const healthData = userDoc.data().health;
+        store.value.factory = {
+          ...store.value.factory, // Keep default values as fallback
+          ...healthData, // Override with stored values
+        };
+
+        if (userDoc.data().recipes) {
+          store.value.recipes = userDoc.data().recipes;
+        }
+        return true;
+      }
+      return false;
+    } catch (err) {
+      console.error("Error fetching health data:", err);
+      error.value =
+        err instanceof Error ? err.message : "Failed to fetch health data";
+      return false;
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  // Update the onMounted hook
+  onMounted(async () => {
+    console.log("Fetching health data...");
+    const success = await fetchHealthData();
+    if (success) {
+      console.log("Health data loaded successfully");
+    } else {
+      console.log("No health data found or error occurred");
+    }
+  });
 
   watch(
     () => store.value.factory.weightUnit,
@@ -79,9 +152,9 @@ export default function useGenerateRecipes() {
     error.value = null;
 
     try {
-      if (hasErrors.value) {
-        throw new Error("Please fix all validation errors before submitting");
-      }
+      // if (hasErrors.value) {
+      //   throw new Error("Please fix all validation errors before submitting");
+      // }
 
       const res = await $fetch<RecipeResponse>("/api/generate-recipes", {
         method: "POST",
@@ -89,7 +162,10 @@ export default function useGenerateRecipes() {
       });
 
       store.value.recipes.push(res);
-      console.log(store.value.recipes);
+
+      // Save health data and recipes to Firestore
+      await saveHealthData(store.value.recipes);
+
       router.push("/dashboard/");
     } catch (err) {
       console.error("Recipe generation error:", err);
@@ -107,5 +183,6 @@ export default function useGenerateRecipes() {
     error,
     generateRecipes,
     recipes: store.value.recipes,
+    fetchHealthData, // Exposed in case you need to refresh data manually
   };
 }

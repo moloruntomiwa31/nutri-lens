@@ -4,7 +4,7 @@
       class="flex flex-col gap-4 min-h-full w-full justify-center items-center"
     >
       <h1 class="text-2xl font-bold">Customize your plan</h1>
-      <form class="w-4/5 grid gap-6" @submit.prevent="generateRecipes">
+      <form class="w-4/5 grid gap-6">
         <div>
           <label for="weight">Weight</label>
           <div class="flex items-center">
@@ -63,9 +63,10 @@
         </div>
         <div class="w-full">
           <BaseButton
-            type="submit"
             customClass="!bg-secondaryGreen w-full rounded-lg"
             :loading
+            :disabled="loading"
+            @click="generateRecipes"
             >Let's Go</BaseButton
           >
         </div>

@@ -32,9 +32,13 @@
             </BaseFileInput>
           </div>
           <div class="grow space-y-8">
-            <BaseInput placeholder="First-Name" />
-            <BaseInput placeholder="Last-name" />
-            <BaseInput type="email" placeholder="Email Address" />
+            <BaseInput placeholder="First-Name" v-model="firstName" />
+            <BaseInput placeholder="Last-name" v-model="lastName" />
+            <BaseInput
+              type="email"
+              placeholder="Email Address"
+              v-model="emailAddress"
+            />
             <div class="flex justify-end">
               <BaseButton customClass="rounded-lg">Save</BaseButton>
             </div>
@@ -47,22 +51,28 @@
               <div class="bg-lightGray p-2 rounded-lg shadow">
                 <label for="weight">Weight</label>
                 <div class="flex items-center">
-                  <BaseInput type="number" placeholder="60" />
-                  <BaseSelect :options="['kg', 'g']" placeholder="kg" />
+                  <BaseInput type="number" placeholder="60" v-model="weight" />
+                  <BaseSelect
+                    :options="['kg', 'g']"
+                    :placeholder="weightUnit"
+                  />
                 </div>
               </div>
               <div class="bg-lightGray p-2 rounded-lg shadow">
                 <label for="height">Height</label>
                 <div class="flex items-center">
-                  <BaseInput type="number" placeholder="170" />
-                  <BaseSelect :options="['cm', 'm']" placeholder="cm" />
+                  <BaseInput type="number" placeholder="170" v-model="height" />
+                  <BaseSelect
+                    :options="['cm', 'm']"
+                    :placeholder="heightUnit"
+                  />
                 </div>
               </div>
             </div>
             <div class="grid md:grid-cols-2 gap-4">
               <div class="bg-lightGray p-2 rounded-lg shadow">
                 <label for="age">Age</label>
-                <BaseInput type="number" placeholder="30" />
+                <BaseInput type="number" placeholder="30" v-model="age" />
               </div>
               <div class="w-full flex items-end justify-center">
                 <BaseButton type="submit" customClass="w-full rounded-lg"
@@ -83,5 +93,14 @@ definePageMeta({
 });
 const { isDesktopScreen } = useScreenObserver();
 const { factory } = useGenerateRecipes();
+const { user } = useAuth();
+const weight = computed(() => factory.weight);
+const height = computed(() => factory.height);
+const age = computed(() => factory.age);
+const weightUnit = computed(() => factory.weightUnit);
+const heightUnit = computed(() => factory.heightUnit);
+const firstName = user?.displayName?.split(" ")[0] || "";
+const lastName = user?.displayName?.split(" ").slice(1).join(" ") || "";
+const emailAddress = user?.email || "";
 const { uploadImage, avatarImageUrl } = useProfile();
 </script>

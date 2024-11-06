@@ -32,6 +32,31 @@ export const useAuth = () => {
   const db = useFirestore();
   const { addToast } = useToast();
 
+  const createSession = async (user: User) => {
+    try {
+      // Get a fresh token
+      const token = await user.getIdToken(true);
+
+      // Create session
+      const response = await $fetch("/api/auth/session", {
+        method: "POST",
+        body: { token },
+      });
+
+      if (response.status !== "success") {
+        throw new Error("Failed to create session");
+      }
+
+      // Update store
+      store.value.token = token;
+      store.value.isAuthenticated = true;
+    } catch (error) {
+      console.error("Error setting auth cookie:", error);
+      addToast("Error creating session. Please try again.", "error");
+      throw error;
+    }
+  };
+
   // Helper function to create/update user document in Firestore
   const saveUserToFirestore = async (
     uid: string,
@@ -90,9 +115,13 @@ export const useAuth = () => {
           hasCompletedPlans: false,
         });
 
+        // Create session
+        // await createSession(result.user);
         await fetchUserData(result.user.uid);
         addToast("Logged in successfully", "success");
-        router.push("/plans");
+        router.push(
+          store.value.userData?.hasCompletedPlans ? "/dashboard" : "/plans"
+        );
       } catch (error) {
         addToast("Error signing in with Google", "error");
       }
@@ -124,6 +153,8 @@ export const useAuth = () => {
         hasCompletedPlans: false,
       });
 
+      // Create session
+      await createSession(userCredential.user);
       await fetchUserData(userCredential.user.uid);
       addToast("Account created successfully", "success");
       router.push("/plans");
@@ -149,17 +180,17 @@ export const useAuth = () => {
       store.value.isAuthenticated = true;
       store.value.token = await getIdToken(userCredential.user);
 
+      // Create session
+      await createSession(userCredential.user);
       // Fetch user data from Firestore
       await fetchUserData(userCredential.user.uid);
 
       addToast("Logged in successfully", "success");
 
       // Redirect based on plans completion
-      if (store.value.userData?.hasCompletedPlans) {
-        router.push("/dashboard");
-      } else {
-        router.push("/plans");
-      }
+      router.push(
+        store.value.userData?.hasCompletedPlans ? "/dashboard" : "/plans"
+      );
     } catch (error) {
       addToast("Invalid email or password", "error");
     }
@@ -194,8 +225,10 @@ export const useAuth = () => {
       store.value.isAuthenticated = false;
       store.value.token = null;
       store.value.userData = null;
+      // Clear session
+      await $fetch("/api/auth/logout", { method: "POST" });
       addToast("Logged out successfully", "success");
-      router.push("/");
+      router.push("/auth/login");
     } catch (error) {
       addToast("Error logging out", "error");
     }

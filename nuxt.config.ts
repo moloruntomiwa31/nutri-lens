@@ -22,8 +22,16 @@ export default defineNuxtConfig({
       messagingSenderId: process.env.NUXT_FIREBASE_SENDER_ID,
       appId: process.env.NUXT_FIREBASE_APP_ID,
     },
+    admin: {
+      serviceAccount: process.env.NUXT_GOOGLE_APPLICATION_CREDENTIALS
+    }
   },
   runtimeConfig: {
     apiSecret: process.env.NUXT_API_SECRET,
+  },
+  nitro: {
+    routeRules: {
+      '/api/**': { cors: true },
+    },
   },
 });
