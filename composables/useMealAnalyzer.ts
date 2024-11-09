@@ -23,7 +23,6 @@ export default function useMealAnalyzer() {
   const isLoading = ref(false);
   const error = ref<string | null>(null);
   const result = ref<MealAnalysisResult | null>(null);
-  const { addToast } = useToast();
 
   const steps = ref<AnalyzerStep[]>([
     { id: 1, name: "Upload", detail: "upload", done: false },
@@ -97,13 +96,10 @@ export default function useMealAnalyzer() {
       }
 
       result.value = response.response as MealAnalysisResult;
-      addToast("Analysis completed", "success");
       steps.value[0].done = true;
       setCurrentStep(steps.value[1]);
       steps.value[1].done = true;
     } catch (err: any) {
-      console.error("Analysis failed:", err);
-
       error.value = "Failed to analyze the image. Please try again.";
       result.value = null;
       steps.value[0].done = false;

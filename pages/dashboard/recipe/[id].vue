@@ -125,21 +125,20 @@ useSeoMeta({
   ogTitle: "Recipe || Tasty Fried Chicken",
   ogImage: "/images/nutri-lens.png",
 })
+definePageMeta({
+  layout: "dashboard",
+});
+
 enum RecipeDifficulty {
   Easy = "Easy",
   Medium = "Medium",
   Hard = "Hard",
 }
-
 const difficultyEmojis = {
   [RecipeDifficulty.Easy]: "😋",
   [RecipeDifficulty.Medium]: "😅",
   [RecipeDifficulty.Hard]: "😰",
 };
-
-definePageMeta({
-  layout: "dashboard",
-});
 </script>
 
 <style scoped></style>

@@ -75,7 +75,9 @@
                 <BaseInput type="number" placeholder="30" v-model="age" />
               </div>
               <div class="w-full flex items-end justify-center">
-                <BaseButton type="submit" customClass="w-full rounded-lg"
+                <BaseButton
+                  @click="generateRecipes"
+                  customClass="w-full rounded-lg"
                   >Save</BaseButton
                 >
               </div>
@@ -107,8 +109,9 @@ useSeoMeta({
 definePageMeta({
   layout: "dashboard",
 });
+
 const { isDesktopScreen } = useScreenObserver();
-const { factory } = useGenerateRecipes();
+const { factory, generateRecipes } = useGenerateRecipes();
 const { user } = useAuth();
 const weight = computed(() => factory.weight);
 const height = computed(() => factory.height);

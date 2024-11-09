@@ -32,30 +32,30 @@ export const useAuth = () => {
   const db = useFirestore();
   const { addToast } = useToast();
 
-  const createSession = async (user: User) => {
-    try {
-      // Get a fresh token
-      const token = await user.getIdToken(true);
+  // const createSession = async (user: User) => {
+  //   try {
+  //     // Get a fresh token
+  //     const token = await user.getIdToken(true);
 
-      // Create session
-      const response = await $fetch("/api/auth/session", {
-        method: "POST",
-        body: { token },
-      });
+  //     // Create session
+  //     const response = await $fetch("/api/auth/session", {
+  //       method: "POST",
+  //       body: { token },
+  //     });
 
-      if (response.status !== "success") {
-        throw new Error("Failed to create session");
-      }
+  //     if (response.status !== "success") {
+  //       throw new Error("Failed to create session");
+  //     }
 
-      // Update store
-      store.value.token = token;
-      store.value.isAuthenticated = true;
-    } catch (error) {
-      console.error("Error setting auth cookie:", error);
-      addToast("Error creating session. Please try again.", "error");
-      throw error;
-    }
-  };
+  //     // Update store
+  //     store.value.token = token;
+  //     store.value.isAuthenticated = true;
+  //   } catch (error) {
+  //     console.error("Error setting auth cookie:", error);
+  //     addToast("Error creating session. Please try again.", "error");
+  //     throw error;
+  //   }
+  // };
 
   // Helper function to create/update user document in Firestore
   const saveUserToFirestore = async (
@@ -154,7 +154,7 @@ export const useAuth = () => {
       });
 
       // Create session
-      await createSession(userCredential.user);
+      // await createSession(userCredential.user);
       await fetchUserData(userCredential.user.uid);
       addToast("Account created successfully", "success");
       router.push("/plans");
@@ -181,7 +181,7 @@ export const useAuth = () => {
       store.value.token = await getIdToken(userCredential.user);
 
       // Create session
-      await createSession(userCredential.user);
+      // await createSession(userCredential.user);
       // Fetch user data from Firestore
       await fetchUserData(userCredential.user.uid);
 

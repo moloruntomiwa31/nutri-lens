@@ -67,6 +67,7 @@ useSeoMeta({
 definePageMeta({
   layout: "dashboard",
 });
+
 const { recipes } = useGenerateRecipes();
 </script>
 

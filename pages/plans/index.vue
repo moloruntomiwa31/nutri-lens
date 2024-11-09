@@ -117,6 +117,7 @@ useSeoMeta({
   ogTitle: "Plans",
   ogImage: "/images/nutri-lens.png",
 });
+
 const { factory, errors, generateRecipes, loading } = useGenerateRecipes();
 </script>
 

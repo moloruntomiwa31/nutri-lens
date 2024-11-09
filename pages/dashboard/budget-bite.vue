@@ -69,5 +69,6 @@ useSeoMeta({
 definePageMeta({
   layout: "dashboard",
 });
+
 const { mealBudget, errors, generateMeals } = useBudgetBite();
 </script>
