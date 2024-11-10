@@ -11,6 +11,7 @@ const store = ref({
     heightUnit: "cm",
     age: "",
     disease: "",
+    gender: "",
   } as UserHealth,
 });
 export default function useGenerateRecipes() {
@@ -22,10 +23,7 @@ export default function useGenerateRecipes() {
     const weightError = isMinimumLength(store.value.factory.weight);
     const heightError = isMinimumLength(store.value.factory.height);
     const ageError = isMinimumLength(store.value.factory.age);
-    const diseaseError = isMinimumLength(
-      store.value.factory.disease as string,
-      6
-    );
+    const diseaseError = isMinimumLength(store.value.factory.disease, 6);
 
     return {
       weight: weightError,
@@ -89,12 +87,10 @@ export default function useGenerateRecipes() {
       });
 
       store.value.recipes.push(res);
-      console.log(store.value.recipes);
       router.push("/dashboard/");
     } catch (err) {
-      console.error("Recipe generation error:", err);
       error.value =
-        err instanceof Error ? err.message : "Failed to generate recipe";
+        err instanceof Error ? err.message : "Failed to generate recipes";
     } finally {
       loading.value = false;
     }

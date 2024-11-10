@@ -7,33 +7,28 @@
         <!-- content -->
         <div class="space-y-10">
           <div class="header">
-            <h2 class="font-bold text-3xl">Tasty Fried Chicken</h2>
+            <h2 class="font-bold text-3xl">{{ exactRecipe?.name }}</h2>
             <div class="space-y-2">
-              <p class="text-sm text-gray-500">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                Accusamus nam, recusandae consequuntur error saepe alias
-                provident sequi natus in omnis quod facilis totam necessitatibus
-                iste perferendis voluptatibus esse ipsum minima, ducimus rerum
-                quisquam officiis voluptatum quas pariatur? Fugit quia iste
-                quaerat quidem voluptatum cupiditate aperiam dolor aspernatur
-                eos rerum distinctio corporis at doloremque quam, esse
-                praesentium laboriosam rem accusamus voluptatem?
+              <p class="text-sm text-gray-700">
+                {{ exactRecipe?.description }}
               </p>
               <div class="info flex items-center justify-between">
                 <div>
                   <h4 class="font-semibold text-xs">Preparation Time</h4>
-                  <p class="text-gray-500">30 mins</p>
+                  <p class="text-gray-700">
+                    {{ exactRecipe?.preparationTime }}mins
+                  </p>
                 </div>
                 <div>
                   <h4 class="font-semibold text-xs">Difficulty</h4>
-                  <p class="text-gray-500 flex items-center gap-1">
-                    {{ RecipeDifficulty.Easy }}
-                    <span>{{ difficultyEmojis[RecipeDifficulty.Easy] }}</span>
+                  <p class="text-gray-700 flex items-center gap-1 capitalize">
+                    {{ exactRecipe?.difficulty }}
+                    <span>{{ difficultyEmojis[exactRecipe?.difficulty] }}</span>
                   </p>
                 </div>
                 <div>
                   <h4 class="font-semibold text-xs">Ratings</h4>
-                  <p class="text-gray-500">4/5</p>
+                  <p class="text-gray-700">{{ exactRecipe?.rating }}/5</p>
                 </div>
               </div>
             </div>
@@ -44,63 +39,59 @@
             <div class="flex items-center gap-4">
               <div>
                 <h4 class="font-semibold text-xs">Calories</h4>
-                <p class="text-gray-500 text-2xl">200</p>
+                <p class="text-gray-700 text-2xl">
+                  {{ exactRecipe?.calories }}
+                </p>
               </div>
               <div>
                 <h4 class="font-semibold text-xs">Protein</h4>
-                <p class="text-gray-500 text-2xl">200</p>
+                <p class="text-gray-700 text-2xl">{{ exactRecipe?.protein }}</p>
               </div>
               <div>
                 <h4 class="font-semibold text-xs">Fat</h4>
-                <p class="text-gray-500 text-2xl">200</p>
+                <p class="text-gray-700 text-2xl">{{ exactRecipe?.fats }}</p>
               </div>
               <div>
                 <h4 class="font-semibold text-xs">Carbs</h4>
-                <p class="text-gray-500 text-2xl">200</p>
+                <p class="text-gray-700 text-2xl">{{ exactRecipe?.carbs }}</p>
               </div>
             </div>
           </div>
           <div class="ingredients">
             <h3 class="font-bold text-xl">Ingredients</h3>
-            <ul class="list-disc pl-5">
-              <li class="mb-1">Chicken</li>
-              <li class="mb-1">Salt</li>
-              <li class="mb-1">Pepper</li>
-              <li class="mb-1">Oil</li>
-              <li class="mb-1">Flour</li>
+            <ul class="list-disc pl-5 text-gray-700">
+              <li class="mb-1" v-for="ingredient in exactRecipe?.ingredients">
+                {{ ingredient }}
+              </li>
             </ul>
           </div>
           <div class="instructions">
             <h3 class="font-bold text-xl">Instructions</h3>
-            <ol class="list-decimal pl-5">
-              <li class="mb-1">Step 1: Lorem ipsum dolor sit amet.</li>
-              <li class="mb-1">Step 2: Lorem ipsum dolor sit amet.</li>
-              <li class="mb-1">Step 3: Lorem ipsum dolor sit amet.</li>
+            <ol class="list-decimal pl-5 text-gray-700">
+              <li class="mb-1" v-for="instruction in exactRecipe?.instructions">
+                {{ instruction }}
+              </li>
             </ol>
           </div>
-          <div class="recommendations-healthBenefits">
+          <div class="recommendations-healthBenefits space-y-2" v-if="exactRecipe?.recommendation">
             <h3 class="font-bold text-xl">Recommendations</h3>
-            <p class="text-gray-500">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis
-              quod, voluptates, quae, quibusdam quia quos quidem voluptatum
-              doloribus nemo doloremque quas. Quisquam, quidem. Quisquam
-              voluptates, quidem quos quas quae.
+            <p class="text-gray-700">
+              {{ exactRecipe?.recommendation }}
             </p>
             <h3 class="font-bold text-xl">Health Benifits</h3>
-            <p class="text-gray-500">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis
-              quod, voluptates, quae, quibusdam quia quos quidem voluptatum
-              doloribus nemo doloremque quas. Quisquam, quidem. Quisquam
-              voluptates, quidem quos quas quae.
+            <p class="text-gray-700">
+              {{ exactRecipe?.healthBenefits }}
             </p>
           </div>
         </div>
         <!-- Image -->
-        <div class="">
-          <img
-            src="/public/images/auth/auth.jpg"
-            class="w-full h-64 object-cover rounded-lg shadow-lg"
-            alt="Recipe Image"
+        <div>
+          <NuxtImg
+            :src="exactRecipe?.image"
+            width="270"
+            height="400"
+            class="w-full h-64 object-cover rounded-lg shadow-sm bg-grayColor"
+            :alt="exactRecipe?.name"
           />
         </div>
       </div>
@@ -109,36 +100,45 @@
 </template>
 
 <script setup lang="ts">
+import type RecipeResponse from "~/types/RecipeResponse";
+const exactRecipe = ref<null | RecipeResponse>(null);
 useHead({
-  title: "Recipe || Tasty Fried Chicken",
+  title: exactRecipe.value?.name || "Recipe",
   meta: [
     {
       name: "description",
-      content: "Discover healthy recipes and meal plans",
+      content:
+        exactRecipe.value?.description ||
+        "Discover healthy recipes and meal plans",
     },
   ],
 });
 useSeoMeta({
-  title: "Recipe || Tasty Fried Chicken",
-  description: "Discover healthy recipes and meal plans",
-  ogDescription: "Discover healthy recipes and meal plans",
-  ogTitle: "Recipe || Tasty Fried Chicken",
-  ogImage: "/images/nutri-lens.png",
-})
-enum RecipeDifficulty {
-  Easy = "Easy",
-  Medium = "Medium",
-  Hard = "Hard",
-}
+  title: exactRecipe.value?.name || "Recipe",
+  description:
+    exactRecipe.value?.description || "Discover healthy recipes and meal plans",
+  ogDescription:
+    exactRecipe.value?.description || "Discover healthy recipes and meal plans",
+  ogTitle: exactRecipe.value?.name || "Recipe",
+  ogImage: exactRecipe.value?.image || "",
+});
 
 const difficultyEmojis = {
-  [RecipeDifficulty.Easy]: "😋",
-  [RecipeDifficulty.Medium]: "😅",
-  [RecipeDifficulty.Hard]: "😰",
+  easy: "😋",
+  medium: "😅",
+  hard: "😰",
 };
 
 definePageMeta({
   layout: "dashboard",
+});
+
+const { recipes } = useGenerateRecipes();
+const route = useRoute();
+onMounted(() => {
+  exactRecipe.value = recipes.find(
+    (recipe) => recipe.id == Number(route.params.id)
+  ) as RecipeResponse | null;
 });
 </script>
 
