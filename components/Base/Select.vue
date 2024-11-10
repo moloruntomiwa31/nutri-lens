@@ -1,11 +1,12 @@
 <template>
-  <div class="relative mx-2">
+  <div class="relative mx-2" :class="[customClass]">
     <div
       @click="open = !open"
-      class="cursor-pointer bg-lightGray w-fit p-2 rounded-lg flex items-center border border-primaryGreen shadow shadow-primaryGreen group-focus-within:border-primaryGreen"
+      class="cursor-pointer bg-lightGray min-w-full p-2 rounded-lg flex items-center border border-primaryGreen shadow shadow-primaryGreen group-focus-within:border-primaryGreen"
     >
       <span class="font-bold">{{ selectedOption || placeholder }}</span>
       <Icon
+        v-if="showArrow"
         name="stash:arrow-up-duotone"
         class="duration-100 transition font-bold"
         :class="{ 'rotate-180': open }"
@@ -14,7 +15,7 @@
       <Transition name="dropdown">
         <div
           v-show="open"
-          class="absolute z-10 top-10 bg-white w-[100px] rounded-lg"
+          class="absolute z-10 top-10 bg-white shadow w-full rounded-lg"
         >
           <div
             v-for="option in options"
@@ -31,9 +32,16 @@
 </template>
 
 <script setup lang="ts">
-const { options = [], placeholder = "" } = defineProps<{
+const {
+  options = [],
+  placeholder = "",
+  customClass = "",
+  showArrow = true
+} = defineProps<{
   options: string[];
   placeholder: string;
+  customClass?: string;
+  showArrow?: boolean;
 }>();
 
 const selectedOption = defineModel<string>("modelValue");

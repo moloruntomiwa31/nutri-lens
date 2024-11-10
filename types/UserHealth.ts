@@ -4,5 +4,6 @@ export default interface UserHealth {
     height: string | number;
     heightUnit: "cm" | "m";
     age: string | number;
-    disease?: string;
+    disease: string;
+    gender: string;
 }

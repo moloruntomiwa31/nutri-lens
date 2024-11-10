@@ -14,4 +14,5 @@ export default interface RecipeResponse {
   instructions?: string[];
   rating?: string;
   difficulty?: string;
+  description?: string;
 }

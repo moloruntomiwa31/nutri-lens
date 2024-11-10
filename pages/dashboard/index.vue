@@ -56,19 +56,20 @@ useHead({
       content: "Discover healthy recipes and meal plans",
     },
   ],
-})
+});
 useSeoMeta({
   title: "Dashboard",
   description: "Discover healthy recipes and meal plans",
   ogDescription: "Discover healthy recipes and meal plans",
   ogTitle: "Dashboard",
   ogImage: "/images/nutri-lens.png",
-})
+});
 definePageMeta({
   layout: "dashboard",
 });
 
 const { recipes } = useGenerateRecipes();
+const router = useRouter();
 </script>
 
 <style scoped>

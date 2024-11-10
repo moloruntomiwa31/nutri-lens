@@ -1,7 +1,7 @@
 <template>
-  <div class="w-full h-screen flex justify-between items-center" id="plans">
+  <div class="w-full min-h-screen flex justify-between items-center" id="plans">
     <div
-      class="flex flex-col gap-4 min-h-full w-full justify-center items-center"
+      class="flex flex-col gap-1 min-h-full w-full justify-center items-center"
     >
       <h1 class="text-2xl font-bold">Customize your plan</h1>
       <form class="w-4/5 grid gap-6">
@@ -47,6 +47,16 @@
           />
         </div>
         <div>
+          <label for="age">Gender</label>
+          <BaseSelect
+            customClass="!mx-0"
+            :options="['Male', 'Female', 'Others']"
+            placeholder="Male"
+            v-model="factory.gender"
+            :showArrow="false"
+          />
+        </div>
+        <div>
           <label for="disease"
             >Do you suffer from any diseases & allergies?</label
           >
@@ -59,7 +69,15 @@
               placeholder="Mention all chronic diseases and foods you are allergic to"
               v-model="factory.disease"
             ></textarea>
+            <p class="text-primaryRed text-sm" v-if="factory.disease">
+              {{ errors.disease }}
+            </p>
           </div>
+        </div>
+        <div v-if="error" class="transition duration-150">
+          <p class="text-primaryRed text-sm">
+            {{ error }}
+          </p>
         </div>
         <div class="w-full">
           <BaseButton
@@ -117,8 +135,8 @@ useSeoMeta({
   ogTitle: "Plans",
   ogImage: "/images/nutri-lens.png",
 });
-
-const { factory, errors, generateRecipes, loading } = useGenerateRecipes();
+const { factory, errors, generateRecipes, loading, error } =
+  useGenerateRecipes();
 </script>
 
 <style scoped>

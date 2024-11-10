@@ -11,7 +11,6 @@
         height="400"
         class="w-full h-full object-cover"
         loading="lazy"
-        @error="handleImageError"
       />
       <div
         v-else
@@ -45,13 +44,9 @@
 <script setup lang="ts">
 import type RecipeResponse from "~/types/RecipeResponse";
 const router = useRouter();
-const props = defineProps<{
+defineProps<{
   recipe: RecipeResponse;
 }>();
-
-const handleImageError = () => {
-  console.warn(`Failed to load image for recipe: ${props.recipe.name}`);
-};
 </script>
 
 <style scoped>

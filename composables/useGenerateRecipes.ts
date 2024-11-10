@@ -12,6 +12,7 @@ const store = ref({
     heightUnit: "cm",
     age: "",
     disease: "",
+    gender: "",
   } as UserHealth,
 });
 
@@ -25,11 +26,13 @@ export default function useGenerateRecipes() {
     const weightError = isMinimumLength(store.value.factory.weight);
     const heightError = isMinimumLength(store.value.factory.height);
     const ageError = isMinimumLength(store.value.factory.age);
+    const diseaseError = isMinimumLength(store.value.factory.disease, 6);
 
     return {
       weight: weightError,
       height: heightError,
       age: ageError,
+      disease: diseaseError,
     };
   });
 
@@ -153,9 +156,9 @@ export default function useGenerateRecipes() {
     error.value = null;
 
     try {
-      // if (hasErrors.value) {
-      //   throw new Error("Please fix all validation errors before submitting");
-      // }
+      if (hasErrors.value) {
+        throw new Error("Please fix all validation errors before submitting");
+      }
 
       const res = await $fetch<RecipeResponse>("/api/generate-recipes", {
         method: "POST",
@@ -169,9 +172,8 @@ export default function useGenerateRecipes() {
 
       router.push("/dashboard/");
     } catch (err) {
-      console.error("Recipe generation error:", err);
       error.value =
-        err instanceof Error ? err.message : "Failed to generate recipe";
+        err instanceof Error ? err.message : "Failed to generate recipes";
     } finally {
       loading.value = false;
     }
