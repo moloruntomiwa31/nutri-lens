@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col min-h-full w-full justify-center items-center">
-    <h1 class="text-2xl font-bold">Create Account</h1>
+    <BaseHeading as="h1" size="2xl" weight="bold">Create Account</BaseHeading>
     <fieldset class="w-4/5 grid gap-6">
       <BaseButton
         color="transparent"
@@ -9,12 +9,13 @@
         @click="signInWithGoogle"
       >
         <Icon name="flat-color-icons:google" />
-        <span> Continue with Google </span></BaseButton
+        <BaseText as="span"> Continue with Google </BaseText></BaseButton
       >
       <div class="bg-transparent border border-lightGray w-full relative my-1">
-        <span
+        <BaseText
+          as="span"
           class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 bg-lightGray p-2 rounded-md text-sm"
-          >or with</span
+          >or with</BaseText
         >
       </div>
       <div class="grid grid-cols-2 gap-3">
@@ -27,7 +28,7 @@
           />
         </div>
         <div>
-          <label for="last-name">Last Name</label>
+          <BaseText as="label" weight="medium">Last Name</BaseText>
           <BaseInput
             placeholder="Doe"
             v-model="factory.last_name"
@@ -36,7 +37,7 @@
         </div>
       </div>
       <div>
-        <label for="email">Email</label>
+        <BaseText as="label" weight="medium">Email</BaseText>
         <BaseInput
           type="email"
           placeholder="james_hall@gmail.com"
@@ -45,7 +46,7 @@
         />
       </div>
       <div>
-        <label for="password">Password</label>
+        <BaseText as="label" weight="medium">Password</BaseText>
         <BaseInput
           type="password"
           placeholder="****************"
@@ -54,7 +55,7 @@
         />
       </div>
       <div>
-        <label for="confirm-password">Confirm Password</label>
+        <BaseText as="label" weight="medium">Confirm Password</BaseText>
         <BaseInput
           type="password"
           placeholder="****************"
@@ -73,10 +74,10 @@
         </BaseButton>
       </div>
     </fieldset>
-    <p class="font-semibold mt-6">
+    <BaseText class="mt-6" weight="semibold">
       Already have an account?
       <NuxtLink to="/auth/login" class="text-secondaryGreen">Login</NuxtLink>
-    </p>
+    </BaseText>
   </div>
 </template>
 
@@ -97,7 +98,7 @@ useSeoMeta({
   description: "Create an account",
   ogDescription: "Create an account",
   ogTitle: "Sign Up",
-})
+});
 definePageMeta({
   layout: "auth",
 });

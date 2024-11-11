@@ -83,6 +83,20 @@ const components = [
       () => import("@/components/Landing/Track.vue")
     ),
   },
+  {
+    name: "analyze",
+    title: "Analyze Meal",
+    component: defineAsyncComponent(
+      () => import("@/components/Landing/Analyze.vue")
+    ),
+  },
+  {
+    name: "budget",
+    title: "Budget",
+    component: defineAsyncComponent(
+      () => import("@/components/Landing/Budget.vue")
+    ),
+  },
 ];
 const currentIndex = ref(0);
 const currentComponent = computed(

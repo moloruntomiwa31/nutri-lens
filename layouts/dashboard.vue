@@ -10,24 +10,29 @@
             size="28"
             class="text-secondaryGreen shadow"
         /></ClientOnly>
-        <h1 class="text-2xl font-bold text-secondaryGreen">Nutri-Lens</h1>
+        <BaseHeading size="2xl" as="h3" customClass="text-secondaryGreen"
+          >Nutri-Lens</BaseHeading
+        >
       </NuxtLink>
 
       <div class="flex items-center gap-4">
         <!-- Desktop Gretting -->
         <div class="hidden sm:flex flex-col items-end mr-4">
-          <span class="text-sm text-gray-500">Good {{ timeOfDay }}</span>
-          <span class="font-semibold text-base">{{ userName }}</span>
+          <BaseText as="span" customClass="text-gray-500" size="sm"
+            >Good {{ timeOfDay }}</BaseText
+          >
+          <BaseText as="span" weight="semibold">{{ userName }}</BaseText>
         </div>
 
         <!-- Notification and Profile -->
         <div class="flex items-center gap-4">
           <div class="relative cursor-pointer" @click="openModal">
             <Icon name="iconamoon:notification-bold" size="30" class="shadow" />
-            <span
+            <BaseText
+              as="span"
               v-if="false"
-              class="w-3 h-3 rounded-full bg-primaryRed absolute top-0 right-1"
-            ></span>
+              customClass="w-3 h-3 rounded-full bg-primaryRed absolute top-0 right-1"
+            ></BaseText>
           </div>
           <Avatar customClass="p-1">
             <AvatarImage
@@ -54,8 +59,10 @@
       class="flex justify-between items-center sm:hidden px-5 py-2 bg-gray-50 !text-sm"
     >
       <div>
-        <span class="text-slate-500">Good {{ timeOfDay }}, </span>
-        <span class="font-semibold">{{ userName }}</span>
+        <BaseText as="span" customClass="text-slate-500"
+          >Good {{ timeOfDay }},
+        </BaseText>
+        <BaseText as="span" weight="semibold">{{ userName }}</BaseText>
       </div>
       <BaseButton
         color="red"
@@ -80,7 +87,7 @@
 const { isDesktopScreen } = useScreenObserver();
 const { avatarImageUrl } = useProfile();
 const { logOut } = useAuth();
-const {user} = useAuth();
+const { user } = useAuth();
 const width = computed(() =>
   isDesktopScreen.value ? "calc(100% - 256px)" : "100%"
 );

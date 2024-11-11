@@ -3,10 +3,10 @@
     <div
       class="flex flex-col gap-1 min-h-full w-full justify-center items-center"
     >
-      <h1 class="text-2xl font-bold">Customize your plan</h1>
+      <BaseHeading as="h1" size="2xl">Customize your plan</BaseHeading>
       <form class="w-4/5 grid gap-6">
         <div>
-          <label for="weight">Weight</label>
+          <BaseText as="label" weight="medium">Weight</BaseText>
           <div class="flex items-center">
             <BaseInput
               type="number"
@@ -22,7 +22,7 @@
           </div>
         </div>
         <div>
-          <label for="height">Height</label>
+          <BaseText as="label" weight="medium">Height</BaseText>
           <div class="flex items-center">
             <BaseInput
               type="number"
@@ -38,7 +38,7 @@
           </div>
         </div>
         <div>
-          <label for="age">Age</label>
+          <BaseText as="label" weight="medium">Age</BaseText>
           <BaseInput
             type="number"
             placeholder="30"
@@ -47,7 +47,7 @@
           />
         </div>
         <div>
-          <label for="age">Gender</label>
+          <BaseText as="label" weight="medium">Gender</BaseText>
           <BaseSelect
             customClass="!mx-0"
             :options="['Male', 'Female', 'Others']"
@@ -57,8 +57,8 @@
           />
         </div>
         <div>
-          <label for="disease"
-            >Do you suffer from any diseases & allergies?</label
+          <BaseText as="label" weight="medium"
+            >Do you suffer from any diseases & allergies?</BaseText
           >
           <div>
             <textarea
@@ -69,15 +69,19 @@
               placeholder="Mention all chronic diseases and foods you are allergic to"
               v-model="factory.disease"
             ></textarea>
-            <p class="text-primaryRed text-sm" v-if="factory.disease">
+            <BaseText
+              customClass="text-primaryRed"
+              size="sm"
+              v-if="factory.disease"
+            >
               {{ errors.disease }}
-            </p>
+            </BaseText>
           </div>
         </div>
         <div v-if="error" class="transition duration-150">
-          <p class="text-primaryRed text-sm">
+          <BaseText customClass="text-primaryRed" size="sm">
             {{ error }}
-          </p>
+          </BaseText>
         </div>
         <div class="w-full">
           <BaseButton

@@ -4,7 +4,9 @@
       @click="open = !open"
       class="cursor-pointer bg-lightGray min-w-full p-2 rounded-lg flex items-center border border-primaryGreen shadow shadow-primaryGreen group-focus-within:border-primaryGreen"
     >
-      <span class="font-bold">{{ selectedOption || placeholder }}</span>
+      <BaseText as="span" weight="bold">{{
+        selectedOption || placeholder
+      }}</BaseText>
       <Icon
         v-if="showArrow"
         name="stash:arrow-up-duotone"
@@ -23,7 +25,7 @@
             @click.stop="selectOption(option)"
             class="hover:cursor-pointer hover:bg-lightGray p-2 rounded-lg"
           >
-            <span class="ml-2">{{ option }}</span>
+            <BaseText as="span" customClass="ml-2">{{ option }}</BaseText>
           </div>
         </div>
       </Transition>
@@ -36,7 +38,7 @@ const {
   options = [],
   placeholder = "",
   customClass = "",
-  showArrow = true
+  showArrow = true,
 } = defineProps<{
   options: string[];
   placeholder: string;

@@ -32,12 +32,14 @@
       style="color: red"
       :class="type === 'password' ? 'absolute right-8' : ''"
     />
-    <span
+    <BaseText
+      as="span"
+      size="sm"
       v-if="shouldShowError"
-      class="text-primaryRed text-sm absolute -bottom-6"
+      customClass="text-primaryRed absolute -bottom-6"
     >
       {{ error }}
-    </span>
+    </BaseText>
   </div>
 </template>
 
@@ -73,7 +75,7 @@ const shouldShowError = computed(() => {
 });
 
 watch(content, (newVal) => {
-  if (!newVal && typeof newVal !== 'number') {
+  if (!newVal && typeof newVal !== "number") {
     isDirty.value = false;
     touched.value = false;
   }

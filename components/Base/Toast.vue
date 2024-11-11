@@ -33,7 +33,9 @@
             style="color: white"
           />
         </ClientOnly>
-        <p class="text-sm font-medium text-white">{{ toast.message }}</p>
+        <BaseText customClass="text-white" weight="medium" size="sm">{{
+          toast.message
+        }}</BaseText>
         <ClientOnly>
           <Icon
             name="gg:close-o"

@@ -16,18 +16,23 @@
         v-else
         class="w-full h-full bg-gray-200 flex items-center justify-center"
       >
-        <span class="text-gray-400">No image available</span>
+        <BaseText as="span" customClass="text-gray-400"
+          >No image available</BaseText
+        >
       </div>
       <div
-        class="absolute bottom-4 left-4 flex items-center bg-white bg-opacity-80 rounded-full px-4 py-2 transition-transform hover:scale-105 cursor-pointer"
+        class="absolute bottom-4 left-0.5 flex items-center bg-white bg-opacity-80 rounded-full px-4 py-2 transition-transform hover:scale-105 cursor-pointer"
         role="button"
         tabindex="0"
       >
-        <span
-          class="w-12 h-3 bg-secondaryGreen rounded-full mr-2"
+        <BaseText
+          as="span"
+          class="w-8 h-3 bg-secondaryGreen rounded-full mr-2"
           aria-hidden="true"
-        ></span>
-        <span class="text-sm font-medium">{{ recipe.name }}</span>
+        ></BaseText>
+        <BaseText as="span" weight="medium" size="xs">{{
+          recipe.name
+        }}</BaseText>
       </div>
       <div
         class="absolute top-4 right-4 bg-white bg-opacity-90 rounded-lg p-3 text-xs space-y-1"

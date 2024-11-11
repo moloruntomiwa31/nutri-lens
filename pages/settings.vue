@@ -4,7 +4,7 @@
       class="bg-grayColor rounded-lg w-4/5 md:w-[600px] lg:w-[700px] xl:w-[800px] p-6"
     >
       <div class="profile-update">
-        <h2 class="text-2xl font-bold">Profile Info</h2>
+        <BaseHeading size="2xl" weight="bold" as="h2">Profile Info</BaseHeading>
         <div
           class="flex flex-col md:flex-row items-center lg:items-start justify-center md:justify-between gap-4 py-2"
         >
@@ -12,12 +12,12 @@
             class="flex items-center justify-center w-[200px] h-[200px] bg-lightGray shadow rounded-full relative text-secondaryGreen"
           >
             <BaseFileInput accept=".jpg, .png" @update:modelValue="uploadImage">
-              <span v-if="!avatarImageUrl">
+              <BaseText as="span" v-if="!avatarImageUrl">
                 <Icon
                   name="gg:profile"
                   :size="isDesktopScreen ? '150' : '100'"
                 />
-              </span>
+              </BaseText>
               <Avatar size="5xl" v-if="avatarImageUrl">
                 <AvatarImage
                   :src="avatarImageUrl"
@@ -45,11 +45,13 @@
           </div>
         </div>
         <div class="plans-update">
-          <h2 class="text-2xl font-bold">Update Plans</h2>
+          <BaseHeading size="2xl" weight="bold" as="h2"
+            >Update Plans</BaseHeading
+          >
           <form class="w-full grid gap-6">
             <div class="grid md:grid-cols-2 gap-4">
               <div class="bg-lightGray p-2 rounded-lg shadow">
-                <label for="weight">Weight</label>
+                <BaseText as="label" weight="medium">Weight</BaseText>
                 <div class="flex items-center">
                   <BaseInput type="number" placeholder="60" v-model="weight" />
                   <BaseSelect
@@ -59,7 +61,7 @@
                 </div>
               </div>
               <div class="bg-lightGray p-2 rounded-lg shadow">
-                <label for="height">Height</label>
+                <BaseText as="label" weight="medium">Height</BaseText>
                 <div class="flex items-center">
                   <BaseInput type="number" placeholder="170" v-model="height" />
                   <BaseSelect
@@ -71,12 +73,12 @@
             </div>
             <div class="grid md:grid-cols-2 gap-4">
               <div class="bg-lightGray p-2 rounded-lg shadow">
-                <label for="age">Age</label>
+                <BaseText as="label" weight="medium">Age</BaseText>
                 <BaseInput type="number" placeholder="30" v-model="age" />
               </div>
               <div class="w-full flex items-end justify-center">
                 <BaseButton
-                  @click="generateRecipes"
+                  @click="generateRecipes(factory)"
                   customClass="w-full rounded-lg"
                   >Save</BaseButton
                 >

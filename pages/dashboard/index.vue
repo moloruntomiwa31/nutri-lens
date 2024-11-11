@@ -1,10 +1,10 @@
 <template>
   <div class="container mx-auto px-4 space-y-8 py-6">
     <section aria-labelledby="recipe-section-title" class="py-5 lg:py-0">
-      <h2 id="recipe-section-title" class="font-bold text-3xl mb-6">
+      <BaseHeading as="h2" size="3xl" customClass="mb-6">
         Healthy Recipes
         <span role="img" aria-label="delicious food emoji">😋</span>
-      </h2>
+      </BaseHeading>
 
       <div
         class="flex items-center gap-4 overflow-x-auto pb-4 snap-x snap-mandatory"
@@ -38,10 +38,10 @@
         aria-hidden="true"
       ></div>
       <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
-        <h3 id="recipe-of-day-title" class="text-3xl font-bold mb-2">
+        <BaseHeading as="h3" size="3xl" customClass="mb-2">
           Recipe of the Day
-        </h3>
-        <p class="text-lg">Discover today's culinary delight</p>
+        </BaseHeading>
+        <BaseText size="lg">Discover today's culinary delight</BaseText>
       </div>
     </section>
   </div>

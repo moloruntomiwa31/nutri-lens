@@ -12,7 +12,7 @@ const {
   size = "base",
   customClass = "",
 } = defineProps<{
-  as: Text;
+  as?: Text;
   weight?: "normal" | "medium" | "semibold" | "bold";
   size?:
     | "xs"
@@ -25,6 +25,6 @@ const {
     | "4xl"
     | "5xl"
     | "6xl";
-  customClass?: string;
+  customClass?: string | Record<string, boolean>;
 }>();
 </script>

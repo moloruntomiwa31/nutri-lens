@@ -26,13 +26,14 @@
               }"
             />
           </div>
-          <span
-            class="text-xs transition-all duration-300"
-            :class="{
+          <BaseText
+            as="span"
+            :customClass="{
+              'text-xs transition-all duration-300': true,
               'text-secondaryGreen font-bold': activeTab === index,
               'text-gray-500': activeTab !== index,
             }"
-            >{{ tab.name }}</span
+            >{{ tab.name }}</BaseText
           >
         </NuxtLink>
       </div>

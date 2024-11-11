@@ -9,11 +9,12 @@
         role="button"
         tabindex="0"
       >
-        <span
-          class="w-12 h-3 bg-primaryGreen rounded-full mr-2"
+        <BaseText
+          as="span"
+          customClass="w-12 h-3 bg-primaryGreen rounded-full mr-2"
           aria-hidden="true"
-        ></span>
-        <span class="text-sm font-medium">No recipe</span>
+        ></BaseText>
+        <BaseText as="span" weight="medium" size="sm">No recipe</BaseText>
       </div>
     </div>
   </div>

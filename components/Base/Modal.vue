@@ -9,7 +9,9 @@
           class="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-full max-w-md"
         >
           <div class="flex justify-between items-center mb-4">
-            <h3 class="text-lg font-bold">{{ title }}</h3>
+            <BaseHeading as="h3" size="lg" weight="bold">{{
+              title
+            }}</BaseHeading>
             <ClientOnly>
               <Icon
                 name="gg:close-o"
@@ -17,7 +19,7 @@
                 style="color: red"
                 class="cursor-pointer"
                 @click="closeModal"
-              />    
+              />
             </ClientOnly>
           </div>
           <slot></slot>

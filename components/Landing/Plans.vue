@@ -1,8 +1,8 @@
 <template>
   <div class="px-4 space-y-3 lg:px-12 lg:space-y-6">
-    <h1 class="text-4xl font-bold">Personalized Meal Plans</h1>
-    <p class="text-lg">
+    <BaseHeading as="h1" size="4xl">Personalized Meal Plans</BaseHeading>
+    <BaseText size="lg">
       Get meal plans tailored just for you because one size doesn't fit all
-    </p>
+    </BaseText>
   </div>
 </template>

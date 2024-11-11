@@ -7,7 +7,7 @@
         <ClientOnly>
           <Icon name="ion:nutrition" size="28" class="shadow-lg"
         /></ClientOnly>
-        <h1 class="text-2xl font-bold">Nutri-Lens</h1>
+        <BaseHeading size="2xl" as="h3">Nutri-Lens</BaseHeading>
       </div>
       <nav class="flex flex-col justify-between gap-4 p-4">
         <NuxtLink
@@ -41,7 +41,7 @@
         >
           <div class="flex items-center gap-1">
             <Icon :name="tab.icon" size="24" />
-            <span class="text-sm">{{ tab.name }}</span>
+            <BaseText as="span" size="sm">{{ tab.name }}</BaseText>
           </div></NuxtLink
         >
         <div class="py-4 px-1">
@@ -51,7 +51,8 @@
             padding="px-0 py-0"
             @click="logOut"
           >
-            <Icon name="mingcute:power-fill" /> <span>Logout</span></BaseButton
+            <Icon name="mingcute:power-fill" />
+            <BaseText as="span">Logout</BaseText></BaseButton
           >
         </div>
       </nav>

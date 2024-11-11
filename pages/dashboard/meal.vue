@@ -23,18 +23,24 @@
               ]"
               @click="setCurrentStep(step)"
             >
-              <span
-                class="w-8 h-8 rounded-full flex items-center justify-center bg-white shadow"
+              <BaseText
+                as="span"
+                customClass="w-8 h-8 rounded-full flex items-center justify-center bg-white shadow"
               >
                 <Icon size="24" name="lets-icons:check-fill" v-if="step.done" />
-                <span v-else class="font-bold">{{ index + 1 }}</span>
-              </span>
-              <span class="text-sm hidden md:block">{{ step.name }}</span>
+                <BaseText as="span" v-else weight="bold">{{
+                  index + 1
+                }}</BaseText>
+              </BaseText>
+              <BaseText as="span" customClass="hidden md:block" size="sm">{{
+                step.name
+              }}</BaseText>
             </a>
           </div>
-          <span
+          <BaseText
+            as="span"
             v-if="index < steps.length - 1"
-            class="w-20 h-0.5 bg-primaryPurple mx-2 rounded-full"
+            customClass="w-20 h-0.5 bg-primaryPurple mx-2 rounded-full"
           />
         </template>
       </div>
@@ -55,8 +61,8 @@
               class="flex flex-col items-center justify-center cursor-pointer"
               @click="fileInput?.click()"
             >
-              <span class="text-black mt-2 text-center"
-                >Click to upload image of meal</span
+              <BaseText customClass="text-black mt-2 text-center" as="span"
+                >Click to upload image of meal</BaseText
               >
             </div>
           </div>
@@ -78,7 +84,9 @@
       <!-- Results Section -->
       <template v-if="currentStep.detail === 'result' && result">
         <div class="h-4/5 overflow-y-auto">
-          <h2 class="text-xl font-bold mb-4">Analysis Results</h2>
+          <BaseHeading as="h2" weight="bold" size="xl"
+            >Analysis Result</BaseHeading
+          >
 
           <div
             class="grid w-full grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 mb-6"
@@ -88,18 +96,31 @@
               :key="key"
               class="bg-white p-4 rounded-lg shadow w-38 h-32 md:h-28 md:w-40"
             >
-              <span class="text-lg font-medium capitalize">{{ key }}</span>
-              <span class="block font-medium text-xl">{{ value }}</span>
+              <BaseText
+                as="span"
+                customClass="capitalize"
+                weight="medium"
+                size="lg"
+                >{{ key }}</BaseText
+              >
+              <BaseText
+                as="span"
+                customClass="block text-gray-700"
+                weight="medium"
+                >{{ value }}</BaseText
+              >
             </div>
           </div>
 
           <div v-if="result.ingredients" class="mb-6">
-            <h3 class="text-lg font-bold mb-2">Ingredients</h3>
+            <BaseHeading as="h3" weight="bold" size="lg"
+              >Ingredients</BaseHeading
+            >
             <ul class="list-disc pl-5">
               <li
                 v-for="ingredient in result.ingredients"
                 :key="ingredient"
-                class="mb-1"
+                class="mb-1 text-gray-700"
               >
                 {{ ingredient }}
               </li>
@@ -107,13 +128,21 @@
           </div>
 
           <div v-if="result.healthBenefits" class="mb-6">
-            <h3 class="text-lg font-bold mb-2">Health Benefits</h3>
-            <p class="text-gray-700">{{ result.healthBenefits }}</p>
+            <BaseHeading as="h3" weight="bold" size="lg"
+              >Health Benefits</BaseHeading
+            >
+            <BaseText customClass="text-gray-700">{{
+              result.healthBenefits
+            }}</BaseText>
           </div>
 
           <div v-if="result.recommendation" class="mb-6">
-            <h3 class="text-lg font-bold mb-2">Recommendation</h3>
-            <p class="text-gray-700">{{ result.recommendation }}</p>
+            <BaseHeading as="h3" weight="bold" size="lg"
+              >Recommendation</BaseHeading
+            >
+            <BaseText class="text-gray-700">{{
+              result.recommendation
+            }}</BaseText>
           </div>
         </div>
       </template>

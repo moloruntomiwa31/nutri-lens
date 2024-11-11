@@ -3,12 +3,11 @@
     <div
       class="w-4/5 md:w-[600px] lg:w-[700px] xl:w-[800px] lg:h-[500px] p-6 bg-grayColor rounded-lg"
     >
-      <h2 class="text-2xl font-bold">Budget Bite</h2>
-
+      <BaseHeading as="h2" weight="bold" size="2xl">Budget Bite</BaseHeading>
       <div class="w-full">
         <div class="flex items-center gap-4 w-full">
           <div class="md:flex-1">
-            <label> Daily Budget </label>
+            <BaseText as="label" weight="medium">Daily Budget</BaseText>
             <BaseInput
               v-model="mealBudget.amount"
               type="number"
@@ -17,7 +16,7 @@
             />
           </div>
           <div class="w-32">
-            <label> Currency </label>
+            <BaseText as="label" weight="medium">Currency</BaseText>
             <BaseSelect
               class="!mx-0"
               placeholder="NGN"
