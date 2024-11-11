@@ -5,14 +5,14 @@
 </template>
 
 <script setup lang="ts">
-type Heading = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+type Text = "p" | "span" | "label";
 const {
-  as = "h3",
-  weight = "bold",
+  as = "p",
+  weight = "normal",
   size = "base",
   customClass = "",
 } = defineProps<{
-  as: Heading;
+  as: Text;
   weight?: "normal" | "medium" | "semibold" | "bold";
   size?:
     | "xs"

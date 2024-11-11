@@ -5,7 +5,7 @@
     <form @submit.prevent="handleSubmit" class="w-4/5 grid gap-6">
       <div class="grid grid-cols-2 gap-3">
         <div>
-          <label for="first-name">First Name</label>
+          <BaseText as="label" weight="medium">First Name</BaseText>
           <BaseInput
             placeholder="John"
             v-model="factory.first_name"
