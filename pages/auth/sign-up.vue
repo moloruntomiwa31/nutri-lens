@@ -19,7 +19,7 @@
       </div>
       <div class="grid grid-cols-2 gap-3">
         <div>
-          <label for="first-name">First Name</label>
+          <BaseText as="label" weight="medium">First Name</BaseText>
           <BaseInput
             placeholder="John"
             v-model="factory.first_name"
@@ -91,7 +91,7 @@ useHead({
       content: "Create an account",
     },
   ],
-})
+});
 useSeoMeta({
   title: "Sign Up",
   description: "Create an account",
