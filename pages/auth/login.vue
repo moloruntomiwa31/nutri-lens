@@ -22,7 +22,7 @@
         <BaseText as="label" weight="medium">Email</BaseText>
         <BaseInput
           type="email"
-          placeholder="james_hall@gmail.com"
+          placeholder="john_doe@gmail.com"
           v-model="factory.email"
           :error="errors.email"
         />
