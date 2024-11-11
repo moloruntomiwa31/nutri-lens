@@ -32,32 +32,18 @@ export const useAuth = () => {
   const db = useFirestore();
   const { addToast } = useToast();
 
-  // const createSession = async (user: User) => {
-  //   try {
-  //     // Get a fresh token
-  //     const token = await user.getIdToken(true);
+  const setSessionCookie = async (token: string) => {
+    try {
+      await $fetch("/api/auth/session", {
+        method: "POST",
+        body: { token },
+      });
+    } catch (error) {
+      console.error("Error setting session:", error);
+      throw error;
+    }
+  };
 
-  //     // Create session
-  //     const response = await $fetch("/api/auth/session", {
-  //       method: "POST",
-  //       body: { token },
-  //     });
-
-  //     if (response.status !== "success") {
-  //       throw new Error("Failed to create session");
-  //     }
-
-  //     // Update store
-  //     store.value.token = token;
-  //     store.value.isAuthenticated = true;
-  //   } catch (error) {
-  //     console.error("Error setting auth cookie:", error);
-  //     addToast("Error creating session. Please try again.", "error");
-  //     throw error;
-  //   }
-  // };
-
-  // Helper function to create/update user document in Firestore
   const saveUserToFirestore = async (
     uid: string,
     data: {
@@ -84,7 +70,6 @@ export const useAuth = () => {
     }
   };
 
-  // Helper function to fetch user data from Firestore
   const fetchUserData = async (uid: string) => {
     try {
       const userRef = doc(db, "users", uid);
@@ -98,13 +83,59 @@ export const useAuth = () => {
     }
   };
 
+  const handleAuthSuccess = async (user: User) => {
+    try {
+      store.value.user = user;
+      store.value.isAuthenticated = true;
+      const token = await getIdToken(user);
+      store.value.token = token;
+
+      // Set session cookie
+      await setSessionCookie(token);
+      await fetchUserData(user.uid);
+
+      // Navigate based on onboarding status
+      if (store.value.userData?.hasCompletedPlans) {
+        router.push("/dashboard/");
+      } else {
+        router.push("/plans");
+      }
+    } catch (error) {
+      addToast("Error setting up session", "error");
+    }
+  };
+
+  const logIn = async (factory: { email: string; password: string }) => {
+    try {
+      if (!auth) {
+        addToast("Firebase Auth instance is not initialized", "error");
+        return;
+      }
+
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        factory.email,
+        factory.password
+      );
+
+      addToast("Logged in successfully", "success");
+      await handleAuthSuccess(userCredential.user);
+    } catch (error) {
+      addToast("Invalid email or password", "error");
+    }
+  };
+
   const signInWithGoogle = async () => {
     if (auth) {
       try {
         const result = await signInWithPopup(auth, new GoogleAuthProvider());
         store.value.user = result.user;
         store.value.isAuthenticated = true;
-        store.value.token = await getIdToken(result.user);
+        const token = await getIdToken(result.user);
+        store.value.token = token;
+
+        // Set session cookie
+        await setSessionCookie(token);
 
         // Save Google user to Firestore if first time
         await saveUserToFirestore(result.user.uid, {
@@ -115,13 +146,8 @@ export const useAuth = () => {
           hasCompletedPlans: false,
         });
 
-        // Create session
-        // await createSession(result.user);
-        await fetchUserData(result.user.uid);
         addToast("Logged in successfully", "success");
-        router.push(
-          store.value.userData?.hasCompletedPlans ? "/dashboard" : "/plans"
-        );
+        await handleAuthSuccess(result.user);
       } catch (error) {
         addToast("Error signing in with Google", "error");
       }
@@ -141,11 +167,6 @@ export const useAuth = () => {
         factory.password
       );
 
-      store.value.user = userCredential.user;
-      store.value.isAuthenticated = true;
-      store.value.token = await getIdToken(userCredential.user);
-
-      // Save user details to Firestore
       await saveUserToFirestore(userCredential.user.uid, {
         email: factory.email,
         firstName: factory.first_name,
@@ -153,63 +174,10 @@ export const useAuth = () => {
         hasCompletedPlans: false,
       });
 
-      // Create session
-      // await createSession(userCredential.user);
-      await fetchUserData(userCredential.user.uid);
       addToast("Account created successfully", "success");
-      router.push("/plans");
+      await handleAuthSuccess(userCredential.user);
     } catch (error) {
       addToast("Error creating account.", "error");
-    }
-  };
-
-  const logIn = async (factory: { email: string; password: string }) => {
-    try {
-      if (!auth) {
-        addToast("Firebase Auth instance is not initialized", "error");
-        return;
-      }
-
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        factory.email,
-        factory.password
-      );
-
-      store.value.user = userCredential.user;
-      store.value.isAuthenticated = true;
-      store.value.token = await getIdToken(userCredential.user);
-
-      // Create session
-      // await createSession(userCredential.user);
-      // Fetch user data from Firestore
-      await fetchUserData(userCredential.user.uid);
-
-      addToast("Logged in successfully", "success");
-
-      // Redirect based on plans completion
-      router.push(
-        store.value.userData?.hasCompletedPlans ? "/dashboard" : "/plans"
-      );
-    } catch (error) {
-      addToast("Invalid email or password", "error");
-    }
-  };
-
-  const updatePlansCompletion = async (completed: boolean = true) => {
-    if (!store.value.user?.uid) return;
-
-    try {
-      await saveUserToFirestore(store.value.user.uid, {
-        email: store.value.user.email!,
-        hasCompletedPlans: completed,
-      });
-
-      if (store.value.userData) {
-        store.value.userData.hasCompletedPlans = completed;
-      }
-    } catch (error) {
-      addToast("Error updating plans completion status", "error");
     }
   };
 
@@ -225,12 +193,33 @@ export const useAuth = () => {
       store.value.isAuthenticated = false;
       store.value.token = null;
       store.value.userData = null;
-      // Clear session
+
+      // Clear session cookie
       await $fetch("/api/auth/logout", { method: "POST" });
       addToast("Logged out successfully", "success");
       router.push("/auth/login");
     } catch (error) {
       addToast("Error logging out", "error");
+    }
+  };
+
+  const updatePlansCompletion = async (completed: boolean = true) => {
+    if (!store.value.user?.uid) return;
+
+    try {
+      await saveUserToFirestore(store.value.user.uid, {
+        email: store.value.user.email!,
+        hasCompletedPlans: completed,
+      });
+
+      if (store.value.userData) {
+        store.value.userData.hasCompletedPlans = completed;
+      }
+
+      // Let middleware handle the redirect to dashboard
+      router.push("/dashboard");
+    } catch (error) {
+      addToast("Error updating plans completion status", "error");
     }
   };
 

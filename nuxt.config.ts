@@ -47,4 +47,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     apiSecret: process.env.NUXT_API_SECRET,
   },
+  routeRules: {
+    '/auth/**': { ssr: false }, // Disable SSR for auth routes
+  },
 });

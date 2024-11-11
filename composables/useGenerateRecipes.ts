@@ -12,7 +12,7 @@ const store = ref({
     heightUnit: "cm",
     age: "",
     disease: "",
-    gender: "",
+    gender: "Male",
   } as UserHealth,
 });
 
@@ -62,13 +62,12 @@ export default function useGenerateRecipes() {
           recipes: recipes,
           updatedAt: new Date(),
         },
-        { merge: true }
+        { merge: false } 
       );
 
       // Update plans completion status
       await updatePlansCompletion(true);
     } catch (error) {
-      console.error("Error saving health data:", error);
       throw error;
     }
   };
@@ -98,7 +97,6 @@ export default function useGenerateRecipes() {
       }
       return false;
     } catch (err) {
-      console.error("Error fetching health data:", err);
       error.value =
         err instanceof Error ? err.message : "Failed to fetch health data";
       return false;
@@ -109,14 +107,7 @@ export default function useGenerateRecipes() {
 
   // Update the onMounted hook
   onMounted(async () => {
-    console.log("Fetching health data...");
-    const success = await fetchHealthData();
-    if (success) {
-      console.log("Health data loaded successfully");
-      console.log(store.value.factory);
-    } else {
-      console.log("No health data found or error occurred");
-    }
+    await fetchHealthData();
   });
 
   watch(
@@ -151,9 +142,10 @@ export default function useGenerateRecipes() {
     }
   );
 
-  const generateRecipes = async () => {
+  const generateRecipes = async (factory: UserHealth) => {
     loading.value = true;
     error.value = null;
+    store.value.factory = factory;
 
     try {
       if (hasErrors.value) {
@@ -165,7 +157,8 @@ export default function useGenerateRecipes() {
         body: store.value.factory,
       });
 
-      store.value.recipes.push(res);
+      // Replace the existing recipes with the new one
+      store.value.recipes = [res];
 
       // Save health data and recipes to Firestore
       await saveHealthData(store.value.recipes);
@@ -189,75 +182,3 @@ export default function useGenerateRecipes() {
     fetchHealthData,
   };
 }
-
-// import type UserHealth from "~/types/UserHealth";
-// import type RecipeResponse from "~/types/RecipeResponse";
-// import { doc, setDoc, getDoc } from "firebase/firestore";
-
-// const store = ref({
-//   recipes: [] as RecipeResponse[],
-//   loading: false,
-//   factory: {
-//     weight: "",
-//     weightUnit: "kg",
-//     height: "",
-//     heightUnit: "cm",
-//     age: "",
-//     disease: "",
-//   } as UserHealth,
-// });
-
-// export default function useGenerateRecipes() {
-//   const router = useRouter();
-//   const db = useFirestore();
-//   const { user, updatePlansCompletion } = useAuth();
-//   const { isMinimumLength } = useValidators();
-
-//   // Update the fetchHealthData function
-//   const fetchHealthData = async () => {
-//     if (!user?.uid) return false;
-
-//     loading.value = true;
-//     error.value = null;
-
-//     try {
-//       const userHealthRef = doc(db, "users", user.uid);
-//       const userDoc = await getDoc(userHealthRef);
-
-//       if (userDoc.exists() && userDoc.data().health) {
-//         const healthData = userDoc.data().health;
-//         store.value.factory = {
-//           ...store.value.factory, // Keep default values as fallback
-//           ...healthData, // Override with stored values
-//         };
-
-//         if (userDoc.data().recipes) {
-//           store.value.recipes = userDoc.data().recipes;
-//         }
-//         return true;
-//       }
-//       return false;
-//     } catch (err) {
-//       console.error("Error fetching health data:", err);
-//       error.value =
-//         err instanceof Error ? err.message : "Failed to fetch health data";
-//       return false;
-//     } finally {
-//       loading.value = false;
-//     }
-//   };
-
-//   // Update the onMounted hook
-//   onMounted(async () => {
-//     console.log("Fetching health data...");
-//     const success = await fetchHealthData();
-//     if (success) {
-//       console.log("Health data loaded successfully");
-//       console.log(store.value.factory);
-//     } else {
-//       console.log("No health data found or error occurred");
-//     }
-//   });
-
-//   // Rest of the code...
-// }

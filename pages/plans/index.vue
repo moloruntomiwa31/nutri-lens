@@ -82,9 +82,8 @@
         <div class="w-full">
           <BaseButton
             customClass="!bg-secondaryGreen w-full rounded-lg"
-            :loading
-            :disabled="loading"
-            @click="generateRecipes"
+            :loading="loading"
+            @click="handleSubmit"
             >Let's Go</BaseButton
           >
         </div>
@@ -137,6 +136,10 @@ useSeoMeta({
 });
 const { factory, errors, generateRecipes, loading, error } =
   useGenerateRecipes();
+
+const handleSubmit = async () => {
+  await generateRecipes(factory);
+};
 </script>
 
 <style scoped>
