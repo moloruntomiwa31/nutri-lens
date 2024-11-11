@@ -14,17 +14,7 @@ const {
 } = defineProps<{
   as?: Text;
   weight?: "normal" | "medium" | "semibold" | "bold";
-  size?:
-    | "xs"
-    | "sm"
-    | "base"
-    | "lg"
-    | "xl"
-    | "2xl"
-    | "3xl"
-    | "4xl"
-    | "5xl"
-    | "6xl";
+  size?: "xs" | "sm" | "base" | "lg" | "xl" | "2xl";
   customClass?: string | Record<string, boolean>;
 }>();
 </script>

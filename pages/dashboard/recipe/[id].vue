@@ -13,7 +13,7 @@
         <!-- content -->
         <div class="space-y-10">
           <div class="header">
-            <BaseHeading size="3xl" as="h2">{{
+            <BaseHeading size="2xl" as="h2">{{
               exactRecipe?.name
             }}</BaseHeading>
             <div class="space-y-2">
@@ -61,7 +61,7 @@
                 <BaseHeading as="h5" weight="semibold" size="xs"
                   >Calories</BaseHeading
                 >
-                <BaseText customClass="text-gray-700 text-2xl">
+                <BaseText customClass="text-gray-700" size="2xl">
                   {{ exactRecipe?.calories }}
                 </BaseText>
               </div>
@@ -69,7 +69,7 @@
                 <BaseHeading as="h5" weight="semibold" size="xs"
                   >Protein</BaseHeading
                 >
-                <BaseText customClass="text-gray-700 text-2xl">{{
+                <BaseText customClass="text-gray-700" size="2xl">{{
                   exactRecipe?.protein
                 }}</BaseText>
               </div>

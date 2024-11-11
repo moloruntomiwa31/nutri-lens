@@ -1,5 +1,5 @@
 <template>
-  <component :is="as" :class="[customClass, `font-${weight} text-${size}`]">
+  <component :is="as" :class="computedClass">
     <slot />
   </component>
 </template>
@@ -14,17 +14,12 @@ const {
 } = defineProps<{
   as: Heading;
   weight?: "normal" | "medium" | "semibold" | "bold";
-  size?:
-    | "xs"
-    | "sm"
-    | "base"
-    | "lg"
-    | "xl"
-    | "2xl"
-    | "3xl"
-    | "4xl"
-    | "5xl"
-    | "6xl";
+  size?: "xs" | "sm" | "base" | "lg" | "xl" | "2xl";
   customClass?: string;
 }>();
+const computedClass = computed(() => [
+  customClass,
+  `font-${weight}`,
+  `text-${size}`,
+]);
 </script>

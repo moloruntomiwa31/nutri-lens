@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto px-4 space-y-8 py-6">
     <section aria-labelledby="recipe-section-title" class="py-5 lg:py-0">
-      <BaseHeading as="h2" size="3xl" customClass="mb-6">
+      <BaseHeading as="h2" size="2xl" customClass="mb-6">
         Healthy Recipes
         <span role="img" aria-label="delicious food emoji">😋</span>
       </BaseHeading>
@@ -31,7 +31,7 @@
       <div>
         <img
           v-if="!recipe.image"
-          src="/public//images/mom-eating.jpg"
+          src="/public/images/mom-eating.jpg"
           alt="Woman eating healthy food"
           class="w-full h-[400px] object-cover rounded-lg shadow-lg"
         />
@@ -47,7 +47,7 @@
         aria-hidden="true"
       ></div>
       <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
-        <BaseHeading as="h2" size="3xl" customClass="mb-2">
+        <BaseHeading as="h2" size="2xl" customClass="mb-2">
           Recipe of the Day
         </BaseHeading>
         <div v-if="recipe.name">
