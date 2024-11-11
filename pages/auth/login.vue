@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col h-full w-full justify-center items-center">
-    <h1 class="text-2xl font-bold">Log In</h1>
+    <BaseHeading as="h1" size="2xl" weight="bold">Log In</BaseHeading>
     <form class="w-4/5 grid gap-6" @submit.prevent="handleSubmit">
       <div>
         <label for="email">Email</label>

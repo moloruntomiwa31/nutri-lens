@@ -1,7 +1,7 @@
 <!-- pages/auth/signup.vue -->
 <template>
   <div class="flex flex-col min-h-full w-full justify-center items-center">
-    <h1 class="text-2xl font-bold">Create Account</h1>
+    <BaseHeading as="h1" size="2xl" weight="bold">Create Account</BaseHeading>
     <form @submit.prevent="handleSubmit" class="w-4/5 grid gap-6">
       <div class="grid grid-cols-2 gap-3">
         <div>
@@ -74,15 +74,15 @@ useHead({
       content: "Create an account",
     },
   ],
-})
+});
 useSeoMeta({
   title: "Sign Up",
   description: "Create an account",
   ogDescription: "Create an account",
   ogTitle: "Sign Up",
-})
-import type FormData from '@/types/FormData';
-import type FormErrors from '@/types/FormErrors';
+});
+import type FormData from "@/types/FormData";
+import type FormErrors from "@/types/FormErrors";
 definePageMeta({
   layout: "auth",
 });
@@ -131,5 +131,4 @@ const handleSubmit = async () => {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
