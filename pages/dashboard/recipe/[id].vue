@@ -3,6 +3,12 @@
     <div
       class="border-2 border-grayColor rounded-lg w-11/12 md:w-[600px] lg:w-[700px] xl:w-[800px] p-4"
     >
+      <Icon
+        name="gg:arrow-left-o"
+        class="text-black"
+        size="36"
+        @click="router.back()"
+      />
       <div class="flex flex-col-reverse items-center gap-6">
         <!-- content -->
         <div class="space-y-10">
@@ -15,7 +21,7 @@
                 {{ exactRecipe?.description }}
               </BaseText>
               <div class="info flex items-center justify-between">
-                <div>                  
+                <div>
                   <BaseHeading weight="semibold" size="xs" as="h4"
                     >Preparation Time</BaseHeading
                   >
@@ -139,6 +145,7 @@
 </template>
 
 <script setup lang="ts">
+import { routerKey } from "vue-router";
 import type RecipeResponse from "~/types/RecipeResponse";
 const exactRecipe = ref<null | RecipeResponse>(null);
 useHead({
@@ -174,6 +181,7 @@ definePageMeta({
 
 const { recipes } = useGenerateRecipes();
 const route = useRoute();
+const router = useRouter();
 onMounted(() => {
   exactRecipe.value = recipes.find(
     (recipe) => recipe.id == Number(route.params.id)

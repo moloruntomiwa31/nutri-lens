@@ -28,20 +28,35 @@
     </section>
 
     <section aria-labelledby="recipe-of-day-title" class="relative">
-      <img
-        src="/public/images/mom-eating.jpg"
-        alt="Mother enjoying a healthy meal"
-        class="w-full h-[400px] object-cover rounded-lg shadow-lg"
-      />
+      <div>
+        <img
+          v-if="!recipe.image"
+          src="/public//images/mom-eating.jpg"
+          alt="Woman eating healthy food"
+          class="w-full h-[400px] object-cover rounded-lg shadow-lg"
+        />
+        <NuxtImg
+          v-else
+          :src="recipe.image"
+          :alt="recipe.name"
+          class="w-full h-[400px] object-cover rounded-lg shadow-lg"
+        />
+      </div>
       <div
         class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent rounded-lg"
         aria-hidden="true"
       ></div>
       <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
-        <BaseHeading as="h3" size="3xl" customClass="mb-2">
+        <BaseHeading as="h2" size="3xl" customClass="mb-2">
           Recipe of the Day
         </BaseHeading>
-        <BaseText size="lg">Discover today's culinary delight</BaseText>
+        <div v-if="recipe.name">
+          <BaseHeading as="h4" size="lg">{{ recipe.name }}</BaseHeading>
+          <BaseText>{{ recipe.description }}</BaseText>
+        </div>
+        <BaseText size="lg" v-else
+          >Discover healthy recipes and meal plans.</BaseText
+        >
       </div>
     </section>
   </div>
@@ -70,6 +85,9 @@ definePageMeta({
 
 const { recipes } = useGenerateRecipes();
 const router = useRouter();
+//generate recipe of the day
+const { recipe, generateRecipeOfTheDay } = useRecipeOfTheDay();
+onMounted(async () => await generateRecipeOfTheDay());
 </script>
 
 <style scoped>
