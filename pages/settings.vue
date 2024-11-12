@@ -53,20 +53,28 @@
               <div class="bg-lightGray p-2 rounded-lg shadow">
                 <BaseText as="label" weight="medium">Weight</BaseText>
                 <div class="flex items-center">
-                  <BaseInput type="number" placeholder="60" v-model="weight" />
+                  <BaseInput
+                    type="number"
+                    placeholder="60"
+                    v-model="factory.weight"
+                  />
                   <BaseSelect
                     :options="['kg', 'g']"
-                    :placeholder="weightUnit"
+                    :placeholder="factory.weightUnit"
                   />
                 </div>
               </div>
               <div class="bg-lightGray p-2 rounded-lg shadow">
                 <BaseText as="label" weight="medium">Height</BaseText>
                 <div class="flex items-center">
-                  <BaseInput type="number" placeholder="170" v-model="height" />
+                  <BaseInput
+                    type="number"
+                    placeholder="170"
+                    v-model="factory.height"
+                  />
                   <BaseSelect
                     :options="['cm', 'm']"
-                    :placeholder="heightUnit"
+                    :placeholder="factory.heightUnit"
                   />
                 </div>
               </div>
@@ -74,11 +82,17 @@
             <div class="grid md:grid-cols-2 gap-4">
               <div class="bg-lightGray p-2 rounded-lg shadow">
                 <BaseText as="label" weight="medium">Age</BaseText>
-                <BaseInput type="number" placeholder="30" v-model="age" />
+                <BaseInput
+                  type="number"
+                  placeholder="30"
+                  v-model="factory.age"
+                />
               </div>
               <div class="w-full flex items-end justify-center">
                 <BaseButton
-                  @click="generateRecipes(factory)"
+                  @click="handleSubmit"
+                  :loading="loading"
+                  :disabled="loading"
                   customClass="w-full rounded-lg"
                   >Save</BaseButton
                 >
@@ -113,15 +127,20 @@ definePageMeta({
 });
 
 const { isDesktopScreen } = useScreenObserver();
-const { factory, generateRecipes } = useGenerateRecipes();
+const { factory, generateRecipes, loading } = useGenerateRecipes();
+const { addToast } = useToast();
 const { user } = useAuth();
-const weight = computed(() => factory.weight);
-const height = computed(() => factory.height);
-const age = computed(() => factory.age);
-const weightUnit = computed(() => factory.weightUnit);
-const heightUnit = computed(() => factory.heightUnit);
 const firstName = user?.displayName?.split(" ")[0] || "";
 const lastName = user?.displayName?.split(" ").slice(1).join(" ") || "";
 const emailAddress = user?.email || "";
 const { uploadImage, avatarImageUrl } = useProfile();
+
+const handleSubmit = async () => {
+  try {
+    await generateRecipes(factory);
+    addToast("Plans updated successfully", "success");
+  } catch (err) {
+    addToast("Failed to update plans", "error");
+  }
+};
 </script>

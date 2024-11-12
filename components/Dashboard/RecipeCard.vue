@@ -1,16 +1,16 @@
 <template>
   <div class="relative flex-shrink-0">
     <div
-      class="bg-grayColor bg-center w-[270px] h-[400px] rounded-lg overflow-hidden"
+      class="bg-grayColor bg-center w-[270px] h-[400px] rounded-lg overflow-hidden cursor-pointer"
       @click="router.push(`/dashboard/recipe/${recipe.id}`)"
     >
       <NuxtImg
         v-if="recipe.image"
         :src="recipe.image"
+        :alt="recipe.name"
         width="270"
         height="400"
         class="w-full h-full object-cover"
-        loading="lazy"
       />
       <div
         v-else

@@ -51,12 +51,54 @@
           Recipe of the Day
         </BaseHeading>
         <div v-if="recipe.name">
-          <BaseHeading as="h4" size="lg">{{ recipe.name }}</BaseHeading>
-          <BaseText>{{ recipe.description }}</BaseText>
+          <BaseHeading as="h4" size="xl" weight="semibold">{{
+            recipe.name
+          }}</BaseHeading>
+          <BaseText weight="normal" size="sm">{{
+            recipe.description
+          }}</BaseText>
         </div>
         <BaseText size="lg" v-else
           >Discover healthy recipes and meal plans.</BaseText
         >
+        <div v-if="recipe" class='flex items-center justify-between'>
+          <div class="flex items-center gap-4">
+            <div>
+              <BaseHeading as="h5" weight="semibold" size="sm"
+                >Calories</BaseHeading
+              >
+              <BaseText customClass="text-gray-400">
+                {{ recipe.calories }}
+              </BaseText>
+            </div>
+            <div>
+              <BaseHeading as="h5" weight="semibold" size="sm"
+                >Protein</BaseHeading
+              >
+              <BaseText customClass="text-gray-400">{{
+                recipe.protein
+              }}</BaseText>
+            </div>
+            <div>
+              <BaseHeading as="h5" weight="semibold" size="sm">Fat</BaseHeading>
+              <BaseText customClass="text-gray-400">{{ recipe.fats }}</BaseText>
+            </div>
+            <div>
+              <BaseHeading as="h5" weight="semibold" size="sm"
+                >Carbs</BaseHeading
+              >
+              <BaseText customClass="text-gray-400">{{
+                recipe.carbs
+              }}</BaseText>
+            </div>
+          </div>
+          <div>
+            <BaseHeading as="h5" size="sm" weight="semibold"
+              >Ratings</BaseHeading
+            >
+            <StarRating :rating="recipe.rating" textColor="text-gray-300" />
+          </div>
+        </div>
       </div>
     </section>
   </div>

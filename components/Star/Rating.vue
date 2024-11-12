@@ -15,14 +15,15 @@
       </div>
     </div>
 
-    <span class="ml-2 text-sm text-gray-700">{{ newRating.toFixed(1) }}</span>
+    <span class="ml-2 text-sm" :class="[textColor]">{{ newRating.toFixed(1) }}</span>
   </div>
 </template>
 
 <script setup lang="ts">
-const { rating = undefined, maxStars = 5 } = defineProps<{
+const { rating = undefined, maxStars = 5, textColor = "text-gray-600" } = defineProps<{
   rating?: string;
   maxStars?: number;
+  textColor?: string;
 }>();
 const newRating = computed(() =>
   typeof rating === "string" ? Number(rating) : rating ?? 0

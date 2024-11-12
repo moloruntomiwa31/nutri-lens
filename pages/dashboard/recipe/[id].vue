@@ -5,7 +5,7 @@
     >
       <Icon
         name="gg:arrow-left-o"
-        class="text-black"
+        class="text-black cursor-pointer transition transform hover:scale-105"
         size="36"
         @click="router.back()"
       />
@@ -58,34 +58,34 @@
             >
             <div class="flex items-center gap-4">
               <div>
-                <BaseHeading as="h5" weight="semibold" size="xs"
+                <BaseHeading as="h5" weight="semibold" size="sm"
                   >Calories</BaseHeading
                 >
-                <BaseText customClass="text-gray-700" size="2xl">
+                <BaseText customClass="text-gray-700">
                   {{ exactRecipe?.calories }}
                 </BaseText>
               </div>
               <div>
-                <BaseHeading as="h5" weight="semibold" size="xs"
+                <BaseHeading as="h5" weight="semibold" size="sm"
                   >Protein</BaseHeading
                 >
-                <BaseText customClass="text-gray-700" size="2xl">{{
+                <BaseText customClass="text-gray-700">{{
                   exactRecipe?.protein
                 }}</BaseText>
               </div>
               <div>
-                <BaseHeading as="h5" weight="semibold" size="xs"
+                <BaseHeading as="h5" weight="semibold" size="sm"
                   >Fat</BaseHeading
                 >
-                <BaseText customClass="text-gray-700 text-2xl">{{
+                <BaseText customClass="text-gray-700">{{
                   exactRecipe?.fats
                 }}</BaseText>
               </div>
               <div>
-                <BaseHeading as="h5" weight="semibold" size="xs"
+                <BaseHeading as="h5" weight="semibold" size="sm"
                   >Carbs</BaseHeading
                 >
-                <BaseText customClass="text-gray-700 text-2xl">{{
+                <BaseText customClass="text-gray-700">{{
                   exactRecipe?.carbs
                 }}</BaseText>
               </div>
