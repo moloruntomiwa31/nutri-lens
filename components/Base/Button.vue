@@ -2,7 +2,7 @@
   <button
     :disabled="loading || disabled"
     @click.prevent="handleClick"
-    class="focus:outline-none disabled:opacity-80 flex gap-2 items-center justify-center whitespace-nowrap duration-200 font-semibold"
+    class="focus:outline-none disabled:opacity-80 flex gap-2 items-center justify-center whitespace-nowrap duration-200 font-semibold disabled:cursor-not-allowed"
     :type="type"
     :class="[
       shadow ? 'shadow-lg' : '',

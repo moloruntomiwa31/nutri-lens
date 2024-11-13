@@ -37,7 +37,7 @@ export default defineEventHandler(async (event) => {
     const userData = await readBody(event);
 
     const genAI = new GoogleGenerativeAI(apiSecret);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const prompt = `You are an API that returns only raw JSON without any markdown formatting or code blocks. Generate healthy recipes based on this user profile. Here is the user profile:
       - Age: ${userData.age} years

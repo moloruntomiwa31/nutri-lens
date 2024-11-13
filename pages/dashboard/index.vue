@@ -50,7 +50,7 @@
         <BaseHeading as="h2" size="2xl" customClass="mb-2">
           Recipe of the Day
         </BaseHeading>
-        <div v-if="recipe.name">
+        <div v-if="recipe.name" class="my-4">
           <BaseHeading as="h4" size="xl" weight="semibold">{{
             recipe.name
           }}</BaseHeading>
@@ -61,7 +61,10 @@
         <BaseText size="lg" v-else
           >Discover healthy recipes and meal plans.</BaseText
         >
-        <div v-if="recipe" class='flex items-center justify-between'>
+        <div
+          v-if="recipe.calories"
+          class="flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+        >
           <div class="flex items-center gap-4">
             <div>
               <BaseHeading as="h5" weight="semibold" size="sm"

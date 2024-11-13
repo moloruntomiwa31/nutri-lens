@@ -11,21 +11,19 @@ export default defineEventHandler(async (event) => {
     const mealBudget = await readBody(event);
 
     const genAI = new GoogleGenerativeAI(apiSecret);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
-
-    // - Age: ${userData.age} years
-    // - Weight: ${userData.weight} ${userData.weightUnit}
-    // - Height: ${userData.height} ${userData.weightUnit}
-    // ${userData.disease ? `- Medical conditions: ${userData.disease}` : ""}
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const prompt = `You are an API that returns only raw JSON without any markdown formatting or code blocks. Generate healthy meals, breakfast, lunch, dinner based on this user profile and the amount of money. Here is the user profile:
     - Amount: '${mealBudget.amount}' ${mealBudget.currency}
+     Generate as many as meals as possible.
 
     Return a JSON object in exactly this format without any additional text, markdown, or code blocks:
     {
         "breakfast": ['breakfast 1', 'breakfast 2'],
         "lunch": ['lunch 1', 'lunch 2'],
         "dinner": ['dinner 1', 'dinner 2'],
+        "averageCost": average cost of all meals in ${mealBudget.currency}
+        "averageAmountLeft": amount of money left in ${mealBudget.currency}
     }`;
 
     const result = await model.generateContent(prompt);
@@ -43,10 +41,8 @@ export default defineEventHandler(async (event) => {
     const parsed = JSON.parse(cleanResponse);
     return {
       ...parsed,
-      image: parsed.image || "",
     };
   } catch (error) {
-    console.error("Error details:", error);
     return {
       error: "Failed to generate meals",
       details: error,

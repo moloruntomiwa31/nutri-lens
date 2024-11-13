@@ -26,7 +26,7 @@
                     >Preparation Time</BaseHeading
                   >
                   <BaseText customClass="text-gray-700">
-                    {{ exactRecipe?.preparationTime }}mins
+                    {{ exactRecipe?.preparationTime }}
                   </BaseText>
                 </div>
                 <div>

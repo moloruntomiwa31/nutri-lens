@@ -4,7 +4,7 @@
       class="flex flex-col gap-1 min-h-full w-full justify-center items-center"
     >
       <BaseHeading as="h1" size="2xl">Customize your plan</BaseHeading>
-      <form class="w-4/5 grid gap-6">
+      <form class="w-4/5 grid gap-6 lg:gap-3">
         <div>
           <BaseText as="label" weight="medium">Weight</BaseText>
           <div class="flex items-center">

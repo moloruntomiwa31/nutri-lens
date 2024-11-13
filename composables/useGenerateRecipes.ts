@@ -149,7 +149,7 @@ export default function useGenerateRecipes() {
 
     try {
       if (hasErrors.value) {
-        throw new Error("Please fix all validation errors before submitting");
+        throw new Error("Please add datas to all fields");
       }
 
       const res = await $fetch<RecipeResponse>("/api/generate-recipes", {
