@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col min-h-full w-full justify-center items-center">
     <BaseHeading as="h1" size="2xl" weight="bold">Create Account</BaseHeading>
-    <fieldset class="w-4/5 grid gap-6">
+    <form class="w-4/5 grid gap-6">
       <BaseButton
         color="transparent"
         customClass="border-secondaryGreen border rounded-lg mt-3"
@@ -73,7 +73,7 @@
           Sign Up
         </BaseButton>
       </div>
-    </fieldset>
+    </form>
     <BaseText class="mt-6" weight="semibold">
       Already have an account?
       <NuxtLink to="/auth/login" class="text-secondaryGreen">Login</NuxtLink>
