@@ -14,7 +14,7 @@ const {
 } = defineProps<{
   as: Heading;
   weight?: "normal" | "medium" | "semibold" | "bold";
-  size?: "xs" | "sm" | "base" | "lg" | "xl" | "2xl";
+  size?: "xs" | "sm" | "base" | "lg" | "xl" | "2xl"| "5xl";
   customClass?: string;
 }>();
 
@@ -31,6 +31,7 @@ const fontSizeClass = {
   lg: "text-lg",
   xl: "text-xl",
   "2xl": "text-2xl",
+  "5xl": "text-5xl",
 };
 const computedClass = computed(() => [
   customClass,
