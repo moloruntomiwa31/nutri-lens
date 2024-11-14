@@ -1,5 +1,6 @@
 import type RecipeResponse from "~/types/RecipeResponse";
 import { doc, setDoc, getDoc } from "firebase/firestore";
+import { getFirebaseDb } from "~/firebase";
 
 const store = ref({
   recipe: {} as RecipeResponse,
@@ -8,8 +9,8 @@ const store = ref({
 });
 
 export default function useRecipeOfTheDay() {
-  const db = useFirestore();
-  const { user } = useAuth();
+  const db = getFirebaseDb();
+  const { currentUser } = useAuth();
 
   const generateRecipeOfTheDay = async () => {
     store.value.loading = true;
@@ -19,8 +20,8 @@ export default function useRecipeOfTheDay() {
       });
       store.value.recipe = res;
 
-      if (user) {
-        const userRef = doc(db, "users", user.uid);
+      if (currentUser) {
+        const userRef = doc(db, "users", currentUser.uid);
         await setDoc(
           userRef,
           {
@@ -43,8 +44,8 @@ export default function useRecipeOfTheDay() {
   };
 
   const getRecipe = async () => {
-    if (user) {
-      const userRef = doc(db, "users", user.uid);
+    if (currentUser) {
+      const userRef = doc(db, "users", currentUser.uid);
       const userDoc = await getDoc(userRef);
 
       if (userDoc.exists()) {

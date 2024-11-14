@@ -1,6 +1,7 @@
 import type UserHealth from "~/types/UserHealth";
 import type RecipeResponse from "~/types/RecipeResponse";
 import { doc, setDoc, getDoc } from "firebase/firestore";
+import { getFirebaseDb } from "~/firebase";
 
 const store = ref({
   recipes: [] as RecipeResponse[],
@@ -18,8 +19,8 @@ const store = ref({
 
 export default function useGenerateRecipes() {
   const router = useRouter();
-  const db = useFirestore();
-  const { user, updatePlansCompletion } = useAuth();
+  const db = getFirebaseDb();
+  const { currentUser, updatePlansCompletion } = useAuth();
   const { isMinimumLength } = useValidators();
 
   const errors = computed(() => {
@@ -45,12 +46,12 @@ export default function useGenerateRecipes() {
 
   // Save health data to Firestore
   const saveHealthData = async (recipes: RecipeResponse[]) => {
-    if (!user?.uid) {
+    if (!currentUser?.uid) {
       throw new Error("No authenticated user found");
     }
 
     try {
-      const userHealthRef = doc(db, "users", user.uid);
+      const userHealthRef = doc(db, "users", currentUser.uid);
 
       await setDoc(
         userHealthRef,
@@ -74,13 +75,13 @@ export default function useGenerateRecipes() {
 
   // Update the fetchHealthData function
   const fetchHealthData = async () => {
-    if (!user?.uid) return false;
+    if (!currentUser?.uid) return false;
 
     loading.value = true;
     error.value = null;
 
     try {
-      const userHealthRef = doc(db, "users", user.uid);
+      const userHealthRef = doc(db, "users", currentUser.uid);
       const userDoc = await getDoc(userHealthRef);
 
       if (userDoc.exists() && userDoc.data().health) {

@@ -87,7 +87,7 @@
 const { isDesktopScreen } = useScreenObserver();
 const { avatarImageUrl } = useProfile();
 const { logOut } = useAuth();
-const { user } = useAuth();
+const { currentUser } = useAuth();
 const width = computed(() =>
   isDesktopScreen.value ? "calc(100% - 256px)" : "100%"
 );
@@ -98,7 +98,7 @@ const timeOfDay = computed(() => {
   return "evening";
 });
 const userName = computed(() => {
-  return user?.displayName;
+  return currentUser?.displayName;
 });
 const modalOpen = ref(false);
 const openModal = () => {

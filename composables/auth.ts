@@ -1,38 +1,47 @@
+import type { User } from "firebase/auth";
 import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  signInWithPopup,
-  GoogleAuthProvider,
   getIdToken,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  onAuthStateChanged,
+  getAuth,
 } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import type UserFormData from "@/types/UserFormData";
-import type { User } from "firebase/auth";
+import { getFirebaseAuth, getFirebaseDb } from '@/firebase';
 
-const store = ref<{
+
+interface UserData {
+  firstName: string;
+  lastName: string;
+  hasCompletedPlans: boolean;
+}
+
+interface AuthStore {
   isAuthenticated: boolean;
-  user: User | null;
+  currentUser: User | null;
   token: string | null;
-  userData: {
-    firstName: string;
-    lastName: string;
-    hasCompletedPlans: boolean;
-  } | null;
-}>({
+  userData: UserData | null;
+  isAuthLoading: boolean;
+}
+
+const store = ref<AuthStore>({
   isAuthenticated: false,
-  user: null,
+  currentUser: null,
   token: null,
   userData: null,
+  isAuthLoading: true,
 });
 
 export const useAuth = () => {
   const router = useRouter();
-  const auth = useFirebaseAuth();
-  const db = useFirestore();
+  const auth = getFirebaseAuth();
+  const db = getFirebaseDb();
   const { addToast } = useToast();
 
-  const setSessionCookie = async (token: string) => {
+  const setSessionCookie = async (token: string): Promise<void> => {
     try {
       await $fetch("/api/auth/session", {
         method: "POST",
@@ -52,7 +61,7 @@ export const useAuth = () => {
       email: string;
       hasCompletedPlans: boolean;
     }
-  ) => {
+  ): Promise<void> => {
     try {
       const userRef = doc(db, "users", uid);
       await setDoc(
@@ -70,12 +79,13 @@ export const useAuth = () => {
     }
   };
 
-  const fetchUserData = async (uid: string) => {
+  const fetchUserData = async (uid: string): Promise<void> => {
     try {
       const userRef = doc(db, "users", uid);
       const userDoc = await getDoc(userRef);
+
       if (userDoc.exists()) {
-        store.value.userData = userDoc.data() as typeof store.value.userData;
+        store.value.userData = userDoc.data() as UserData;
       }
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -83,132 +93,152 @@ export const useAuth = () => {
     }
   };
 
-  const handleAuthSuccess = async (user: User) => {
+  const handleAuthSuccess = async (user: User): Promise<void> => {
     try {
-      store.value.user = user;
+      store.value.currentUser = user;
       store.value.isAuthenticated = true;
       const token = await getIdToken(user);
       store.value.token = token;
 
-      // Set session cookie
       await setSessionCookie(token);
       await fetchUserData(user.uid);
 
-      // Navigate based on onboarding status
-      if (store.value.userData?.hasCompletedPlans) {
-        router.push("/dashboard/");
-      } else {
-        router.push("/plans");
-      }
+      const redirectPath = store.value.userData?.hasCompletedPlans
+        ? "/dashboard/"
+        : "/plans";
+
+      await router.push(redirectPath);
     } catch (error) {
       addToast("Error setting up session", "error");
+      throw error;
     }
   };
 
-  const logIn = async (factory: { email: string; password: string }) => {
+  const initializeAuth = async (): Promise<void> => {
+    return new Promise<void>((resolve) => {
+      const unsubscribe = onAuthStateChanged(auth, async (user) => {
+        try {
+          store.value.isAuthLoading = true;
+
+          if (user) {
+            store.value.currentUser = user;
+            store.value.isAuthenticated = true;
+            const token = await getIdToken(user);
+            store.value.token = token;
+            await fetchUserData(user.uid);
+          } else {
+            store.value = {
+              ...store.value,
+              currentUser: null,
+              isAuthenticated: false,
+              token: null,
+              userData: null,
+            };
+          }
+        } catch (error) {
+          console.error("Error in auth state change:", error);
+          addToast("Error syncing auth state", "error");
+        } finally {
+          store.value.isAuthLoading = false;
+          resolve();
+        }
+
+        if (process.server) {
+          unsubscribe();
+        }
+      });
+    });
+  };
+
+  const logIn = async (credentials: {
+    email: string;
+    password: string;
+  }): Promise<void> => {
     try {
-      if (!auth) {
-        addToast("Firebase Auth instance is not initialized", "error");
-        return;
-      }
-
-      const userCredential = await signInWithEmailAndPassword(
+      const { user } = await signInWithEmailAndPassword(
         auth,
-        factory.email,
-        factory.password
+        credentials.email,
+        credentials.password
       );
-
+      await handleAuthSuccess(user);
       addToast("Logged in successfully", "success");
-      await handleAuthSuccess(userCredential.user);
     } catch (error) {
       addToast("Invalid email or password", "error");
+      throw error;
     }
   };
 
-  const signInWithGoogle = async () => {
-    if (auth) {
-      try {
-        const result = await signInWithPopup(auth, new GoogleAuthProvider());
-        store.value.user = result.user;
-        store.value.isAuthenticated = true;
-        const token = await getIdToken(result.user);
-        store.value.token = token;
-
-        // Set session cookie
-        await setSessionCookie(token);
-
-        // Save Google user to Firestore if first time
-        await saveUserToFirestore(result.user.uid, {
-          email: result.user.email!,
-          firstName: result.user.displayName?.split(" ")[0] || "",
-          lastName:
-            result.user.displayName?.split(" ").slice(1).join(" ") || "",
-          hasCompletedPlans: false,
-        });
-
-        addToast("Logged in successfully", "success");
-        await handleAuthSuccess(result.user);
-      } catch (error) {
-        addToast("Error signing in with Google", "error");
-      }
-    }
-  };
-
-  const signUp = async (factory: UserFormData) => {
+  const signInWithGoogle = async (): Promise<void> => {
     try {
-      if (!auth) {
-        addToast("Firebase Auth instance is not initialized", "error");
-        return;
-      }
+      const provider = new GoogleAuthProvider();
+      const { user } = await signInWithPopup(auth, provider);
 
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        factory.email,
-        factory.password
-      );
-
-      await saveUserToFirestore(userCredential.user.uid, {
-        email: factory.email,
-        firstName: factory.first_name,
-        lastName: factory.last_name,
+      await saveUserToFirestore(user.uid, {
+        email: user.email!,
+        firstName: user.displayName?.split(" ")[0] || "",
+        lastName: user.displayName?.split(" ").slice(1).join(" ") || "",
         hasCompletedPlans: false,
       });
 
+      await handleAuthSuccess(user);
+      addToast("Logged in successfully", "success");
+    } catch (error) {
+      addToast("Error signing in with Google", "error");
+      throw error;
+    }
+  };
+
+  const signUp = async (formData: UserFormData): Promise<void> => {
+    try {
+      const { user } = await createUserWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+
+      await saveUserToFirestore(user.uid, {
+        email: formData.email,
+        firstName: formData.first_name,
+        lastName: formData.last_name,
+        hasCompletedPlans: false,
+      });
+
+      await handleAuthSuccess(user);
       addToast("Account created successfully", "success");
-      await handleAuthSuccess(userCredential.user);
     } catch (error) {
       addToast("Error creating account.", "error");
+      throw error;
     }
   };
 
-  const logOut = async () => {
+  const logOut = async (): Promise<void> => {
     try {
-      if (!auth) {
-        addToast("Firebase Auth instance is not initialized", "error");
-        return;
-      }
+      await auth.signOut();
+      store.value = {
+        ...store.value,
+        currentUser: null,
+        isAuthenticated: false,
+        token: null,
+        userData: null,
+      };
 
-      await signOut(auth);
-      store.value.user = null;
-      store.value.isAuthenticated = false;
-      store.value.token = null;
-      store.value.userData = null;
-
-      // Clear session cookie
       await $fetch("/api/auth/logout", { method: "POST" });
       addToast("Logged out successfully", "success");
-      router.push("/auth/login");
+      await router.push("/auth/login");
     } catch (error) {
       addToast("Error logging out", "error");
+      throw error;
     }
   };
 
-  const updatePlansCompletion = async (completed: boolean = true) => {
-    if (!store.value.user?.uid) return;
+  const updatePlansCompletion = async (
+    completed: boolean = true
+  ): Promise<void> => {
+    if (!store.value.currentUser?.uid) return;
 
     try {
-      await saveUserToFirestore(store.value.user.uid, {
-        email: store.value.user.email!,
+      await saveUserToFirestore(store.value.currentUser.uid, {
+        email: store.value.currentUser.email!,
         hasCompletedPlans: completed,
       });
 
@@ -216,18 +246,20 @@ export const useAuth = () => {
         store.value.userData.hasCompletedPlans = completed;
       }
 
-      // Let middleware handle the redirect to dashboard
-      router.push("/dashboard");
+      await router.push("/dashboard");
     } catch (error) {
       addToast("Error updating plans completion status", "error");
+      throw error;
     }
   };
 
   return {
-    user: store.value.user,
-    userData: store.value.userData,
+    currentUser: store.value.currentUser,
     isAuthenticated: store.value.isAuthenticated,
     token: store.value.token,
+    userData: store.value.userData,
+    isAuthLoading: store.value.isAuthLoading,
+    initializeAuth,
     signInWithGoogle,
     signUp,
     logIn,

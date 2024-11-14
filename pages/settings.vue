@@ -129,10 +129,10 @@ definePageMeta({
 const { isDesktopScreen } = useScreenObserver();
 const { factory, generateRecipes, loading } = useGenerateRecipes();
 const { addToast } = useToast();
-const { user } = useAuth();
-const firstName = user?.displayName?.split(" ")[0] || "";
-const lastName = user?.displayName?.split(" ").slice(1).join(" ") || "";
-const emailAddress = user?.email || "";
+const { currentUser } = useAuth();
+const firstName = currentUser?.displayName?.split(" ")[0] || "";
+const lastName = currentUser?.displayName?.split(" ").slice(1).join(" ") || "";
+const emailAddress = currentUser?.email || "";
 const { uploadImage, avatarImageUrl } = useProfile();
 
 const handleSubmit = async () => {
