@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
 
   try {
     // Validate API key
-    if (!runtimeConfig.apiSecret) {
+    if (!runtimeConfig.public.apiSecret) {
       throw createError({
         statusCode: 500,
         statusMessage: "API configuration error",

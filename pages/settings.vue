@@ -38,10 +38,11 @@
               type="email"
               placeholder="Email Address"
               v-model="emailAddress"
+              :readonly="true"
             />
-            <div class="flex justify-end">
+            <!-- <div class="flex justify-end">
               <BaseButton customClass="rounded-lg">Save</BaseButton>
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="plans-update">
@@ -130,9 +131,9 @@ const { isDesktopScreen } = useScreenObserver();
 const { factory, generateRecipes, loading } = useGenerateRecipes();
 const { addToast } = useToast();
 const { user } = useAuth();
-const firstName = user?.displayName?.split(" ")[0] || "";
-const lastName = user?.displayName?.split(" ").slice(1).join(" ") || "";
-const emailAddress = user?.email || "";
+const firstName = user.value?.displayName?.split(" ")[0] || "";
+const lastName = user.value?.displayName?.split(" ").slice(1).join(" ") || "";
+const emailAddress = user.value?.email || "";
 const { uploadImage, avatarImageUrl } = useProfile();
 
 const handleSubmit = async () => {

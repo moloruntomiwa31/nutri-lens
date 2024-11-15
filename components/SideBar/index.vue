@@ -28,6 +28,11 @@
               to: '/dashboard/budget-bite',
             },
             {
+              name: 'Chat',
+              icon: 'ri:chat-ai-fill',
+              to: '/dashboard/chat',
+            },
+            {
               name: 'Settings',
               icon: 'iconoir:profile-circle',
               to: '/settings',

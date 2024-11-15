@@ -23,7 +23,7 @@
           <BaseText as="label" weight="medium">First Name</BaseText>
           <BaseInput
             placeholder="John"
-            v-model="factory.first_name"
+            v-model.trim="factory.first_name"
             :error="errors.first_name"
           />
         </div>
@@ -31,7 +31,7 @@
           <BaseText as="label" weight="medium">Last Name</BaseText>
           <BaseInput
             placeholder="Doe"
-            v-model="factory.last_name"
+            v-model.trim="factory.last_name"
             :error="errors.last_name"
           />
         </div>
@@ -41,7 +41,7 @@
         <BaseInput
           type="email"
           placeholder="john_doe@gmail.com"
-          v-model="factory.email"
+          v-model.trim="factory.email"
           :error="errors.email"
         />
       </div>
@@ -50,7 +50,7 @@
         <BaseInput
           type="password"
           placeholder="****************"
-          v-model="factory.password"
+          v-model.trim="factory.password"
           :error="errors.password"
         />
       </div>
@@ -59,7 +59,7 @@
         <BaseInput
           type="password"
           placeholder="****************"
-          v-model="factory.confirm_password"
+          v-model.trim="factory.confirm_password"
           :error="errors.confirm_password"
         />
       </div>
@@ -140,7 +140,6 @@ const isFormValid = computed(() => {
 });
 
 const handleSubmit = async () => {
-  console.log("clicked");
   loading.value = true;
   if (!isFormValid.value) {
     loading.value = false;

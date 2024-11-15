@@ -23,7 +23,7 @@
         <BaseInput
           type="email"
           placeholder="john_doe@gmail.com"
-          v-model="factory.email"
+          v-model.trim="factory.email"
           :error="errors.email"
         />
       </div>
@@ -32,7 +32,7 @@
         <BaseInput
           type="password"
           placeholder="****************"
-          v-model="factory.password"
+          v-model.trim="factory.password"
           :error="errors.password"
         />
       </div>

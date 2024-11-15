@@ -27,14 +27,14 @@ const cleanupResponse = (response: any): RecipeResponse => {
 };
 
 export default defineEventHandler(async (event) => {
-  const { apiSecret } = useRuntimeConfig();
+  const config = useRuntimeConfig();
 
   try {
-    if (!apiSecret) {
+    if (!config.public.apiSecret) {
       throw new Error("API key is required");
     }
 
-    const genAI = new GoogleGenerativeAI(apiSecret);
+    const genAI = new GoogleGenerativeAI(config.public.apiSecret);
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
 
     const prompt = `You are an API that returns only raw JSON without any markdown formatting or code blocks. Generate a healthy random recipe with these requirements,  make sure image is able to be passed directly to an img tag to display the visual representation of the recipe, it's the top priority to provide this:

@@ -10,11 +10,12 @@
     <slot name="pre" />
     <input
       v-model="content"
+      :readonly
       :placeholder="placeholder"
       :min="min"
       :max="max"
       :type="showPassword ? 'text' : type"
-      class="grow bg-inherit placeholder:text-slate-400 placeholder:text-sm w-full focus:outline-none"
+      class="grow bg-inherit placeholder:text-slate-400 placeholder:text-sm w-full focus:outline-none read-only:opacity-60"
       @input="handleInput"
       @blur="touched = true"
     />
@@ -52,6 +53,7 @@ const props = withDefaults(
     max?: string | number;
     error?: string;
     validateOnChange?: boolean;
+    readonly?: boolean;
   }>(),
   {
     placeholder: undefined,
@@ -60,6 +62,7 @@ const props = withDefaults(
     max: undefined,
     error: undefined,
     validateOnChange: false,
+    readonly: false,
   }
 );
 

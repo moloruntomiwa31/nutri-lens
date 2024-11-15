@@ -30,7 +30,7 @@
             <Icon name="iconamoon:notification-bold" size="30" class="shadow" />
             <BaseText
               as="span"
-              v-if="false"
+              v-if="notifications"
               customClass="w-3 h-3 rounded-full bg-primaryRed absolute top-0 right-1"
             ></BaseText>
           </div>
@@ -51,7 +51,12 @@
 
     <!-- Notifications Modal -->
     <BaseModal title="Notifications" v-model="modalOpen">
-      <p>There are no notifications.</p>
+      <div v-if="notifications">
+        <BaseText v-for="value in notifications" :key="value">{{
+          value
+        }}</BaseText>
+      </div>
+      <p v-else>There are no notifications.</p>
     </BaseModal>
 
     <!-- Mobile Greeting -->
@@ -84,10 +89,22 @@
 </template>
 
 <script setup lang="ts">
+import { doc, getDoc } from "firebase/firestore";
 const { isDesktopScreen } = useScreenObserver();
 const { avatarImageUrl } = useProfile();
 const { logOut } = useAuth();
 const { user } = useAuth();
+const { $firebase } = useNuxtApp();
+const db = $firebase.db;
+const notifications = ref(null);
+if (user.value) {
+  const userRef = doc(db, "users", user.value.uid);
+  const userDoc = await getDoc(userRef);
+
+  if (userDoc.exists() && userDoc.data().notifications) {
+    notifications.value = userDoc.data().notifications;
+  }
+}
 const width = computed(() =>
   isDesktopScreen.value ? "calc(100% - 256px)" : "100%"
 );
@@ -98,7 +115,7 @@ const timeOfDay = computed(() => {
   return "evening";
 });
 const userName = computed(() => {
-  return user?.displayName;
+  return user.value?.displayName;
 });
 const modalOpen = ref(false);
 const openModal = () => {

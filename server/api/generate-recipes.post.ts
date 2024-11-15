@@ -27,16 +27,16 @@ const cleanupResponse = (response: any): RecipeResponse => {
 };
 
 export default defineEventHandler(async (event) => {
-  const { apiSecret } = useRuntimeConfig();
+  const config = useRuntimeConfig();
 
   try {
-    if (!apiSecret) {
+    if (!config.public.apiSecret) {
       throw new Error("API key is required");
     }
 
     const userData = await readBody(event);
 
-    const genAI = new GoogleGenerativeAI(apiSecret);
+    const genAI = new GoogleGenerativeAI(config.public.apiSecret);
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const prompt = `You are an API that returns only raw JSON without any markdown formatting or code blocks. Generate healthy recipes based on this user profile. Here is the user profile:

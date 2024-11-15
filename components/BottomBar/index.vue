@@ -50,20 +50,35 @@ const tabs = [
     icon: "fa-solid:cookie-bite",
     to: "/dashboard/budget-bite",
   },
+  {
+    name: "Chat",
+    icon: "ri:chat-ai-fill",
+    to: "/dashboard/chat",
+  },
   { name: "Settings", icon: "iconoir:profile-circle", to: "/settings" },
 ];
+
 const { isTabletScreen } = useScreenObserver();
 const { activeTab, setActiveTab } = useActiveTab();
-
 const activeTabPosition = computed(() => {
-  const basePosition = activeTab.value * 25;
-  const smallScreenAdjustment = 4;
-  const mediumScreenAdjustment = 8;
+  const basePosition = activeTab.value * 20;
+  let centeringOffset = 2; 
+  watch(
+    isTabletScreen,
+    () => {
+      if (isTabletScreen.value) {
+        centeringOffset = 5.5;
+      } else {
+        centeringOffset = 2;
+      }
+    },
+    { immediate: true }
+  );
 
   if (isTabletScreen.value) {
-    return `calc(${basePosition}% + ${mediumScreenAdjustment}%)`;
+    return `calc(${basePosition}% + ${centeringOffset}%)`;
   } else {
-    return `calc(${basePosition}% + ${smallScreenAdjustment}%)`;
+    return `calc(${basePosition}% + ${centeringOffset}%)`;
   }
 });
 </script>

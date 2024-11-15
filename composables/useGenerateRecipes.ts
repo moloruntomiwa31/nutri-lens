@@ -18,7 +18,8 @@ const store = ref({
 
 export default function useGenerateRecipes() {
   const router = useRouter();
-  const db = useFirestore();
+  const { $firebase } = useNuxtApp();
+  const db = $firebase.db;
   const { user, updatePlansCompletion } = useAuth();
   const { isMinimumLength } = useValidators();
 
@@ -45,12 +46,12 @@ export default function useGenerateRecipes() {
 
   // Save health data to Firestore
   const saveHealthData = async (recipes: RecipeResponse[]) => {
-    if (!user?.uid) {
+    if (!user.value?.uid) {
       throw new Error("No authenticated user found");
     }
 
     try {
-      const userHealthRef = doc(db, "users", user.uid);
+      const userHealthRef = doc(db, "users", user.value.uid);
 
       await setDoc(
         userHealthRef,
@@ -74,13 +75,13 @@ export default function useGenerateRecipes() {
 
   // Update the fetchHealthData function
   const fetchHealthData = async () => {
-    if (!user?.uid) return false;
+    if (!user.value?.uid) return false;
 
     loading.value = true;
     error.value = null;
 
     try {
-      const userHealthRef = doc(db, "users", user.uid);
+      const userHealthRef = doc(db, "users", user.value.uid);
       const userDoc = await getDoc(userHealthRef);
 
       if (userDoc.exists() && userDoc.data().health) {

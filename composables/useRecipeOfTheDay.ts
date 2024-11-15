@@ -8,7 +8,8 @@ const store = ref({
 });
 
 export default function useRecipeOfTheDay() {
-  const db = useFirestore();
+  const { $firebase } = useNuxtApp();
+  const db = $firebase.db;
   const { user } = useAuth();
 
   const generateRecipeOfTheDay = async () => {
@@ -19,8 +20,8 @@ export default function useRecipeOfTheDay() {
       });
       store.value.recipe = res;
 
-      if (user) {
-        const userRef = doc(db, "users", user.uid);
+      if (user.value) {
+        const userRef = doc(db, "users", user.value?.uid);
         await setDoc(
           userRef,
           {
@@ -43,8 +44,8 @@ export default function useRecipeOfTheDay() {
   };
 
   const getRecipe = async () => {
-    if (user) {
-      const userRef = doc(db, "users", user.uid);
+    if (user.value) {
+      const userRef = doc(db, "users", user.value.uid);
       const userDoc = await getDoc(userRef);
 
       if (userDoc.exists()) {
