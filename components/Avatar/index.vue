@@ -26,7 +26,7 @@
 withDefaults(
   defineProps<{
     size?: "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl";
-    customClass?: string;
+    customClass?: string | Record<string, boolean>;
   }>(),
   {
     size: "lg",

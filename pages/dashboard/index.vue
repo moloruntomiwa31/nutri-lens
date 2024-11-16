@@ -1,6 +1,6 @@
 <template>
-  <div class="container mx-auto px-4 space-y-8 py-6">
-    <section aria-labelledby="recipe-section-title" class="py-5 lg:py-0">
+  <div class="container mx-auto px-4 space-y-8 py-4">
+    <section aria-labelledby="recipe-section-title" class="lg:py-0">
       <BaseHeading as="h2" size="2xl" customClass="mb-6">
         Healthy Recipes
         <span role="img" aria-label="delicious food emoji">😋</span>
@@ -38,12 +38,12 @@
         <NuxtImg
           v-else
           :src="recipe.image"
-          :alt="recipe.name"
+          alt="No image"
           class="w-full h-[400px] object-cover rounded-lg shadow-lg"
         />
       </div>
       <div
-        class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent rounded-lg"
+        class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent rounded-lg"
         aria-hidden="true"
       ></div>
       <div class="absolute bottom-0 left-0 right-0 p-6 text-white">

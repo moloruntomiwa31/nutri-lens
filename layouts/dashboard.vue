@@ -61,7 +61,7 @@
 
     <!-- Mobile Greeting -->
     <div
-      class="flex justify-between items-center sm:hidden px-5 py-2 bg-gray-50 !text-sm"
+      class="flex justify-between items-center lg:hidden sm:px-8 px-5 py-2 bg-gray-50 !text-sm"
     >
       <div>
         <BaseText as="span" customClass="text-slate-500"
