@@ -28,13 +28,16 @@ export default defineNuxtConfig({
     },
   },
   runtimeConfig: {
-    firebaseApiKey: import.meta.env.NUXT_PUBLIC_FIREBASE_API_KEY,
-    firebaseAuthDomain: import.meta.env.NUXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-    firebaseProjectId: import.meta.env.NUXT_PUBLIC_FIREBASE_PROJECT_ID,
-    firebaseStorageBucket: import.meta.env.NUXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-    firebaseMessagingSenderId: import.meta.env.NUXT_PUBLIC_FIREBASE_SENDER_ID,
-    firebaseAppId: import.meta.env.NUXT_PUBLIC_FIREBASE_APP_ID,
-    apiSecret: import.meta.env.NUXT_API_SECRET,
+    public: {
+      firebaseApiKey: import.meta.env.NUXT_PUBLIC_FIREBASE_API_KEY,
+      firebaseAuthDomain: import.meta.env.NUXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+      firebaseProjectId: import.meta.env.NUXT_PUBLIC_FIREBASE_PROJECT_ID,
+      firebaseStorageBucket: import.meta.env
+        .NUXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+      firebaseMessagingSenderId: import.meta.env.NUXT_PUBLIC_FIREBASE_SENDER_ID,
+      firebaseAppId: import.meta.env.NUXT_PUBLIC_FIREBASE_APP_ID,
+      apiSecret: import.meta.env.NUXT_API_SECRET,
+    },
   },
   routeRules: {
     "/auth/**": { ssr: false }, // Disable SSR for auth routes
