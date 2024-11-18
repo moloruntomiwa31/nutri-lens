@@ -31,12 +31,12 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 
   // Initialize Firebase config
   const firebaseConfig = {
-    apiKey: config.public.firebaseApiKey,
-    authDomain: config.public.firebaseAuthDomain,
-    projectId: config.public.firebaseProjectId,
-    storageBucket: config.public.firebaseStorageBucket,
-    messagingSenderId: config.public.firebaseMessagingSenderId,
-    appId: config.public.firebaseAppId,
+    apiKey: config.firebaseApiKey,
+    authDomain: config.firebaseAuthDomain,
+    projectId: config.firebaseProjectId,
+    storageBucket: config.firebaseStorageBucket,
+    messagingSenderId: config.firebaseMessagingSenderId,
+    appId: config.firebaseAppId,
   };
 
   // Initialize Firebase

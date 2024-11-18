@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
 
   try {
     // Validate API key
-    if (!runtimeConfig.public.apiSecret) {
+    if (!runtimeConfig.apiSecret) {
       throw createError({
         statusCode: 500,
         statusMessage: "API configuration error",
@@ -65,7 +65,7 @@ export default defineEventHandler(async (event) => {
 
     try {
       // Initialize Gemini AI
-      const genAI = new GoogleGenerativeAI(runtimeConfig.public.apiSecret);
+      const genAI = new GoogleGenerativeAI(runtimeConfig.apiSecret);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
       // Prepare the image data
