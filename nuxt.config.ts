@@ -36,8 +36,8 @@ export default defineNuxtConfig({
         .NUXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
       firebaseMessagingSenderId: import.meta.env.NUXT_PUBLIC_FIREBASE_SENDER_ID,
       firebaseAppId: import.meta.env.NUXT_PUBLIC_FIREBASE_APP_ID,
-      apiSecret: import.meta.env.NUXT_API_SECRET,
     },
+    apiSecret: import.meta.env.NUXT_PUBLIC_API_SECRET,
   },
   routeRules: {
     "/auth/**": { ssr: false }, // Disable SSR for auth routes
