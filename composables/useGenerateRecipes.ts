@@ -27,7 +27,7 @@ export default function useGenerateRecipes() {
     const weightError = isMinimumLength(store.value.factory.weight);
     const heightError = isMinimumLength(store.value.factory.height);
     const ageError = isMinimumLength(store.value.factory.age);
-    const diseaseError = isMinimumLength(store.value.factory.disease, 6);
+    const diseaseError = isMinimumLength(store.value.factory.disease, 1);
 
     return {
       weight: weightError,
@@ -53,17 +53,26 @@ export default function useGenerateRecipes() {
     try {
       const userHealthRef = doc(db, "users", user.value.uid);
 
+      // First, get the existing user data
+      const existingUserDoc = await getDoc(userHealthRef);
+      const existingUserData = existingUserDoc.exists()
+        ? existingUserDoc.data()
+        : {};
+
+      // Merge existing data with new data
       await setDoc(
         userHealthRef,
         {
+          ...existingUserData,
           health: {
+            ...existingUserData.health,
             ...store.value.factory,
             updatedAt: new Date(),
           },
           recipes: recipes,
           updatedAt: new Date(),
         },
-        { merge: false } 
+        { merge: true }
       );
 
       // Update plans completion status

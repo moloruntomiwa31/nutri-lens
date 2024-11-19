@@ -34,7 +34,10 @@
               customClass="w-3 h-3 rounded-full bg-primaryRed absolute top-0 right-1"
             ></BaseText>
           </div>
-          <Avatar customClass="p-1">
+          <Avatar
+            customClass="p-1 cursor-pointer hover:scale-90 transition duration-100"
+            @click="toSettings"
+          >
             <AvatarImage
               v-if="!avatarImageUrl"
               customClass="rounded-full w-full h-full object-cover"
@@ -51,11 +54,15 @@
 
     <!-- Notifications Modal -->
     <BaseModal title="Notifications" v-model="modalOpen">
-      <div v-if="notifications">
-        <BaseText v-for="value in notifications" :key="value">{{
-          value
-        }}</BaseText>
-      </div>
+      <ul v-if="notifications" class="px-4">
+        <li
+          v-for="value in notifications"
+          :key="value"
+          class="list-disc text-sm"
+        >
+          {{ value }}
+        </li>
+      </ul>
       <p v-else>There are no notifications.</p>
     </BaseModal>
 
@@ -89,22 +96,18 @@
 </template>
 
 <script setup lang="ts">
-import { doc, getDoc } from "firebase/firestore";
 const { isDesktopScreen } = useScreenObserver();
 const { avatarImageUrl } = useProfile();
 const { logOut } = useAuth();
 const { user } = useAuth();
-const { $firebase } = useNuxtApp();
-const db = $firebase.db;
-const notifications = ref(null);
-if (user.value) {
-  const userRef = doc(db, "users", user.value.uid);
-  const userDoc = await getDoc(userRef);
-
-  if (userDoc.exists() && userDoc.data().notifications) {
-    notifications.value = userDoc.data().notifications;
-  }
-}
+const router = useRouter();
+const { setActiveTab} = useActiveTab()
+const notifications = ref([
+  "Try out our meal analysis feature.",
+  "Get personalized meal based on your health plans.",
+  "Chat with our AI Assistant for more information.",
+  "Budget bite is now available for all users.",
+]);
 const width = computed(() =>
   isDesktopScreen.value ? "calc(100% - 256px)" : "100%"
 );
@@ -115,10 +118,14 @@ const timeOfDay = computed(() => {
   return "evening";
 });
 const userName = computed(() => {
-  return user.value?.displayName;
+  return user.value?.displayName || user.value?.email;
 });
 const modalOpen = ref(false);
 const openModal = () => {
   modalOpen.value = true;
 };
+const toSettings = () => {
+  setActiveTab(4)
+  router.push("/settings");
+}
 </script>

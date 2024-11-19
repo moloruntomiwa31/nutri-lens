@@ -1,11 +1,10 @@
 <template>
   <button
     :disabled="loading || disabled"
-    @click.prevent="handleClick"
     class="focus:outline-none disabled:opacity-80 flex gap-2 items-center justify-center whitespace-nowrap duration-200 font-semibold disabled:cursor-not-allowed"
     :type="type"
     :class="[
-      shadow ? 'shadow-lg' : '',
+      shadow ? 'shadow' : '',
       padding,
       customClass,
       {
@@ -26,9 +25,6 @@
 </template>
 
 <script lang="ts" setup>
-const emit = defineEmits<{
-  (e: "click"): void;
-}>();
 withDefaults(
   defineProps<{
     color?: "red" | "green" | "white" | "gray" | "transparent" | "blue";
@@ -48,7 +44,4 @@ withDefaults(
     type: "button",
   }
 );
-const handleClick = () => {
-  emit("click");
-};
 </script>

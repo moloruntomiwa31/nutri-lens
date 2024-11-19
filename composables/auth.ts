@@ -25,7 +25,6 @@ export const useAuth = () => {
         body: { token },
       });
     } catch (error) {
-      console.error("Error setting session:", error);
       throw error;
     }
   };
@@ -51,7 +50,6 @@ export const useAuth = () => {
         { merge: true }
       );
     } catch (error) {
-      console.error("Error saving user to Firestore:", error);
       throw error;
     }
   };
@@ -64,7 +62,6 @@ export const useAuth = () => {
         store.value.userData = userDoc.data() as typeof store.value.userData;
       }
     } catch (error) {
-      console.error("Error fetching user data:", error);
       throw error;
     }
   };

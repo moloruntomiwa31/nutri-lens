@@ -57,11 +57,11 @@
                   <BaseInput
                     type="number"
                     placeholder="60"
-                    v-model="factory.weight"
+                    v-model="health.weight"
                   />
                   <BaseSelect
                     :options="['kg', 'g']"
-                    :placeholder="factory.weightUnit"
+                    :placeholder="health.weightUnit"
                   />
                 </div>
               </div>
@@ -71,11 +71,11 @@
                   <BaseInput
                     type="number"
                     placeholder="170"
-                    v-model="factory.height"
+                    v-model="health.height"
                   />
                   <BaseSelect
                     :options="['cm', 'm']"
-                    :placeholder="factory.heightUnit"
+                    :placeholder="health.heightUnit"
                   />
                 </div>
               </div>
@@ -86,18 +86,33 @@
                 <BaseInput
                   type="number"
                   placeholder="30"
-                  v-model="factory.age"
+                  v-model="health.age"
                 />
               </div>
-              <div class="w-full flex items-end justify-center">
-                <BaseButton
-                  @click="handleSubmit"
-                  :loading="loading"
-                  :disabled="loading"
-                  customClass="w-full rounded-lg"
-                  >Save</BaseButton
+              <div class="bg-lightGray p-2 rounded-lg shadow">
+                <BaseText as="label" weight="medium"
+                  >Diseases & Allergies</BaseText
                 >
+                <div>
+                  <textarea
+                    style="resize: none"
+                    rows="5"
+                    cols="10"
+                    class="w-full outline-none gap-2 p-2 rounded-lg bg-lightGray flex items-center border border-primaryGreen shadow shadow-primaryGreen group-focus-within:border-primaryGreen"
+                    placeholder="Mention all chronic diseases and foods you are allergic to"
+                    v-model="health.disease"
+                  ></textarea>
+                </div>
               </div>
+            </div>
+            <div class="w-full flex items-end justify-center">
+              <BaseButton
+                @click="handleSubmit"
+                :loading
+                :disabled="loading"
+                customClass="w-full rounded-lg"
+                >Save</BaseButton
+              >
             </div>
           </form>
         </div>
@@ -127,18 +142,43 @@ definePageMeta({
   layout: "dashboard",
 });
 
+import { doc, getDoc } from "firebase/firestore";
+import type UserHealth from "~/types/UserHealth";
 const { isDesktopScreen } = useScreenObserver();
-const { factory, generateRecipes, loading } = useGenerateRecipes();
+const { generateRecipes, loading } = useGenerateRecipes();
 const { addToast } = useToast();
 const { user } = useAuth();
-const firstName = user.value?.displayName?.split(" ")[0] || "";
-const lastName = user.value?.displayName?.split(" ").slice(1).join(" ") || "";
+const firstName = ref(user.value?.displayName?.split(" ")[0]);
+const lastName = ref(user.value?.displayName?.split(" ").slice(1).join(" "));
 const emailAddress = user.value?.email || "";
+const health = ref<UserHealth>({
+  weight: "",
+  weightUnit: "kg",
+  height: "",
+  heightUnit: "cm",
+  age: "",
+  disease: "",
+  gender: "",
+});
 const { uploadImage, avatarImageUrl } = useProfile();
+const { $firebase } = useNuxtApp();
+const db = $firebase.db;
+if (user.value) {
+  const userRef = doc(db, "users", user.value.uid);
+  const userDoc = await getDoc(userRef);
+  console.log(userDoc.data());
 
+  if (userDoc.exists() && userDoc.data().firstName && userDoc.data().lastName) {
+    firstName.value = userDoc.data().firstName;
+    lastName.value = userDoc.data().lastName;
+  }
+  if (userDoc.exists() && userDoc.data().health) {
+    health.value = userDoc.data().health;
+  }
+}
 const handleSubmit = async () => {
   try {
-    await generateRecipes(factory);
+    await generateRecipes(health.value);
     addToast("Plans updated successfully", "success");
   } catch (err) {
     addToast("Failed to update plans", "error");

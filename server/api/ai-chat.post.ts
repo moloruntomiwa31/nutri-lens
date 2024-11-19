@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
       const genAI = new GoogleGenerativeAI(runtimeConfig.apiSecret);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-      const prompt = `You're a nutritional AI assistant. The user will ask you a question about nutrition and health. You should provide a helpful, precise and concise response based on this ${userPrompt}.`;
+      const prompt = `You're a nutritional AI assistant. The user will ask you a question about nutrition, health, fitness and whatever is related to that. You should provide a helpful, precise and concise response based on this ${userPrompt}.`;
       const result = await model.generateContent(prompt);
       const responseText = result.response.text();
 
