@@ -30,8 +30,6 @@
       />
       <BaseButton
         type="submit"
-        :disabled="isLoading"
-        :loading="isLoading"
         color="green"
         customClass="rounded-md"
         @click="getAiResponse(question)"
@@ -46,5 +44,5 @@
 definePageMeta({
   layout: "dashboard",
 });
-const { getAiResponse, isLoading, question, messages } = useChat();
+const { getAiResponse, question, messages } = useChat();
 </script>

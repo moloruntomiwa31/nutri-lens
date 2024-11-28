@@ -99,14 +99,11 @@ const components = [
   },
 ];
 const currentIndex = ref(0);
-const currentComponent = computed(
-  () => components[currentIndex.value].component
-);
 const handleNext = () => {
   if (currentIndex.value < components.length - 1) {
     currentIndex.value++;
   } else {
-    navigateTo("/auth/sign-up");
+    navigateTo("/auth/login");
   }
 };
 const handlePrevious = () => {
@@ -114,4 +111,9 @@ const handlePrevious = () => {
     currentIndex.value--;
   }
 };
+watch(currentIndex, (newIndex) => {
+  if (newIndex === components.length) {
+    navigateTo("/auth/login");
+  }
+});
 </script>

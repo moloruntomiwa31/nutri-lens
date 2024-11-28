@@ -166,7 +166,6 @@ const db = $firebase.db;
 if (user.value) {
   const userRef = doc(db, "users", user.value.uid);
   const userDoc = await getDoc(userRef);
-  console.log(userDoc.data());
 
   if (userDoc.exists() && userDoc.data().firstName && userDoc.data().lastName) {
     firstName.value = userDoc.data().firstName;
