@@ -29,12 +29,12 @@ export default function useValidators() {
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&]{8,}$/;
     return passwordRegex.test(password)
       ? ""
-      : "password must contain uppercase, lowercase, number and special character";
+      : "must contain upper, lower, number and special character";
   };
 
   const samePasswordAs = (value: string, otherValue: string): string => {
     if (!value) return "input required";
-    return value === otherValue ? "" : "Passwords do not match";
+    return value === otherValue ? "" : "do not match";
   };
 
   return { isMinimumLength, isValidEmail, isValidPassword, samePasswordAs };

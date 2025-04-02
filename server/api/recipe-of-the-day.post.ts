@@ -35,7 +35,7 @@ export default defineEventHandler(async (event) => {
     }
 
     const genAI = new GoogleGenerativeAI(config.apiSecret);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-pro" });
 
     const prompt = `You are an API that returns only raw JSON without any markdown formatting or code blocks. Generate a healthy random recipe with these requirements,  make sure image is able to be passed directly to an img tag to display the visual representation of the recipe, it's the top priority to provide this:
 

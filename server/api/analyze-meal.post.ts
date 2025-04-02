@@ -66,7 +66,7 @@ export default defineEventHandler(async (event) => {
     try {
       // Initialize Gemini AI
       const genAI = new GoogleGenerativeAI(runtimeConfig.apiSecret);
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
       // Prepare the image data
       const imageData = {

@@ -11,7 +11,7 @@
         <Icon name="flat-color-icons:google" />
         <BaseText as="span"> Continue with Google </BaseText></BaseButton
       >
-      <div class="bg-transparent border border-lightGray w-full relative my-1">
+      <!-- <div class="bg-transparent border border-lightGray w-full relative my-1">
         <BaseText
           as="span"
           class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 bg-lightGray p-2 rounded-md text-sm"
@@ -23,7 +23,7 @@
           <BaseText as="label" weight="medium">First Name</BaseText>
           <BaseInput
             placeholder="John"
-            v-model.trim="factory.first_name"
+            v-model="factory.first_name"
             :error="errors.first_name"
           />
         </div>
@@ -31,7 +31,7 @@
           <BaseText as="label" weight="medium">Last Name</BaseText>
           <BaseInput
             placeholder="Doe"
-            v-model.trim="factory.last_name"
+            v-model="factory.last_name"
             :error="errors.last_name"
           />
         </div>
@@ -41,7 +41,7 @@
         <BaseInput
           type="email"
           placeholder="john_doe@gmail.com"
-          v-model.trim="factory.email"
+          v-model="factory.email"
           :error="errors.email"
         />
       </div>
@@ -50,7 +50,7 @@
         <BaseInput
           type="password"
           placeholder="****************"
-          v-model.trim="factory.password"
+          v-model="factory.password"
           :error="errors.password"
         />
       </div>
@@ -59,7 +59,7 @@
         <BaseInput
           type="password"
           placeholder="****************"
-          v-model.trim="factory.confirm_password"
+          v-model="factory.confirm_password"
           :error="errors.confirm_password"
         />
       </div>
@@ -72,7 +72,7 @@
         >
           Sign Up
         </BaseButton>
-      </div>
+      </div> -->
     </form>
     <BaseText class="mt-6" weight="semibold">
       Already have an account?

@@ -11,7 +11,7 @@
         <Icon name="flat-color-icons:google" />
         <BaseText as="span"> Login with Google </BaseText></BaseButton
       >
-      <div class="bg-transparent border border-lightGray w-full relative my-1">
+      <!-- <div class="bg-transparent border border-lightGray w-full relative my-1">
         <BaseText
           as="span"
           customClass="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 bg-lightGray p-2 rounded-md text-sm"
@@ -23,7 +23,7 @@
         <BaseInput
           type="email"
           placeholder="john_doe@gmail.com"
-          v-model.trim="factory.email"
+          v-model="factory.email"
           :error="errors.email"
         />
       </div>
@@ -32,7 +32,7 @@
         <BaseInput
           type="password"
           placeholder="****************"
-          v-model.trim="factory.password"
+          v-model="factory.password"
           :error="errors.password"
         />
       </div>
@@ -45,7 +45,7 @@
           @click="handleSubmit"
           >Log In</BaseButton
         >
-      </div>
+      </div> -->
     </form>
     <BaseText customClass="mt-6" weight="semibold">
       Don't have an account?

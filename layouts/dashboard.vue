@@ -1,7 +1,7 @@
 <template>
   <div class="w-full max-h-screen">
     <div
-      class="flex items-center justify-between border-b-2 border-grayColor px-4"
+      class="fixed top-0 left-0 right-0 flex items-center justify-between border-b-2 border-grayColor px-4 bg-white z-10"
     >
       <NuxtLink to="/dashboard/" class="flex items-center py-4">
         <ClientOnly>
@@ -68,7 +68,7 @@
 
     <!-- Mobile Greeting -->
     <div
-      class="flex justify-between items-center lg:hidden sm:px-8 px-5 py-2 bg-gray-50 !text-sm"
+      class="flex justify-between items-center lg:hidden sm:px-8 px-5 py-2 bg-gray-50 !text-sm mt-16"
     >
       <div>
         <BaseText as="span" customClass="text-slate-500"
@@ -85,7 +85,7 @@
       >
     </div>
 
-    <div class="flex justify-between">
+    <div class="flex justify-between pt-16">
       <SideBar />
       <div class="h-full overflow-y-auto mb-8 pb-16" :style="{ width }">
         <slot />
@@ -101,7 +101,7 @@ const { avatarImageUrl } = useProfile();
 const { logOut } = useAuth();
 const { user } = useAuth();
 const router = useRouter();
-const { setActiveTab} = useActiveTab()
+const { setActiveTab } = useActiveTab();
 const notifications = ref([
   "Try out our meal analysis feature.",
   "Get personalized meal based on your health plans.",
@@ -125,7 +125,7 @@ const openModal = () => {
   modalOpen.value = true;
 };
 const toSettings = () => {
-  setActiveTab(4)
+  setActiveTab(4);
   router.push("/settings");
-}
+};
 </script>

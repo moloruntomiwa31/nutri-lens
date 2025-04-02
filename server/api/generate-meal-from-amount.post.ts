@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
     const mealBudget = await readBody(event);
 
     const genAI = new GoogleGenerativeAI(config.apiSecret);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
     const prompt = `You are an API that returns only raw JSON without any markdown formatting or code blocks. Generate healthy meals, breakfast, lunch, dinner based on this user profile and the amount of money. Here is the user profile:
     - Amount: '${mealBudget.amount}' ${mealBudget.currency}
