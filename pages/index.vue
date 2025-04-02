@@ -10,7 +10,8 @@
         <BaseButton
           @click="handlePrevious"
           color="transparent"
-          customClass="w-14  lg:w-8 h-14  lg:h-8 rounded-full border border-primaryGreen"
+          customClass="w-14 lg:w-8 h-14 lg:h-8 rounded-full border border-primaryGreen"
+          :disabled="currentIndex === 0"
         >
           <Icon
             name="heroicons-solid:arrow-left"
@@ -21,7 +22,7 @@
         <PaginationBullets :current="currentIndex" :total="components.length" />
         <BaseButton
           @click="handleNext"
-          customClass="w-14  lg:w-8 h-14  lg:h-8 rounded-full"
+          customClass="w-14 lg:w-8 h-14 lg:h-8 rounded-full"
         >
           <Icon
             name="heroicons-solid:arrow-right"
@@ -33,7 +34,7 @@
     </div>
     <div class="landing-image-container h-full lg:w-3/5 relative">
       <img
-        src="/public/images/landing/landing.jpg"
+        src="/images/landing/landing.jpg"
         alt="landing-image"
         class="landing-image object-cover w-full h-full"
       />
@@ -51,6 +52,7 @@ useHead({
     },
   ],
 });
+
 useSeoMeta({
   title: "Home",
   description: "Welcome to our meal AI analyzing platform.",
@@ -58,9 +60,11 @@ useSeoMeta({
   ogTitle: "Home",
   ogImage: "/images/nutri-lens.png",
 });
+
 definePageMeta({
   layout: "landing",
 });
+
 const components = [
   {
     name: "welcome",
@@ -98,7 +102,9 @@ const components = [
     ),
   },
 ];
+
 const currentIndex = ref(0);
+
 const handleNext = () => {
   if (currentIndex.value < components.length - 1) {
     currentIndex.value++;
@@ -106,11 +112,13 @@ const handleNext = () => {
     navigateTo("/auth/login");
   }
 };
+
 const handlePrevious = () => {
-  if (currentIndex.value !== 0) {
+  if (currentIndex.value > 0) {
     currentIndex.value--;
   }
 };
+
 watch(currentIndex, (newIndex) => {
   if (newIndex === components.length) {
     navigateTo("/auth/login");
