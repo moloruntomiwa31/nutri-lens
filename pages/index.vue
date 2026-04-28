@@ -148,7 +148,7 @@
             </div>
 
             <!-- Action Area -->
-            <div class="pt-8 flex items-center gap-8">
+            <div class="pt-8 flex items-center justify-center gap-8">
               <BaseButton 
                 @click="navigateTo('/auth/login')" 
                 customClass="rounded-2xl px-10 py-5 bg-secondaryGreen shadow-2xl shadow-secondaryGreen/20 transform hover:scale-105 active:scale-95 transition-all font-bold text-lg"
@@ -174,7 +174,7 @@
             <span class="text-xs font-bold text-white uppercase tracking-[0.2em]">Boost Your Wellness</span>
           </div>
           
-          <h2 class="text-5xl md:text-7xl font-black text-white leading-[0.9] tracking-tighter max-w-4xl mx-auto">
+          <h2 class="text-4xl md:text-6xl font-black text-white leading-[0.9] tracking-tighter max-w-4xl mx-auto">
             Ready to <span class="text-primaryGreen">Redefine</span> Your Nutrition?
           </h2>
           
@@ -240,7 +240,7 @@
         </div>
         
         <div class="pt-12 border-t border-gray-50 flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-gray-400 font-medium">
-          <p>© 2024 Nutri-Lens AI. All rights reserved.</p>
+          <p>© {{ new Date().getFullYear() }} Nutri-Lens AI. All rights reserved.</p>
           <div class="flex items-center gap-2">
             <span class="w-2 h-2 rounded-full bg-primaryGreen animate-pulse"></span>
             System Status: Optimal
