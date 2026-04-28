@@ -13,14 +13,17 @@ export default defineEventHandler(async (event) => {
       });
     }
 
-    const userPrompt = await readBody(event);
+    const body = await readBody(event);
+    const userMessage = body.message || body.question || "";
 
     try {
       // Initialize Gemini AI
       const genAI = new GoogleGenerativeAI(runtimeConfig.apiSecret);
       const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
-      const prompt = `You're a nutritional AI assistant. The user will ask you a question about nutrition, health, fitness and whatever is related to that. You should provide a helpful, precise and concise response based on this ${userPrompt}.`;
+      const prompt = `You're a nutritional AI assistant named Dr. Nutri. The user will ask you a question about nutrition, health, fitness and related topics. provide a helpful, precise and concise response. 
+      
+      User Question: ${userMessage}`;
       const result = await model.generateContent(prompt);
       const responseText = result.response.text();
 

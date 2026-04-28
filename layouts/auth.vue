@@ -1,45 +1,46 @@
 <template>
-  <div
-    class="w-full h-screen flex flex-col lg:flex-row lg:justify-between items-center"
-    id="auth"
-  >
-    <slot />
-    <div class="auth-image-container h-full w-full hidden lg:block">
+  <div class="min-h-screen w-full relative flex items-center justify-center p-6 overflow-hidden bg-light-bg">
+    <!-- Premium Background Image -->
+    <div class="absolute inset-0 z-0">
       <img
-        src="/public/images/auth/auth.jpg"
-        alt="auth-image"
-        class="auth-image object-cover w-full h-full"
+        src="/images/revamp/auth-bg.png"
+        alt="Auth background"
+        class="w-full h-full object-cover opacity-40 scale-105"
       />
+      <div class="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-white/40"></div>
     </div>
-    <div class="fixed inset-0 w-full h-full z-[-1] lg:hidden">
-      <img
-        src="/public/images/top-left.svg"
-        alt="under-cover"
-        class="absolute top-0 left-0 w-1/2 h-1/2 object-cover"
-      />
-      <img
-        src="/public/images/bottom-left.svg"
-        alt="under-cover"
-        class="absolute bottom-0 left-0 w-1/2 h-1/2 object-cover"
-      />
-      <img
-        src="/public/images/bottom-right.svg"
-        alt="under-cover"
-        class="absolute bottom-0 right-0 w-1/2 h-1/2 object-cover"
-      />
-    </div>
+
+    <!-- Decorative blobs -->
+    <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primaryGreen/10 rounded-full blur-[100px] animate-pulse"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-secondaryGreen/5 rounded-full blur-[100px] animate-pulse" style="animation-delay: 2s"></div>
+
+    <!-- Content Slot -->
+    <main class="relative z-10 w-full max-w-md">
+      <div class="mb-8 text-center">
+        <NuxtLink to="/" class="inline-flex items-center gap-2 group">
+          <div class="w-10 h-10 rounded-xl bg-primaryGreen flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
+            <Icon name="ion:nutrition" size="24" class="text-white" />
+          </div>
+          <span class="text-2xl font-bold text-gray-900 tracking-tight">Nutri-<span class="text-primaryGreen">Lens</span></span>
+        </NuxtLink>
+      </div>
+
+      <div class="glass-morphism rounded-[2.5rem] p-8 md:p-10 shadow-2xl shadow-black/5 border border-white/40">
+        <slot />
+      </div>
+
+      <div class="mt-8 text-center">
+        <p class="text-sm text-gray-400">© 2024 Nutri-Lens AI. Nourishing your potential.</p>
+      </div>
+    </main>
   </div>
 </template>
 
 <style scoped>
-@media screen and (min-width: 1024px) {
-  #auth {
-    background-image: url("/public/images/bg.svg");
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    height: 100vh;
-    min-width: 100%;
-  }
+.glass-morphism {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 </style>
+

@@ -1,107 +1,104 @@
 <template>
-  <div class="flex flex-col min-h-full w-full justify-center items-center">
-    <BaseHeading as="h1" size="2xl" weight="bold">Create Account</BaseHeading>
-    <form class="w-4/5 grid gap-6">
-      <BaseButton
-        color="transparent"
-        customClass="border-secondaryGreen border rounded-lg mt-3"
-        :shadow="true"
-        @click="signInWithGoogle"
-      >
-        <Icon name="flat-color-icons:google" />
-        <BaseText as="span"> Continue with Google </BaseText></BaseButton
-      >
-      <!-- <div class="bg-transparent border border-lightGray w-full relative my-1">
-        <BaseText
-          as="span"
-          class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 bg-lightGray p-2 rounded-md text-sm"
-          >or with</BaseText
-        >
-      </div>
-      <div class="grid grid-cols-2 gap-3">
-        <div>
-          <BaseText as="label" weight="medium">First Name</BaseText>
+  <div class="space-y-8 animate-fade-in">
+    <div class="text-center space-y-2">
+      <BaseHeading as="h1" size="2xl" weight="bold" class="text-gray-900">Create Account</BaseHeading>
+      <BaseText size="sm" class="text-gray-500">Join Nutri-Lens and start your health journey</BaseText>
+    </div>
+
+    <form @submit.prevent="handleSubmit" class="space-y-5">
+      <div class="grid grid-cols-2 gap-4">
+        <div class="space-y-1.5">
+          <BaseText as="label" weight="medium" class="text-xs text-gray-500 ml-1 uppercase tracking-wider">First Name</BaseText>
           <BaseInput
             placeholder="John"
             v-model="factory.first_name"
             :error="errors.first_name"
+            class="rounded-2xl border-gray-100 focus:border-primaryGreen transition-all shadow-sm"
           />
         </div>
-        <div>
-          <BaseText as="label" weight="medium">Last Name</BaseText>
+        <div class="space-y-1.5">
+          <BaseText as="label" weight="medium" class="text-xs text-gray-500 ml-1 uppercase tracking-wider">Last Name</BaseText>
           <BaseInput
             placeholder="Doe"
             v-model="factory.last_name"
             :error="errors.last_name"
+            class="rounded-2xl border-gray-100 focus:border-primaryGreen transition-all shadow-sm"
           />
         </div>
       </div>
-      <div>
-        <BaseText as="label" weight="medium">Email</BaseText>
+
+      <div class="space-y-1.5">
+        <BaseText as="label" weight="medium" class="text-xs text-gray-500 ml-1 uppercase tracking-wider">Email Address</BaseText>
         <BaseInput
           type="email"
-          placeholder="john_doe@gmail.com"
+          placeholder="name@example.com"
           v-model="factory.email"
           :error="errors.email"
+          class="rounded-2xl border-gray-100 focus:border-primaryGreen transition-all shadow-sm"
         />
       </div>
-      <div>
-        <BaseText as="label" weight="medium">Password</BaseText>
+
+      <div class="space-y-1.5">
+        <BaseText as="label" weight="medium" class="text-xs text-gray-500 ml-1 uppercase tracking-wider">Password</BaseText>
         <BaseInput
           type="password"
-          placeholder="****************"
+          placeholder="••••••••"
           v-model="factory.password"
           :error="errors.password"
+          class="rounded-2xl border-gray-100 focus:border-primaryGreen transition-all shadow-sm"
         />
       </div>
-      <div>
-        <BaseText as="label" weight="medium">Confirm Password</BaseText>
+
+      <div class="space-y-1.5 pb-2">
+        <BaseText as="label" weight="medium" class="text-xs text-gray-500 ml-1 uppercase tracking-wider">Confirm Password</BaseText>
         <BaseInput
           type="password"
-          placeholder="****************"
+          placeholder="••••••••"
           v-model="factory.confirm_password"
           :error="errors.confirm_password"
+          class="rounded-2xl border-gray-100 focus:border-primaryGreen transition-all shadow-sm"
         />
       </div>
-      <div class="w-full">
+
+      <div class="space-y-4 pt-2">
         <BaseButton
-          @click="handleSubmit"
-          customClass="!bg-secondaryGreen w-full rounded-lg"
+          type="submit"
+          customClass="w-full rounded-2xl py-4 bg-secondaryGreen hover:bg-secondaryGreen/90 shadow-lg shadow-secondaryGreen/20 transform active:scale-[0.98] transition-all"
+          :loading="loading"
           :disabled="loading"
-          :loading
         >
-          Sign Up
+          Create Account
         </BaseButton>
-      </div> -->
+
+        <div class="relative flex items-center justify-center">
+          <div class="w-full border-t border-gray-100"></div>
+          <span class="absolute bg-white/50 backdrop-blur-sm px-4 text-xs text-gray-400 uppercase tracking-widest">or</span>
+        </div>
+
+        <BaseButton
+          type="button"
+          color="transparent"
+          customClass="w-full border border-gray-200 rounded-2xl py-4 hover:bg-gray-50 transition-all flex items-center justify-center gap-3 group"
+          @click="signInWithGoogle"
+        >
+          <Icon name="flat-color-icons:google" size="24" />
+          <span class="text-gray-700 font-semibold group-hover:text-black">Join with Google</span>
+        </BaseButton>
+      </div>
     </form>
-    <BaseText class="mt-6" weight="semibold">
+
+    <p class="text-center text-sm text-gray-500">
       Already have an account?
-      <NuxtLink to="/auth/login" class="text-secondaryGreen">Login</NuxtLink>
-    </BaseText>
+      <NuxtLink to="/auth/login" class="text-secondaryGreen font-bold hover:underline decoration-2 underline-offset-4">
+        Sign in
+      </NuxtLink>
+    </p>
   </div>
 </template>
 
 <script setup lang="ts">
 import type UserFormData from "~/types/UserFormData";
 import type FormErrors from "@/types/FormErrors";
-useHead({
-  title: "Sign Up",
-  meta: [
-    {
-      name: "description",
-      content: "Create an account",
-    },
-  ],
-});
-useSeoMeta({
-  title: "Sign Up",
-  description: "Create an account",
-  ogDescription: "Create an account",
-  ogTitle: "Sign Up",
-});
-definePageMeta({
-  layout: "auth",
-});
 
 const factory = ref<UserFormData>({
   first_name: "",
@@ -110,22 +107,18 @@ const factory = ref<UserFormData>({
   password: "",
   confirm_password: "",
 });
-const loading = ref(false);
 
-const { isMinimumLength, isValidEmail, isValidPassword, samePasswordAs } =
-  useValidators();
+const loading = ref(false);
+const { isMinimumLength, isValidEmail, isValidPassword, samePasswordAs } = useValidators();
 const { signUp, signInWithGoogle } = useAuth();
 const { addToast } = useToast();
 
 const errors = computed<FormErrors>(() => ({
-  first_name: isMinimumLength(factory.value.first_name),
-  last_name: isMinimumLength(factory.value.last_name),
-  email: isValidEmail(factory.value.email),
-  password: isValidPassword(factory.value.password),
-  confirm_password: samePasswordAs(
-    factory.value.password,
-    factory.value.confirm_password
-  ),
+  first_name: factory.value.first_name ? isMinimumLength(factory.value.first_name) : "",
+  last_name: factory.value.last_name ? isMinimumLength(factory.value.last_name) : "",
+  email: factory.value.email ? isValidEmail(factory.value.email) : "",
+  password: factory.value.password ? isValidPassword(factory.value.password) : "",
+  confirm_password: factory.value.confirm_password ? samePasswordAs(factory.value.password, factory.value.confirm_password) : "",
 }));
 
 const isFormValid = computed(() => {
@@ -140,12 +133,38 @@ const isFormValid = computed(() => {
 });
 
 const handleSubmit = async () => {
-  loading.value = true;
   if (!isFormValid.value) {
-    loading.value = false;
-    return addToast("Please fill all fields", "error");
+    return addToast("Please complete the form correctly", "error");
   }
-  await signUp(factory.value);
-  loading.value = false;
+
+  loading.value = true;
+  try {
+    await signUp(factory.value);
+  } catch (error) {
+    console.error("Signup error:", error);
+    addToast("Signup failed. Please try again.", "error");
+  } finally {
+    loading.value = false;
+  }
 };
+
+useHead({
+  title: "Join Nutri-Lens | AI-Powered Nutrition",
+});
+
+definePageMeta({
+  layout: "auth",
+});
 </script>
+
+<style scoped>
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+

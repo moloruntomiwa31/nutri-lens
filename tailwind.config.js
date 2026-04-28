@@ -17,6 +17,7 @@ export default {
         secondaryGreen: "#626F47",
         lightGray: "#EDE8DC",
         grayColor: "#ECDFCC",
+        "light-bg": "#F8F9FA",
         primaryRed: "#FF0000",
         primaryPurple: "#3B1E54",
         primaryBlue: "#091057",

@@ -1,131 +1,129 @@
 <template>
-  <div class="w-full max-h-screen">
-    <div
-      class="fixed top-0 left-0 right-0 flex items-center justify-between border-b-2 border-grayColor px-4 bg-white z-10"
-    >
-      <NuxtLink to="/dashboard/" class="flex items-center py-4">
-        <ClientOnly>
-          <Icon
-            name="ion:nutrition"
-            size="28"
-            class="text-secondaryGreen shadow"
-        /></ClientOnly>
-        <BaseHeading size="2xl" as="h3" customClass="text-secondaryGreen"
-          >Nutri-Lens</BaseHeading
-        >
-      </NuxtLink>
+  <div class="min-h-screen bg-light-bg flex">
+    <!-- Redesigned Sidebar -->
+    <SideBar />
 
-      <div class="flex items-center gap-4">
-        <!-- Desktop Gretting -->
-        <div class="hidden sm:flex flex-col items-end mr-4">
-          <BaseText as="span" customClass="text-gray-500" size="sm"
-            >Good {{ timeOfDay }}</BaseText
-          >
-          <BaseText as="span" weight="semibold">{{ userName }}</BaseText>
+    <div class="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
+      <!-- Premium Header -->
+      <header class="h-20 bg-white/80 backdrop-blur-md border-b border-gray-100 flex items-center justify-between px-6 sticky top-0 z-30">
+        <div class="flex items-center gap-4 lg:hidden">
+          <NuxtLink to="/dashboard/" class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-primaryGreen flex items-center justify-center">
+              <Icon name="ion:nutrition" size="20" class="text-white" />
+            </div>
+            <span class="text-xl font-bold text-gray-900 tracking-tight">Nutri-Lens</span>
+          </NuxtLink>
         </div>
 
-        <!-- Notification and Profile -->
-        <div class="flex items-center gap-4">
-          <div class="relative cursor-pointer" @click="openModal">
-            <Icon name="iconamoon:notification-bold" size="30" class="shadow" />
-            <BaseText
-              as="span"
-              v-if="notifications"
-              customClass="w-3 h-3 rounded-full bg-primaryRed absolute top-0 right-1"
-            ></BaseText>
-          </div>
-          <Avatar
-            customClass="p-1 cursor-pointer hover:scale-90 transition duration-100"
+        <div class="hidden lg:block">
+          <BaseHeading as="h2" size="xl" weight="bold" class="text-gray-900 after:hidden !mb-0 tracking-tighter">
+            Good {{ timeOfDay }}, {{ userName.split(' ')[0] }}
+          </BaseHeading>
+        </div>
+
+        <div class="flex items-center gap-6">
+          <!-- Notification -->
+          <button 
+            @click="modalOpen = true"
+            class="relative w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center hover:bg-gray-100 transition-colors group"
+          >
+            <Icon name="iconamoon:notification-bold" size="22" class="text-gray-500 group-hover:text-secondaryGreen transition-colors" />
+            <span v-if="notifications.length" class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-primaryRed ring-2 ring-white"></span>
+          </button>
+
+          <!-- User Profile -->
+          <div 
             @click="toSettings"
+            class="flex items-center gap-3 cursor-pointer group"
           >
-            <AvatarImage
-              v-if="!avatarImageUrl"
-              customClass="rounded-full w-full h-full object-cover"
-            />
-            <AvatarImage
-              v-else
-              :src="avatarImageUrl"
-              customClass="rounded-full w-full h-full object-cover"
-            />
-          </Avatar>
+            <div class="hidden sm:block text-right">
+              <p class="text-sm font-bold text-gray-900 group-hover:text-secondaryGreen transition-colors">{{ userName }}</p>
+              <p class="text-xs text-gray-400 capitalize">{{ timeOfDay }}</p>
+            </div>
+            <div class="w-10 h-10 rounded-xl overflow-hidden ring-2 ring-gray-50 group-hover:ring-primaryGreen/30 transition-all">
+              <img 
+                v-if="avatarImageUrl" 
+                :src="avatarImageUrl" 
+                class="w-full h-full object-cover"
+              />
+              <div v-else class="w-full h-full bg-primaryGreen flex items-center justify-center">
+                <Icon name="iconoir:profile-circle" size="24" class="text-white" />
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      </header>
+
+      <!-- Main Content Area -->
+      <main class="flex-1 overflow-y-auto p-6 pb-24 lg:pb-8 scrollbar-hide">
+        <div class="max-w-7xl mx-auto animate-fade-in">
+          <slot />
+        </div>
+      </main>
     </div>
+
+    <!-- Mobile Navigation -->
+    <BottomBar />
 
     <!-- Notifications Modal -->
     <BaseModal title="Notifications" v-model="modalOpen">
-      <ul v-if="notifications" class="px-4">
-        <li
-          v-for="value in notifications"
-          :key="value"
-          class="list-disc text-sm"
+      <div class="space-y-4 py-2">
+        <div 
+          v-for="(note, i) in notifications" 
+          :key="i"
+          class="p-4 rounded-2xl bg-gray-50 border border-gray-100 flex gap-4"
         >
-          {{ value }}
-        </li>
-      </ul>
-      <p v-else>There are no notifications.</p>
+          <div class="w-8 h-8 rounded-lg bg-primaryGreen/10 flex items-center justify-center flex-shrink-0">
+            <Icon name="heroicons-solid:bell" size="18" class="text-primaryGreen" />
+          </div>
+          <p class="text-sm text-gray-600 leading-relaxed">{{ note }}</p>
+        </div>
+        <p v-if="!notifications.length" class="text-center text-gray-400 py-8 italic">No new notifications</p>
+      </div>
     </BaseModal>
-
-    <!-- Mobile Greeting -->
-    <div
-      class="flex justify-between items-center lg:hidden sm:px-8 px-5 py-2 bg-gray-50 !text-sm mt-16"
-    >
-      <div>
-        <BaseText as="span" customClass="text-slate-500"
-          >Good {{ timeOfDay }},
-        </BaseText>
-        <BaseText as="span" weight="semibold">{{ userName }}</BaseText>
-      </div>
-      <BaseButton
-        color="red"
-        customClass="rounded-lg"
-        :shadow="true"
-        @click="logOut"
-        >Logout</BaseButton
-      >
-    </div>
-
-    <div class="flex justify-between pt-16">
-      <SideBar />
-      <div class="h-full overflow-y-auto mb-8 pb-16" :style="{ width }">
-        <slot />
-      </div>
-    </div>
-    <BottomBar />
   </div>
 </template>
 
 <script setup lang="ts">
 const { isDesktopScreen } = useScreenObserver();
 const { avatarImageUrl } = useProfile();
-const { logOut } = useAuth();
-const { user } = useAuth();
+const { user, logOut } = useAuth();
 const router = useRouter();
 const { setActiveTab } = useActiveTab();
+
 const notifications = ref([
   "Try out our meal analysis feature.",
   "Get personalized meal based on your health plans.",
   "Chat with our AI Assistant for more information.",
   "Budget bite is now available for all users.",
 ]);
-const width = computed(() =>
-  isDesktopScreen.value ? "calc(100% - 256px)" : "100%"
-);
+
 const timeOfDay = computed(() => {
   const hour = new Date().getHours();
   if (hour < 12) return "morning";
   if (hour < 17) return "afternoon";
   return "evening";
 });
+
 const userName = computed(() => {
-  return user.value?.displayName || user.value?.email;
+  return user.value?.displayName || user.value?.email || "User";
 });
+
 const modalOpen = ref(false);
-const openModal = () => {
-  modalOpen.value = true;
-};
+
 const toSettings = () => {
   setActiveTab(4);
   router.push("/settings");
 };
 </script>
+
+<style scoped>
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>

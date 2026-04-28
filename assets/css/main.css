@@ -1,37 +1,70 @@
-@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@1,2&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: "Lexend", serif;
+:root {
+  --primary-green: #A5B68D;
+  --secondary-green: #626F47;
+  --light-bg: #F8F9FA;
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.3);
+}
+
+@layer base {
+  body {
+    font-family: 'Satoshi', sans-serif;
+    background-color: var(--light-bg);
+    color: #111827;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply tracking-tight;
+  }
+}
+
+.glass-morphism {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+}
+
+.text-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, #626F47, #A5B68D); /* secondaryGreen to primaryGreen */
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(165, 182, 141, 0.3); /* primaryGreen with opacity */
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(165, 182, 141, 0.5);
 }
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
 
-h2 {
-  position: relative;
-  padding-bottom: 5px;
-  margin-bottom: 20px;
-}
-
-h2::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 2px;
-  width: 15%;
-  background-color: #A5B68D;
-  border-radius: 10px;
-}
-
-/* Hide scrollbar for IE, Edge and Firefox */
 .scrollbar-hide {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .landing-image-container,
@@ -43,35 +76,6 @@ h2::after {
 .landing-image,
 .auth-image,
 .plan-image {
-  transition: top 0.3s ease, border-radius 0.3s ease;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-@media screen and (max-width: 468px) {
-  .landing-image,
-  .auth-image,
-  .plan-image {
-    border-radius: 0 0 10% 50%;
-    top: -100px;
-    position: absolute;
-  }
-}
-
-@media screen and (max-width: 968px) {
-  .landing-image,
-  .auth-image,
-  .plan-image {
-    border-radius: 0 0 50% 50%;
-    top: -50px;
-    position: absolute;
-  }
-}
-
-@media screen and (min-width: 969px) {
-  .landing-image,
-  .auth-image,
-  .plan-image {
-    border-radius: 0 0 50% 50%;
-    top: -30px;
-    position: absolute;
-  }
-}
